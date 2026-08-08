@@ -57,22 +57,6 @@ export default function Hero() {
           </GlowButton>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <motion.div
-          className="w-6 h-10 rounded-full border-2 border-slate-300 flex items-start justify-center p-2"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        >
-          <div className="w-1 h-2 bg-cobalt/60 rounded-full" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
