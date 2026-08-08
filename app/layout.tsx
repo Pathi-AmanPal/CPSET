@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
+import TargetCursor from "@/components/ui/TargetCursor";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -45,6 +46,17 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable}`}
     >
       <body className="font-body circuit-bg min-h-screen relative overflow-x-hidden">
+        {/* React Bits TargetCursor */}
+        <TargetCursor
+          targetSelector='.cursor-target, button, a, input, select, textarea, [role="button"]'
+          spinDuration={2}
+          hideDefaultCursor={true}
+          hoverDuration={0.2}
+          parallaxOn={true}
+          cursorColor="#0047AB"
+          cursorColorOnTarget="#8B00FF"
+        />
+
         {/* Ambient Vibrant Blue to Purple Gradient Background Mesh */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Top-left Blue to Purple ambient orb */}
