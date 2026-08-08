@@ -1,0 +1,45 @@
+{
+  "name": "cpset-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint .",
+    "db:push": "prisma db push",
+    "db:seed": "npx ts-node prisma/seed.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@react-three/drei": "^9.114.0",
+    "@react-three/fiber": "^8.17.0",
+    "@vercel/blob": "^2.7.0",
+    "argon2": "^0.40.0",
+    "framer-motion": "^11.11.0",
+    "lucide-react": "^0.460.0",
+    "next": "^16.3.0",
+    "otplib": "^12.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.3",
+    "three": "^0.169.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/three": "^0.169.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "^16.3.0",
+    "postcss": "^8",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  }
+}

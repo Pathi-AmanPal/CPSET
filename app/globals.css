@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FFFFFF;
+  --surface: #F8FAFC;
+  --cobalt: #0047AB;
+  --royal: #002366;
+  --violet: #8B00FF;
+  --body: #334155;
+  --heading: #0F172A;
+  --alert: #FF0000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--body);
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cobalt);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 71, 171, 0.15);
+  color: #002366;
+}
+
+/* Glass panels */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 35, 102, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 35, 102, 0.05);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 35, 102, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 35, 102, 0.08);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #002366 0%, #0047AB 50%, #8B00FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-cobalt {
+    box-shadow: 0 0 20px rgba(0, 71, 171, 0.2),
+                0 0 60px rgba(0, 71, 171, 0.08);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 20px rgba(139, 0, 255, 0.2),
+                0 0 60px rgba(139, 0, 255, 0.08);
+  }
+
+  /* Animated circuit/grid background */
+  .circuit-bg {
+    background-image:
+      linear-gradient(rgba(0, 71, 171, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 71, 171, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Section divider — angled */
+  .section-divider {
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  }
+
+  .section-divider-reverse {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

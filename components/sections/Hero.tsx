@@ -1,0 +1,78 @@
+"use client";
+
+import { motion } from "framer-motion";
+import AnimatedText, { ShinyText } from "@/components/ui/AnimatedText";
+import GlowButton from "@/components/ui/GlowButton";
+import { ArrowDown, ExternalLink } from "lucide-react";
+
+export default function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="text-cobalt font-heading font-semibold text-xs sm:text-sm md:text-base uppercase tracking-[0.3em] mb-4 md:mb-6">
+            Chandigarh University
+          </p>
+        </motion.div>
+
+        <AnimatedText
+          text="Centre for Privacy and Security in Emerging Technologies"
+          as="h1"
+          className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-royal leading-tight mb-6"
+          gradient
+          delay={0.1}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <p className="text-body/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium">
+            <ShinyText>
+              Empowering the next generation of cybersecurity professionals
+            </ShinyText>
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <GlowButton href="#" variant="primary" size="lg">
+            Become a Member
+            <ExternalLink className="w-4 h-4" />
+          </GlowButton>
+
+          <GlowButton href="#intro" variant="secondary" size="lg">
+            Explore
+            <ArrowDown className="w-4 h-4" />
+          </GlowButton>
+        </motion.div>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <motion.div
+          className="w-6 h-10 rounded-full border-2 border-slate-300 flex items-start justify-center p-2"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        >
+          <div className="w-1 h-2 bg-cobalt/60 rounded-full" />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
