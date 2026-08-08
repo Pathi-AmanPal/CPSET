@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/motion";
+import { fadeInUp } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
+import MagicBento, { BentoCardItem } from "@/components/ui/MagicBento";
 import {
   Search,
   Zap,
@@ -12,54 +13,60 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const missionPoints = [
+const missionCards: BentoCardItem[] = [
   {
     icon: Search,
     title: "Cutting-Edge Research",
     description:
       "Conduct pioneering research in privacy-preserving technologies, cryptography, and cybersecurity protocols for emerging platforms.",
+    label: "Research",
   },
   {
     icon: Zap,
     title: "Real-World Challenges",
     description:
       "Bridge the gap between academic knowledge and practical cybersecurity challenges through hands-on projects and industry collaborations.",
+    label: "Practice",
   },
   {
     icon: Users,
     title: "Collaborative Learning",
     description:
       "Foster a culture of peer-to-peer learning, mentorship, and cross-disciplinary collaboration among students and faculty.",
+    label: "Teamwork",
   },
   {
     icon: GraduationCap,
     title: "Nurturing Talent",
     description:
       "Develop the next generation of cybersecurity professionals through workshops, certifications, and competitive training.",
+    label: "Growth",
   },
   {
     icon: Eye,
     title: "Security Awareness",
     description:
       "Promote cybersecurity awareness across the university community and beyond through outreach programs and seminars.",
+    label: "Outreach",
   },
   {
     icon: ShieldCheck,
     title: "National Security",
     description:
       "Contribute to India's digital sovereignty by developing solutions that strengthen national cybersecurity infrastructure.",
+    label: "Sovereignty",
   },
 ];
 
 export default function VisionMissionPage() {
   return (
-    <main className="pt-24 md:pt-32 pb-16">
+    <main className="pt-16 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Vision */}
-        <section className="relative py-20 md:py-32 text-center">
-          {/* Gradient wash behind text */}
+        <section className="relative py-16 md:py-24 text-center">
+          {/* Ambient gradient wash */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[600px] h-[300px] bg-gradient-to-r from-cobalt/10 via-violet/10 to-cobalt/10 blur-[100px] rounded-full" />
+            <div className="w-[600px] h-[300px] bg-gradient-to-r from-cobalt/15 via-violet/15 to-cobalt/15 blur-[120px] rounded-full" />
           </div>
 
           <motion.p
@@ -79,10 +86,10 @@ export default function VisionMissionPage() {
           />
         </section>
 
-        {/* Mission — staggered alternating layout */}
-        <section className="py-16 md:py-24">
+        {/* Mission — MagicBento Grid */}
+        <section className="py-12 md:py-16">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12"
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -96,43 +103,20 @@ export default function VisionMissionPage() {
             </h2>
           </motion.div>
 
-          <motion.div
-            className="space-y-8 md:space-y-12 max-w-4xl mx-auto"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {missionPoints.map((point, index) => {
-              const isLeft = index % 2 === 0;
-              return (
-                <motion.div
-                  key={point.title}
-                  variants={isLeft ? fadeInLeft : fadeInRight}
-                  className={`flex items-start gap-6 glass p-6 rounded-2xl border border-slate-200 shadow-sm ${
-                    isLeft ? "md:mr-24" : "md:ml-24"
-                  }`}
-                >
-                  {/* Connector line + icon */}
-                  <div className="flex flex-col items-center shrink-0">
-                    <div className="w-12 h-12 rounded-xl bg-cobalt/10 border border-cobalt/20 flex items-center justify-center">
-                      <point.icon className="w-5 h-5 text-cobalt" />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="pt-1">
-                    <h3 className="font-heading font-semibold text-lg text-royal mb-2">
-                      {point.title}
-                    </h3>
-                    <p className="text-body/80 leading-relaxed text-sm md:text-base">
-                      {point.description}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+          <MagicBento
+            cardData={missionCards}
+            textAutoHide={false}
+            enableStars={true}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={true}
+            clickEffect={true}
+            enableMagnetism={false}
+            disableAnimations={false}
+            spotlightRadius={400}
+            particleCount={12}
+            glowColor="0, 71, 171"
+          />
         </section>
       </div>
     </main>
