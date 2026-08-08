@@ -3,11 +3,17 @@
 import { motion } from "framer-motion";
 import AnimatedText, { ShinyText } from "@/components/ui/AnimatedText";
 import GlowButton from "@/components/ui/GlowButton";
+import WireframeGlobe from "@/components/3d/WireframeGlobe";
 import { ArrowDown, ExternalLink } from "lucide-react";
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      {/* Ambient Responsive & Reactive 3D Wireframe Globe */}
+      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+        <WireframeGlobe color="0, 71, 171" speed={0.0025} maxTilt={0.35} className="max-w-5xl max-h-[750px]" />
+      </div>
+
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
         <motion.div
