@@ -6,9 +6,6 @@ import { gsap } from 'gsap';
 import './TextLoop.css';
 
 const VIEW_W = 1200;
-const VIEW_H = 520;
-const CX = VIEW_W / 2;
-const CY = VIEW_H / 2;
 const EDGE_PAD = 6;
 
 export type TextLoopShape = 'circle' | 'infinity' | 'arch' | 'line' | 'wave';
@@ -34,8 +31,10 @@ export interface TextLoopProps {
   style?: React.CSSProperties;
 }
 
-const buildPath = (shape: TextLoopShape, curviness: number, ribbonWidth: number) => {
+const buildPath = (shape: TextLoopShape, curviness: number, ribbonWidth: number, viewH: number) => {
   const c = Math.max(0, curviness);
+  const CY = viewH / 2;
+  const CX = VIEW_W / 2;
   const room = Math.max(20, CY - Math.max(0, ribbonWidth) / 2 - EDGE_PAD);
 
   switch (shape) {
@@ -71,20 +70,20 @@ const buildPath = (shape: TextLoopShape, curviness: number, ribbonWidth: number)
 
 const TextLoop: React.FC<TextLoopProps> = ({
   text = 'React ✦ Bits',
-  shape = 'wave',
+  shape = 'line',
   path,
   speed = 90,
   direction = 'forward',
   separator = '✦',
   curviness = 90,
-  fontSize = 46,
+  fontSize = 32,
   fontWeight = 800,
   letterSpacing = 2,
   uppercase = true,
-  color = '#ffffff',
+  color = '#0047AB',
   ribbon = true,
-  ribbonColor = '#5227FF',
-  ribbonWidth = 86,
+  ribbonColor = 'rgba(0, 71, 171, 0.06)',
+  ribbonWidth = 64,
   pauseOnHover = true,
   className = '',
   style = {}
@@ -100,7 +99,9 @@ const TextLoop: React.FC<TextLoopProps> = ({
   const rawId = useId();
   const pathId = `text-loop-${rawId.replace(/:/g, '')}`;
 
-  const d = useMemo(() => path || buildPath(shape, curviness, ribbonWidth), [path, shape, curviness, ribbonWidth]);
+  const viewH = useMemo(() => (shape === 'line' ? Math.max(100, ribbonWidth + 24) : 520), [shape, ribbonWidth]);
+
+  const d = useMemo(() => path || buildPath(shape, curviness, ribbonWidth, viewH), [path, shape, curviness, ribbonWidth, viewH]);
 
   const unit = useMemo(() => {
     const base = uppercase ? String(text).toUpperCase() : String(text);
@@ -198,7 +199,7 @@ const TextLoop: React.FC<TextLoopProps> = ({
     <div ref={rootRef} className={`text-loop ${className}`.trim()} style={style}>
       <svg
         className="text-loop-svg"
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+        viewBox={`0 0 ${VIEW_W} ${viewH}`}
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label={text}
