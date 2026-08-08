@@ -99,7 +99,7 @@ const TextLoop: React.FC<TextLoopProps> = ({
   const rawId = useId();
   const pathId = `text-loop-${rawId.replace(/:/g, '')}`;
 
-  const viewH = useMemo(() => (shape === 'line' ? Math.max(100, ribbonWidth + 24) : 520), [shape, ribbonWidth]);
+  const viewH = useMemo(() => (shape === 'line' ? Math.max(50, ribbonWidth + 14) : 520), [shape, ribbonWidth]);
 
   const d = useMemo(() => path || buildPath(shape, curviness, ribbonWidth, viewH), [path, shape, curviness, ribbonWidth, viewH]);
 
