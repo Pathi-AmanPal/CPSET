@@ -40,7 +40,13 @@
 
 .magic-bento-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(0, 71, 171, 0.12);
+  border-color: rgba(132, 0, 255, 0.3);
+  box-shadow: 0 12px 35px rgba(132, 0, 255, 0.18);
+}
+
+.magic-bento-card:hover .magic-bento-card__label {
+  color: #8B00FF;
+  background: rgba(132, 0, 255, 0.12);
 }
 
 .magic-bento-card__header,

@@ -115,7 +115,7 @@ export default function VisionMissionPage() {
             disableAnimations={false}
             spotlightRadius={400}
             particleCount={12}
-            glowColor="0, 71, 171"
+            glowColor="132, 0, 255"
           />
         </section>
       </div>
