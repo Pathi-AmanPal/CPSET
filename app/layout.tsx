@@ -54,7 +54,7 @@ export default function RootLayout({
           hoverDuration={0.2}
           parallaxOn={true}
           cursorColor="#0047AB"
-          cursorColorOnTarget="#8B00FF"
+          cursorColorOnTarget="#0047AB"
         />
 
         {/* Ambient Vibrant Blue to Purple Gradient Background Mesh */}
