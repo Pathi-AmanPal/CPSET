@@ -44,8 +44,22 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable}`}
     >
-      <body className="font-body circuit-bg min-h-screen">
-        {children}
+      <body className="font-body circuit-bg min-h-screen relative overflow-x-hidden">
+        {/* Ambient Vibrant Blue to Purple Gradient Background Mesh */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          {/* Top-left Blue to Purple ambient orb */}
+          <div className="absolute -top-32 -left-32 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-cobalt/25 via-blue-500/15 to-violet/25 blur-[140px]" />
+
+          {/* Center-right Vibrant Violet orb */}
+          <div className="absolute top-[35%] -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-violet/25 via-purple-500/20 to-cobalt/15 blur-[150px]" />
+
+          {/* Bottom-left Electric Blue & Violet orb */}
+          <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-cobalt/20 via-blue-600/15 to-violet/30 blur-[130px]" />
+        </div>
+
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );
