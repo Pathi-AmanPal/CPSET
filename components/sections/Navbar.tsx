@@ -54,8 +54,8 @@ export default function Navbar() {
     <>
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "glass-strong shadow-md border-b border-slate-200/80" : "bg-white/90 backdrop-blur-sm"
-        }`}
+          scrolled ? "shadow-md border-b border-slate-100" : "border-b border-slate-100"
+        } bg-white`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-[68px]">
@@ -85,16 +85,16 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer relative ${
+                    className={`px-3 py-2 text-sm font-medium transition-all duration-200 cursor-pointer relative ${
                       active
-                        ? "text-cobalt bg-cobalt/8 font-semibold"
-                        : "text-body/80 hover:text-cobalt hover:bg-slate-100"
+                        ? "text-violet-700 font-semibold"
+                        : "text-slate-600 hover:text-violet-700"
                     }`}
                   >
                     {link.label}
                     {active && (
                       <motion.div
-                        className="h-0.5 bg-cobalt rounded-full mt-0.5"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-violet-600 rounded-full"
                         layoutId="activeTab"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
@@ -110,7 +110,8 @@ export default function Navbar() {
               <a
                 href="#connect"
                 onClick={(e) => handleNavClick(e, "#connect")}
-                className="hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-cobalt to-violet hover:from-violet hover:to-cobalt transition-all duration-300 shadow-sm hover:shadow-[0_4px_15px_rgba(0,71,171,0.35)]"
+                className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all duration-300 shadow-md hover:shadow-violet-400/50 hover:-translate-y-0.5"
+                style={{ background: "linear-gradient(135deg, #7c3aed, #6d28d9)" }}
               >
                 Become a Member
                 <ExternalLink className="w-3.5 h-3.5" />

@@ -113,10 +113,10 @@ export default function WireframeGlobe({
     let lonPoints: { x: number; y: number; z: number }[][] = [];
 
     const buildSphere = () => {
-      const diam = Math.min(width, height, diameter);
-      R = diam * 0.44;
+      const diam = Math.min(width * 0.8, height, diameter);
+      R = diam * 0.47;
       cx = width / 2;
-      cy = height / 2;
+      cy = height * 0.46;
 
       latPoints = [];
       for (let i = 0; i <= LAT_RINGS; i++) {
@@ -190,22 +190,22 @@ export default function WireframeGlobe({
       ring.forEach((p) => {
         const rp = rotatePoint(p, ax, ay);
         const depth = (rp.z + R) / (2 * R);
-        ctx.strokeStyle = `rgba(0, 60, 160, ${0.04 + depth * 0.10})`;
+        ctx.strokeStyle = `rgba(120, 80, 230, ${0.05 + depth * 0.14})`;
         if (!started) { ctx.moveTo(cx + rp.x, cy + rp.y); started = true; }
         else ctx.lineTo(cx + rp.x, cy + rp.y);
       });
-      ctx.lineWidth = 0.7;
+      ctx.lineWidth = 0.8;
       ctx.stroke();
     };
 
     const drawAtmosphere = () => {
-      const g = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, R * 1.4);
-      g.addColorStop(0, "rgba(80, 100, 220, 0.07)");
-      g.addColorStop(0.5, "rgba(80, 80, 200, 0.04)");
+      const g = ctx.createRadialGradient(cx, cy, R * 0.6, cx, cy, R * 1.5);
+      g.addColorStop(0, "rgba(140, 100, 250, 0.10)");
+      g.addColorStop(0.5, "rgba(120, 80, 240, 0.06)");
       g.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.arc(cx, cy, R * 1.4, 0, Math.PI * 2);
+      ctx.arc(cx, cy, R * 1.5, 0, Math.PI * 2);
       ctx.fill();
     };
 
@@ -218,21 +218,21 @@ export default function WireframeGlobe({
         const depth = (rp.z + R) / (2 * R);
         const px = cx + rp.x;
         const py = cy + rp.y;
-        const opacity = 0.25 + depth * 0.50; // much more visible
+        const opacity = 0.30 + depth * 0.55;
 
         // Core dot
-        ctx.fillStyle = `rgba(70, 0, 200, ${opacity})`;
+        ctx.fillStyle = `rgba(110, 60, 230, ${opacity})`;
         ctx.beginPath();
-        ctx.arc(px, py, 1.4, 0, Math.PI * 2);
+        ctx.arc(px, py, 1.6, 0, Math.PI * 2);
         ctx.fill();
 
         // Scatter halo dots for density
         for (let i = 0; i < 2; i++) {
-          const ox = (Math.random() - 0.5) * R * 0.06;
-          const oy = (Math.random() - 0.5) * R * 0.06;
-          ctx.fillStyle = `rgba(80, 20, 220, ${opacity * 0.5})`;
+          const ox = (Math.random() - 0.5) * R * 0.055;
+          const oy = (Math.random() - 0.5) * R * 0.055;
+          ctx.fillStyle = `rgba(130, 80, 240, ${opacity * 0.55})`;
           ctx.beginPath();
-          ctx.arc(px + ox, py + oy, 0.8, 0, Math.PI * 2);
+          ctx.arc(px + ox, py + oy, 0.9, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -249,19 +249,19 @@ export default function WireframeGlobe({
         const pulse = 0.4 + 0.6 * Math.sin(t * 0.8 + i * 1.1);
 
         // Glow
-        const glowR = R * 0.055 * (0.8 + 0.4 * pulse);
+        const glowR = R * 0.06 * (0.8 + 0.4 * pulse);
         const g = ctx.createRadialGradient(px, py, 0, px, py, glowR);
-        g.addColorStop(0, `rgba(100, 0, 255, ${0.45 * depth * pulse})`);
-        g.addColorStop(1, "rgba(100, 0, 255, 0)");
+        g.addColorStop(0, `rgba(130, 60, 255, ${0.5 * depth * pulse})`);
+        g.addColorStop(1, "rgba(130, 60, 255, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(px, py, glowR, 0, Math.PI * 2);
         ctx.fill();
 
         // Dot
-        ctx.fillStyle = `rgba(110, 40, 255, ${0.7 * depth + 0.15})`;
+        ctx.fillStyle = `rgba(130, 60, 255, ${0.75 * depth + 0.15})`;
         ctx.beginPath();
-        ctx.arc(px, py, Math.max(2, R * 0.014), 0, Math.PI * 2);
+        ctx.arc(px, py, Math.max(2.5, R * 0.016), 0, Math.PI * 2);
         ctx.fill();
       });
     };
@@ -280,19 +280,19 @@ export default function WireframeGlobe({
           const pulse = 0.5 + 0.5 * Math.sin(t * 0.9 + j * 0.8 + (xSign > 0 ? 2 : 0));
 
           // Glow halo
-          const glowR = R * 0.05 + R * 0.025 * pulse;
-          const g = ctx.createRadialGradient(edgeX, py, 0, edgeX, py, glowR * 2);
-          g.addColorStop(0, `rgba(90, 0, 220, ${0.5 * pulse})`);
-          g.addColorStop(1, "rgba(90, 0, 220, 0)");
+          const glowR = R * 0.055 + R * 0.025 * pulse;
+          const g = ctx.createRadialGradient(edgeX, py, 0, edgeX, py, glowR * 2.2);
+          g.addColorStop(0, `rgba(130, 60, 240, ${0.55 * pulse})`);
+          g.addColorStop(1, "rgba(130, 60, 240, 0)");
           ctx.fillStyle = g;
           ctx.beginPath();
-          ctx.arc(edgeX, py, glowR * 2, 0, Math.PI * 2);
+          ctx.arc(edgeX, py, glowR * 2.2, 0, Math.PI * 2);
           ctx.fill();
 
           // Solid dot
-          ctx.fillStyle = `rgba(100, 30, 240, ${0.75 + 0.25 * pulse})`;
+          ctx.fillStyle = `rgba(120, 50, 240, ${0.8 + 0.2 * pulse})`;
           ctx.beginPath();
-          ctx.arc(edgeX, py, Math.max(3, R * 0.018), 0, Math.PI * 2);
+          ctx.arc(edgeX, py, Math.max(3.5, R * 0.02), 0, Math.PI * 2);
           ctx.fill();
         });
       });
@@ -313,16 +313,16 @@ export default function WireframeGlobe({
         const pulse = 0.3 + 0.5 * Math.sin(t * 0.5 + delay);
         ctx.beginPath();
         ctx.ellipse(cx, baseY, rx, ry, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(90, 50, 220, ${0.07 + pulse * 0.11})`;
-        ctx.lineWidth = 0.9;
+        ctx.strokeStyle = `rgba(120, 70, 230, ${0.09 + pulse * 0.14})`;
+        ctx.lineWidth = 1.0;
         ctx.stroke();
       });
 
       // Contact point glow
       const cpulse = 0.5 + 0.5 * Math.sin(t * 1.3);
-      const g = ctx.createRadialGradient(cx, baseY, 0, cx, baseY, R * 0.07);
-      g.addColorStop(0, `rgba(110, 50, 255, ${0.55 * cpulse})`);
-      g.addColorStop(1, "rgba(110, 50, 255, 0)");
+      const g = ctx.createRadialGradient(cx, baseY, 0, cx, baseY, R * 0.08);
+      g.addColorStop(0, `rgba(130, 60, 255, ${0.60 * cpulse})`);
+      g.addColorStop(1, "rgba(130, 60, 255, 0)");
       ctx.fillStyle = g;
       ctx.beginPath();
       ctx.arc(cx, baseY, R * 0.07, 0, Math.PI * 2);

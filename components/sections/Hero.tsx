@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShinyText } from "@/components/ui/AnimatedText";
-import GlowButton from "@/components/ui/GlowButton";
 import WireframeGlobe from "@/components/3d/WireframeGlobe";
 import {
   ArrowDown,
@@ -18,6 +16,7 @@ import {
   Calendar,
   Trophy,
 } from "lucide-react";
+import Link from "next/link";
 
 const leftCards = [
   {
@@ -56,170 +55,180 @@ const rightCards = [
 ];
 
 const stats = [
-  { icon: Users, value: "500+", label: "Active Members" },
-  { icon: BookOpen, value: "20+", label: "Research Projects" },
-  { icon: Calendar, value: "15+", label: "Events Every Year" },
-  { icon: Trophy, value: "10+", label: "Achievements" },
+  { icon: Users,    value: "500+", label: "Active Members"    },
+  { icon: Shield,   value: "20+",  label: "Research Projects" },
+  { icon: Calendar, value: "15+",  label: "Events Every Year" },
+  { icon: Trophy,   value: "10+",  label: "Achievements"      },
 ];
-
-// Vertical positions for the 3 nodes on each side (as % of globe height)
-const nodeYPositions = [0.2, 0.5, 0.8];
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-[68px]"
+      className="relative min-h-screen overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #F5F3FF 0%, #EEF2FF 40%, #F8F7FF 100%)" }}
     >
-      {/* Globe — fills section, pointer-events disabled on canvas */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <WireframeGlobe diameter={530} speed={0.0018} maxTilt={0.28} />
+      {/* ── Full-bleed globe background ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+        <WireframeGlobe
+          diameter={680}
+          speed={0.0018}
+          maxTilt={0.28}
+          className="w-full h-full"
+        />
       </div>
 
-      {/* ─── Main three-column layout ─── */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex items-center justify-between gap-4 py-10">
-
-        {/* LEFT CARDS */}
-        <div className="hidden lg:flex flex-col gap-4 w-44 shrink-0">
-          {leftCards.map((card, i) => (
-            <motion.div
-              key={card.title}
-              className="relative"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 + i * 0.15 }}
-            >
-              {/* Connector line: runs from right edge of card toward globe */}
-              <div
-                className="absolute top-1/2 -translate-y-1/2 right-0 pointer-events-none"
-                style={{ width: "calc(100% + 60px)", left: "100%" }}
-              >
-                <svg width="64" height="2" className="overflow-visible">
-                  <line x1="0" y1="1" x2="52" y2="1" stroke="rgba(100,60,230,0.35)" strokeWidth="1" strokeDasharray="3,3" />
-                  {/* Dot at globe end */}
-                  <circle cx="56" cy="1" r="3" fill="rgba(100,60,230,0.7)" />
-                </svg>
-              </div>
-
-              {/* Card */}
-              <div className="bg-white/95 backdrop-blur-sm border border-slate-200/80 rounded-xl shadow-md px-3 py-2.5 flex items-start gap-2 min-h-[68px]">
-                <div className="mt-0.5 p-1.5 rounded-md bg-cobalt/8 shrink-0">
-                  <card.icon className="w-3.5 h-3.5 text-cobalt" />
-                </div>
-                <div>
-                  <p className="font-heading font-bold text-[12px] text-royal leading-tight">{card.title}</p>
-                  <p className="text-[10px] text-body/60 leading-snug mt-0.5">{card.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CENTER — Headline + subtext + buttons */}
-        <div className="flex-1 flex flex-col items-center text-center min-w-0 px-2">
-          <motion.p
-            className="text-cobalt font-heading font-semibold text-xs uppercase tracking-[0.3em] mb-4"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Chandigarh University
-          </motion.p>
-
-          {/* Fixed 3-line headline — hard br locks prevent 4-line reflow */}
-          <motion.h1
-            className="font-heading font-bold text-[2.6rem] md:text-[3rem] text-royal leading-tight mb-5 max-w-[480px]"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-          >
-            Centre for Privacy and<br />
-            Security in Emerging<br />
-            Technologies
-          </motion.h1>
-
-          <motion.p
-            className="text-body/70 text-sm md:text-base max-w-sm mx-auto mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <ShinyText>
-              Empowering the next generation of<br />
-              cybersecurity professionals
-            </ShinyText>
-          </motion.p>
-
+      {/* ── Left floating cards ── */}
+      <div className="absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-5">
+        {leftCards.map((card, i) => (
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-3"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            key={card.title}
+            className="flex items-center gap-1"
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
           >
-            <GlowButton href="#connect" variant="primary" size="lg">
-              Become a Member
-              <ExternalLink className="w-4 h-4" />
-            </GlowButton>
-
-            <GlowButton href="#vision-mission" variant="secondary" size="lg">
-              Explore
-              <ArrowDown className="w-4 h-4" />
-            </GlowButton>
+            {/* Card */}
+            <div className="bg-white/90 backdrop-blur-md border border-violet-100 rounded-2xl shadow-lg shadow-violet-100/50 px-4 py-3 flex items-start gap-3 w-52">
+              <div className="mt-0.5 p-2 rounded-xl bg-violet-50 border border-violet-100 shrink-0">
+                <card.icon className="w-4 h-4 text-violet-600" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-bold text-[13px] text-slate-800 leading-tight mb-1">{card.title}</p>
+                <p className="text-[11px] text-slate-400 leading-snug">{card.desc}</p>
+              </div>
+            </div>
+            {/* Connector line + dot */}
+            <div className="flex items-center gap-1">
+              <div className="h-px w-6 bg-violet-300/60" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(139,92,246,0.5) 0px, rgba(139,92,246,0.5) 4px, transparent 4px, transparent 8px)" }} />
+              <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.7)]" />
+            </div>
           </motion.div>
-        </div>
-
-        {/* RIGHT CARDS */}
-        <div className="hidden lg:flex flex-col gap-4 w-44 shrink-0">
-          {rightCards.map((card, i) => (
-            <motion.div
-              key={card.title}
-              className="relative"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 + i * 0.15 }}
-            >
-              {/* Connector line: runs from left edge toward globe */}
-              <div
-                className="absolute top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ right: "100%", width: "64px" }}
-              >
-                <svg width="64" height="2" className="overflow-visible">
-                  {/* Dot at globe end */}
-                  <circle cx="8" cy="1" r="3" fill="rgba(100,60,230,0.7)" />
-                  <line x1="12" y1="1" x2="64" y2="1" stroke="rgba(100,60,230,0.35)" strokeWidth="1" strokeDasharray="3,3" />
-                </svg>
-              </div>
-
-              {/* Card */}
-              <div className="bg-white/95 backdrop-blur-sm border border-slate-200/80 rounded-xl shadow-md px-3 py-2.5 flex items-start gap-2 min-h-[68px]">
-                <div className="mt-0.5 p-1.5 rounded-md bg-cobalt/8 shrink-0">
-                  <card.icon className="w-3.5 h-3.5 text-cobalt" />
-                </div>
-                <div>
-                  <p className="font-heading font-bold text-[12px] text-royal leading-tight">{card.title}</p>
-                  <p className="text-[10px] text-body/60 leading-snug mt-0.5">{card.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        ))}
       </div>
 
-      {/* ─── Stats strip ─── */}
+      {/* ── Right floating cards ── */}
+      <div className="absolute right-4 xl:right-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-5">
+        {rightCards.map((card, i) => (
+          <motion.div
+            key={card.title}
+            className="flex items-center gap-1"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
+          >
+            {/* Connector dot + line */}
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.7)]" />
+              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(139,92,246,0.5) 0px, rgba(139,92,246,0.5) 4px, transparent 4px, transparent 8px)" }} />
+            </div>
+            {/* Card */}
+            <div className="bg-white/90 backdrop-blur-md border border-violet-100 rounded-2xl shadow-lg shadow-violet-100/50 px-4 py-3 flex items-start gap-3 w-52">
+              <div className="mt-0.5 p-2 rounded-xl bg-violet-50 border border-violet-100 shrink-0">
+                <card.icon className="w-4 h-4 text-violet-600" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-bold text-[13px] text-slate-800 leading-tight mb-1">{card.title}</p>
+                <p className="text-[11px] text-slate-400 leading-snug">{card.desc}</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* ── Center overlay content (on top of globe) ── */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-20 pb-24">
+
+        {/* Shield icon above label */}
+        <motion.div
+          className="mb-3 p-3 rounded-2xl bg-violet-600/10 border border-violet-300/30 backdrop-blur-sm"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Shield className="w-6 h-6 text-violet-600" strokeWidth={1.5} />
+        </motion.div>
+
+        {/* Institution label */}
+        <motion.p
+          className="text-violet-600 font-semibold text-xs uppercase tracking-[0.3em] mb-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          Chandigarh University
+        </motion.p>
+
+        {/* Headline — hard line breaks, large bold */}
+        <motion.h1
+          className="font-heading font-extrabold leading-tight mb-5 max-w-[560px]"
+          style={{
+            fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+            background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #7c3aed 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+        >
+          Centre for Privacy and<br />
+          Security in Emerging<br />
+          Technologies
+        </motion.h1>
+
+        {/* Subtext */}
+        <motion.p
+          className="text-slate-500 text-base max-w-xs mb-9 leading-relaxed"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+        >
+          Empowering the next generation of<br />cybersecurity professionals
+        </motion.p>
+
+        {/* Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-3"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+        >
+          <Link
+            href="#connect"
+            className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm shadow-lg shadow-violet-400/40 hover:shadow-violet-400/60 transition-all duration-300 hover:-translate-y-0.5"
+            style={{ background: "linear-gradient(135deg, #7c3aed, #6d28d9)" }}
+          >
+            Become a Member
+            <ExternalLink className="w-4 h-4" />
+          </Link>
+
+          <Link
+            href="#vision-mission"
+            className="flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white border border-violet-200 text-violet-700 font-semibold text-sm shadow-sm hover:bg-violet-50 hover:border-violet-300 transition-all duration-300 hover:-translate-y-0.5"
+          >
+            Explore
+            <ArrowDown className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* ── Stats strip pinned to bottom ── */}
       <motion.div
-        className="relative z-10 w-full max-w-4xl mx-auto px-4 pb-10"
+        className="absolute bottom-0 left-0 right-0 z-20 py-6 px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.6 }}
+        transition={{ duration: 0.7, delay: 0.5 }}
       >
-        <div className="flex items-center justify-center divide-x divide-slate-200">
+        <div className="max-w-3xl mx-auto flex items-center justify-center divide-x divide-slate-200/80">
           {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center px-6 sm:px-10">
-              <div className="flex items-center gap-2 mb-1">
-                <stat.icon className="w-4 h-4 text-cobalt/70" />
-                <span className="font-heading font-bold text-xl text-royal">{stat.value}</span>
+            <div key={stat.label} className="flex flex-col items-center px-6 sm:px-12">
+              <div className="flex items-center gap-2 mb-0.5">
+                <stat.icon className="w-4 h-4 text-violet-500" strokeWidth={1.5} />
+                <span className="font-extrabold text-xl text-slate-800">{stat.value}</span>
               </div>
-              <span className="text-[11px] text-body/55 font-medium tracking-wide">{stat.label}</span>
+              <span className="text-[11px] text-slate-400 font-medium tracking-wide">{stat.label}</span>
             </div>
           ))}
         </div>
