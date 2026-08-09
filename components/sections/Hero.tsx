@@ -9,9 +9,9 @@ import { ArrowDown, ExternalLink } from "lucide-react";
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Ambient Responsive & Reactive 3D Wireframe Globe */}
-      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-        <WireframeGlobe color="0, 71, 171" speed={0.0025} maxTilt={0.35} className="max-w-5xl max-h-[750px]" />
+      {/* Holographic Globe — atmosphere + continent dots + orbital rings */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <WireframeGlobe diameter={530} speed={0.0020} maxTilt={0.28} className="" />
       </div>
 
       {/* Content */}
