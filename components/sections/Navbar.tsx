@@ -64,32 +64,36 @@ export default function Navbar() {
           WebkitBackdropFilter: "blur(16px)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
           <div className="relative flex items-center h-16 md:h-[68px]">
 
-            {/* ── Left: Logo + CPSET ── */}
+            {/* ── Left: Logo + CPSET (Far Left) ── */}
             <a
               href="#hero"
               onClick={(e) => handleNavClick(e, "#hero")}
-              className="flex items-center gap-2.5 group cursor-pointer shrink-0"
+              className="flex items-center gap-3 group cursor-pointer shrink-0"
             >
-              {/* Glow ring + logo image */}
+              {/* Vibrant Glow ring + logo image */}
               <div
-                className="relative w-11 h-11 shrink-0 group-hover:scale-105 transition-transform duration-200 rounded-full"
+                className="relative w-11 h-11 shrink-0 group-hover:scale-105 transition-transform duration-200 rounded-full p-0.5"
                 style={{
-                  background: "radial-gradient(circle, rgba(90,138,255,0.30) 0%, rgba(130,80,255,0.18) 50%, transparent 75%)",
-                  boxShadow: "0 0 16px rgba(90,138,255,0.35), 0 0 6px rgba(130,80,255,0.25)",
+                  background: "radial-gradient(circle, rgba(120,160,255,0.40) 0%, rgba(150,100,255,0.25) 60%, transparent 100%)",
+                  boxShadow: "0 0 20px rgba(100,160,255,0.55), 0 0 8px rgba(160,120,255,0.4)",
+                  border: "1px solid rgba(140,180,255,0.45)",
                 }}
               >
                 <Image
                   src="/logo.png"
                   alt="CPSET Logo"
                   fill
-                  className="object-contain"
+                  className="object-contain p-0.5"
+                  style={{
+                    filter: "drop-shadow(0 0 6px rgba(140,180,255,0.7))",
+                  }}
                   priority
                 />
               </div>
-              <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>CPSET</span>
+              <span className="font-heading font-extrabold text-xl tracking-tight" style={{ color: "#FFFFFF", textShadow: "0 0 12px rgba(120,160,255,0.3)" }}>CPSET</span>
             </a>
 
             {/* ── Center: Nav links (absolutely centered) ── */}
