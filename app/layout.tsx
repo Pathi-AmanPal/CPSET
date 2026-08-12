@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
-import TargetCursor from "@/components/ui/TargetCursor";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import PremiumCursor from "@/components/ui/PremiumCursor";
 import "./globals.css";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -56,30 +57,31 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="font-body circuit-bg min-h-screen relative overflow-x-hidden">
-        {/* React Bits TargetCursor */}
-        <TargetCursor
-          targetSelector='.cursor-target, button, a, input, select, textarea, [role="button"]'
-          spinDuration={2}
-          hideDefaultCursor={true}
-          hoverDuration={0.2}
-          parallaxOn={true}
-          cursorColor="#5A8AFF"
-          cursorColorOnTarget="#9B7FFF"
-        />
+      <body className="circuit-bg min-h-screen relative overflow-x-hidden"
+        style={{ fontFamily: "'JetBrains Mono', monospace" }}>
 
-        {/* Ambient Vibrant Blue to Purple Gradient Background Mesh */}
+        {/* Premium Apple-physics cursor */}
+        <PremiumCursor />
+
+        {/* Ambient background mesh — deeper void colours */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          {/* Top-left Blue to Purple ambient orb */}
-          <div className="absolute -top-32 -left-32 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-cobalt/25 via-blue-500/15 to-violet/25 blur-[140px]" />
-
-          {/* Center-right Vibrant Violet orb */}
-          <div className="absolute top-[35%] -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-violet/25 via-purple-500/20 to-cobalt/15 blur-[150px]" />
-
-          {/* Bottom-left Electric Blue & Violet orb */}
-          <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-cobalt/20 via-blue-600/15 to-violet/30 blur-[130px]" />
+          {/* Top-left: deep cobalt orb */}
+          <div
+            className="absolute -top-40 -left-40 w-[700px] h-[700px] rounded-full blur-[160px]"
+            style={{ background: "radial-gradient(circle, rgba(59,106,219,0.22) 0%, rgba(90,138,255,0.10) 60%, transparent 100%)" }}
+          />
+          {/* Center-right: violet orb */}
+          <div
+            className="absolute top-[30%] -right-48 w-[750px] h-[750px] rounded-full blur-[180px]"
+            style={{ background: "radial-gradient(circle, rgba(124,95,224,0.20) 0%, rgba(155,127,255,0.10) 60%, transparent 100%)" }}
+          />
+          {/* Bottom-left: fuchsia accent */}
+          <div
+            className="absolute -bottom-32 left-[20%] w-[500px] h-[500px] rounded-full blur-[140px]"
+            style={{ background: "radial-gradient(circle, rgba(217,70,239,0.10) 0%, rgba(155,127,255,0.06) 60%, transparent 100%)" }}
+          />
         </div>
 
         <div className="relative z-10">

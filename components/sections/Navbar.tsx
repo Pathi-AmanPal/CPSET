@@ -54,14 +54,24 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "shadow-[0_4px_24px_rgba(0,0,0,0.5)]" : ""
+        className={`fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-500 ${
+          scrolled
+            ? "shadow-[0_8px_32px_rgba(0,4,32,0.65),0_1px_0_rgba(90,138,255,0.12)]"
+            : ""
         }`}
         style={{
-          background: "rgba(7, 11, 26, 0.96)",
-          borderBottom: "1px solid rgba(80, 120, 255, 0.15)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
+          // Apple glass-nav: rich blur + inner-top highlight
+          background: scrolled
+            ? "rgba(5, 7, 18, 0.80)"
+            : "rgba(6, 8, 16, 0.55)",
+          backdropFilter: "blur(24px) saturate(200%)",
+          WebkitBackdropFilter: "blur(24px) saturate(200%)",
+          borderBottom: scrolled
+            ? "1px solid rgba(90,138,255,0.14)"
+            : "1px solid rgba(90,138,255,0.07)",
+          boxShadow: scrolled
+            ? "0 1px 0 rgba(255,255,255,0.04) inset"
+            : "none",
         }}
       >
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
@@ -97,7 +107,7 @@ export default function Navbar() {
             </a>
 
             {/* ── Center: Nav links (absolutely centered) ── */}
-            <div className="hidden lg:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
+            <div className="hidden lg:flex items-center gap-0 absolute left-1/2 -translate-x-1/2">
               {links.map((link) => {
                 const active = activeSection === link.href;
                 return (
@@ -105,19 +115,37 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`px-3 py-2 text-sm font-medium transition-all duration-200 cursor-pointer relative ${
-                      active ? "font-semibold" : ""
-                    }`}
-                    style={{ color: active ? "#FFFFFF" : "#8899CC" }}
-                    onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = "#C4D0FF"; }}
-                    onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = "#8899CC"; }}
+                    className="relative px-3 py-2 cursor-pointer group"
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "11.5px",
+                      fontWeight: active ? 600 : 400,
+                      letterSpacing: "0.04em",
+                      color: active ? "#F0F4FF" : "rgba(137,147,176,0.85)",
+                      // Apple: respond on hover instantly
+                      transition: "color 80ms ease",
+                    }}
+                    onMouseEnter={e => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = "#C8D4FF";
+                    }}
+                    onMouseLeave={e => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = "rgba(137,147,176,0.85)";
+                    }}
                   >
+                    {/* Terminal // prefix on active */}
+                    {active && (
+                      <span style={{ color: "#5A8AFF", fontFamily: "'JetBrains Mono', monospace" }}>// </span>
+                    )}
                     {link.label}
                     {active && (
                       <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-violet-600 rounded-full"
+                        className="absolute -bottom-0.5 left-3 right-3 h-px"
+                        style={{
+                          background: "linear-gradient(90deg, #5A8AFF, #9B7FFF)",
+                          boxShadow: "0 0 8px rgba(90,138,255,0.6)",
+                        }}
                         layoutId="activeTab"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       />
                     )}
                   </a>
@@ -130,11 +158,30 @@ export default function Navbar() {
               <a
                 href="#connect"
                 onClick={(e) => handleNavClick(e, "#connect")}
-                className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all duration-300 shadow-md hover:shadow-violet-400/50 hover:-translate-y-0.5"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #6d28d9)" }}
+                className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-all duration-150 active:scale-95"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  letterSpacing: "0.06em",
+                  // Neon cobalt-violet gradient pill
+                  background: "linear-gradient(135deg, #3B6ADB 0%, #7C5FE0 100%)",
+                  boxShadow: "0 0 20px rgba(90,138,255,0.35), 0 2px 8px rgba(0,0,0,0.4)",
+                  // Apple: respond on pointerdown not release
+                  transform: "translateY(0)",
+                  transition: "box-shadow 150ms ease, transform 80ms ease",
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(90,138,255,0.55), 0 4px 16px rgba(0,0,0,0.5)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(90,138,255,0.35), 0 2px 8px rgba(0,0,0,0.4)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                }}
               >
-                Become a Member
-                <ExternalLink className="w-3.5 h-3.5" />
+                ./join --cpset
+                <ExternalLink className="w-3 h-3" />
               </a>
 
               {/* Mobile toggle */}
