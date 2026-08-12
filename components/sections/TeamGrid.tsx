@@ -11,6 +11,7 @@ import {
   FileText,
   Sparkles,
   Pin,
+  Award,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -25,11 +26,11 @@ interface BoardPerson {
   tag?: string;
   handwrittenTag?: string;
   quote?: string;
-  initialOffset: { x: number; y: number }; // Desktop offset relative to board center
-  rotation: number; // Polaroid rotation tilt degrees (-12 to 12)
+  initialOffset: { x: number; y: number }; // Desktop offset relative to center
+  rotation: number; // Polaroid tilt degrees (-12 to 12)
 }
 
-// ── Master Roster Data ──
+// ── Master Roster Data with Verified Web-Safe Image Paths ──
 const MENTOR_DATA: BoardPerson = {
   id: "mentor-syed-irfan",
   name: "Syed Irfan",
@@ -39,7 +40,7 @@ const MENTOR_DATA: BoardPerson = {
   handwrittenTag: "MENTOR",
   bio: "Directing cybersecurity research, privacy engineering, and mentoring CPSET's next-generation threat analysts and security engineers.",
   quote: "Privacy isn't an afterthought — it is the core foundation of every emerging technology.",
-  photoUrl: "/images/team/syed-irfan.jpg",
+  photoUrl: "/images/team/syed-irfan.png",
   initialOffset: { x: 0, y: -15 },
   rotation: 0,
 };
@@ -54,7 +55,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "President",
     bio: "Directing student research initiatives, privacy preservation frameworks, and core lab operations.",
     quote: "We don't just study vulnerabilities — we architect privacy-first systems.",
-    photoUrl: "/images/team/A0DDFE75-4454-4F88-B8F9-C16A60AC1585 - Husanpreet Kaur.png",
+    photoUrl: "/images/team/husanpreet-kaur.png",
     initialOffset: { x: -310, y: -140 },
     rotation: -7,
   },
@@ -67,7 +68,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "Vice Pres",
     bio: "Spearheading Zero-Knowledge Proof research and cryptographic protocol implementations.",
     quote: "Mathematical proof is the ultimate truth in digital privacy.",
-    photoUrl: "/images/team/file_00000000800871f89b49b72c1688555a - Manya Sharma.png",
+    photoUrl: "/images/team/manya-sharma.png",
     initialOffset: { x: 310, y: -140 },
     rotation: 8,
   },
@@ -80,7 +81,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "Red Team",
     bio: "Kernel exploit developer & Red Teamer. Winner of national Capture The Flag cybersecurity competitions.",
     quote: "To defend a system, you must think like an adversary.",
-    photoUrl: "/images/team/Pranav Chauhan - Pranav Chauhan.png",
+    photoUrl: "/images/team/pranav-chauhan.png",
     initialOffset: { x: -340, y: 70 },
     rotation: 5,
   },
@@ -93,7 +94,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "AI Lead",
     bio: "Investigating Adversarial AI attacks, prompt injection vectors, and Privacy-Preserving Machine Learning models.",
     quote: "As AI advances, securing intelligence itself becomes our greatest challenge.",
-    photoUrl: "/images/team/yamiki photo - Yamiki Chaturvedi.jpeg",
+    photoUrl: "/images/team/yamiki-chaturvedi.jpeg",
     initialOffset: { x: 340, y: 70 },
     rotation: -10,
   },
@@ -106,7 +107,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "Cloud Sec",
     bio: "Architecting automated threat detection pipelines, Kubernetes security policies, and DevSecOps frameworks.",
     quote: "Automation without continuous security is just automated risk.",
-    photoUrl: "/images/team/IMG_6502 - Dilpreetkaur.jpeg",
+    photoUrl: "/images/team/dilpreet-kaur.jpeg",
     initialOffset: { x: -210, y: 240 },
     rotation: 11,
   },
@@ -119,7 +120,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     handwrittenTag: "Forensics",
     bio: "Specializing in deep packet inspection, incident response, and memory forensics for enterprise systems.",
     quote: "Every digital action leaves a trace behind.",
-    photoUrl: "/images/team/pho - Shaan XD.jpg",
+    photoUrl: "/images/team/shaan-xd.jpg",
     initialOffset: { x: 210, y: 240 },
     rotation: -6,
   },
@@ -271,6 +272,7 @@ export default function TeamGrid() {
             alt="CPSET Case Board Background"
             fill
             className="object-cover object-center"
+            unoptimized
             priority
           />
           {/* Subtle Ambient Vignette Overlay */}
@@ -352,14 +354,30 @@ export default function TeamGrid() {
                 <div className="absolute -top-2.5 -right-3 w-12 h-5 bg-amber-100/60 backdrop-blur-xs border border-amber-200/40 rotate-12 shadow-xs pointer-events-none" />
 
                 {/* Photo Frame */}
-                <div className="relative aspect-[4/4.2] w-full bg-amber-950/20 overflow-hidden rounded-xs border border-amber-900/20 mb-3 shadow-inner">
-                  <Image
-                    src={MENTOR_DATA.photoUrl || "/images/team/syed-irfan.jpg"}
-                    alt={MENTOR_DATA.name}
-                    fill
-                    className="object-cover object-top contrast-[1.03]"
-                    unoptimized
-                  />
+                <div className="relative aspect-[4/4.2] w-full bg-gradient-to-br from-violet-950 via-slate-900 to-amber-950 overflow-hidden rounded-xs border border-amber-900/20 mb-3 shadow-inner">
+                  {MENTOR_DATA.photoUrl ? (
+                    <Image
+                      src={MENTOR_DATA.photoUrl}
+                      alt={MENTOR_DATA.name}
+                      fill
+                      className="object-cover object-top contrast-[1.03]"
+                      unoptimized
+                      onError={(e) => {
+                        // Fallback avatar if local image load is blocked
+                        const target = e.target as HTMLElement;
+                        target.style.display = "none";
+                      }}
+                    />
+                  ) : null}
+                  {/* High-End Mentor Avatar Fallback Container */}
+                  <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                    <div className="w-16 h-16 rounded-full bg-violet-600/30 border border-violet-400/40 flex items-center justify-center mb-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                      <Shield className="w-8 h-8 text-violet-300" />
+                    </div>
+                    <span className="text-amber-100/90 font-typewriter text-xs font-bold tracking-wider">
+                      SYED IRFAN
+                    </span>
+                  </div>
                   {/* Dark Vignette Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
@@ -427,7 +445,8 @@ export default function TeamGrid() {
                       src={member.photoUrl}
                       alt={member.name}
                       fill
-                      className="object-cover"
+                      className="object-cover object-top"
+                      unoptimized
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-b from-slate-900 to-violet-950/80 flex flex-col items-center justify-center p-2 text-center">
@@ -477,7 +496,8 @@ export default function TeamGrid() {
                       src={member.photoUrl}
                       alt={member.name}
                       fill
-                      className="object-cover"
+                      className="object-cover object-top"
+                      unoptimized
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-b from-slate-900 to-violet-950 flex flex-col items-center justify-center p-2 text-center">
