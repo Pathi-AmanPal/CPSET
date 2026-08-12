@@ -105,11 +105,14 @@ export default function ObjectivesPage() {
                   onClick={() =>
                     setExpandedIndex(isExpanded ? null : index)
                   }
-                  className={`w-full glass rounded-xl px-6 py-5 flex items-center gap-4 text-left transition-all duration-300 group border border-slate-200 shadow-sm ${
+                  className={`w-full glass rounded-xl px-6 py-5 flex items-center gap-4 text-left transition-all duration-300 group ${
                     isExpanded
-                      ? "glow-violet border-violet/30"
-                      : "hover:border-cobalt/30 hover:shadow-md"
+                      ? "glow-violet"
+                      : ""
                   }`}
+                  style={{
+                    border: isExpanded ? "1px solid rgba(155,127,255,0.35)" : "1px solid rgba(100,130,255,0.18)",
+                  }}
                 >
                   <div
                     className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
@@ -133,7 +136,7 @@ export default function ObjectivesPage() {
                     animate={{ rotate: isExpanded ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-5 h-5 text-body/40" />
+                    <ChevronDown className="w-5 h-5 text-body/60" />
                   </motion.div>
                 </button>
 
@@ -146,7 +149,14 @@ export default function ObjectivesPage() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 py-4 pl-20 text-body/80 leading-relaxed bg-slate-50/50 rounded-b-xl border-x border-b border-slate-200 text-sm md:text-base">
+                      <div
+                        className="px-6 py-4 pl-20 text-body/80 leading-relaxed rounded-b-xl text-sm md:text-base"
+                        style={{
+                          background: "rgba(8, 12, 40, 0.60)",
+                          border: "0 solid rgba(100,130,255,0.15)",
+                          borderWidth: "0 1px 1px 1px",
+                        }}
+                      >
                         {obj.detail}
                       </div>
                     </motion.div>
@@ -159,7 +169,8 @@ export default function ObjectivesPage() {
 
         {/* Pillars strip */}
         <motion.div
-          className="mt-24 py-12 border-t border-slate-200"
+          className="mt-24 py-12"
+          style={{ borderTop: "1px solid rgba(100, 130, 255, 0.18)" }}
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -175,7 +186,10 @@ export default function ObjectivesPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.4 }}
               >
-                <div className="w-14 h-14 rounded-xl bg-cobalt/5 border border-cobalt/20 flex items-center justify-center group-hover:border-violet/40 group-hover:glow-violet transition-all duration-300">
+                <div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300"
+                  style={{ background: "rgba(90,138,255,0.08)", border: "1px solid rgba(90,138,255,0.22)" }}
+                >
                   <pillar.icon className="w-6 h-6 text-cobalt group-hover:text-violet transition-colors" />
                 </div>
                 <span className="font-heading font-medium text-sm text-body/80 group-hover:text-cobalt transition-colors">

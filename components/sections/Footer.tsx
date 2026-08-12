@@ -12,9 +12,9 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24 border-t border-slate-200 bg-slate-50/50">
+    <footer className="relative mt-24" style={{ borderTop: "1px solid rgba(100, 130, 255, 0.18)", background: "rgba(5, 9, 20, 0.95)" }}>
       {/* Subtle top wash */}
-      <div className="absolute inset-0 bg-gradient-to-t from-cobalt/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-cobalt/5 to-transparent pointer-events-none" style={{ background: "linear-gradient(to top, rgba(30,60,180,0.06), transparent)" }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -61,7 +61,8 @@ export default function Footer() {
                 (word) => (
                   <span
                     key={word}
-                    className="text-xs font-medium px-3 py-1.5 rounded-full bg-cobalt/5 border border-cobalt/20 text-cobalt"
+                    className="text-xs font-medium px-3 py-1.5 rounded-full text-cobalt"
+                    style={{ background: "rgba(90,138,255,0.08)", border: "1px solid rgba(90,138,255,0.22)" }}
                   >
                     {word}
                   </span>
@@ -71,7 +72,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-200 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: "1px solid rgba(100, 130, 255, 0.15)" }}>
           <p className="text-body/60 text-xs">
             © {new Date().getFullYear()} CPSET — Chandigarh University. All
             rights reserved.

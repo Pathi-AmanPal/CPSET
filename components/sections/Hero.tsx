@@ -66,8 +66,16 @@ export default function Hero() {
     <section
       id="hero"
       className="relative min-h-screen overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #F5F3FF 0%, #EEF2FF 40%, #F8F7FF 100%)" }}
+      style={{ background: "linear-gradient(160deg, #050914 0%, #070B1A 60%, #080D20 100%)" }}
     >
+      {/* ── Central ambient glow ── */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 70% 60% at 50% 48%, rgba(30,60,200,0.18) 0%, rgba(15,30,100,0.08) 50%, transparent 80%)",
+        }}
+      />
+
       {/* ── Full-bleed globe background ── */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
         <WireframeGlobe
@@ -89,19 +97,32 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
           >
             {/* Card */}
-            <div className="bg-white/90 backdrop-blur-md border border-violet-100 rounded-2xl shadow-lg shadow-violet-100/50 px-4 py-3 flex items-start gap-3 w-52">
-              <div className="mt-0.5 p-2 rounded-xl bg-violet-50 border border-violet-100 shrink-0">
-                <card.icon className="w-4 h-4 text-violet-600" strokeWidth={1.5} />
+            <div
+              className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52"
+              style={{
+                background: "rgba(15, 20, 50, 0.75)",
+                border: "1px solid rgba(120, 140, 255, 0.25)",
+                boxShadow: "0 0 20px rgba(80, 100, 255, 0.10), 0 4px 20px rgba(0,0,0,0.4)",
+              }}
+            >
+              <div
+                className="mt-0.5 p-2 rounded-xl shrink-0"
+                style={{
+                  background: "rgba(100, 120, 255, 0.12)",
+                  border: "1px solid rgba(100, 130, 255, 0.25)",
+                }}
+              >
+                <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="font-bold text-[13px] text-slate-800 leading-tight mb-1">{card.title}</p>
-                <p className="text-[11px] text-slate-400 leading-snug">{card.desc}</p>
+                <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
+                <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
               </div>
             </div>
             {/* Connector line + dot */}
             <div className="flex items-center gap-1">
-              <div className="h-px w-6 bg-violet-300/60" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(139,92,246,0.5) 0px, rgba(139,92,246,0.5) 4px, transparent 4px, transparent 8px)" }} />
-              <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.7)]" />
+              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
+              <div className="w-2 h-2 rounded-full" style={{ background: "#7A9AFF", boxShadow: "0 0 10px rgba(120,155,255,0.85), 0 0 4px rgba(120,155,255,1)" }} />
             </div>
           </motion.div>
         ))}
@@ -119,17 +140,30 @@ export default function Hero() {
           >
             {/* Connector dot + line */}
             <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.7)]" />
-              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(139,92,246,0.5) 0px, rgba(139,92,246,0.5) 4px, transparent 4px, transparent 8px)" }} />
+              <div className="w-2 h-2 rounded-full" style={{ background: "#7A9AFF", boxShadow: "0 0 10px rgba(120,155,255,0.85), 0 0 4px rgba(120,155,255,1)" }} />
+              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
             </div>
             {/* Card */}
-            <div className="bg-white/90 backdrop-blur-md border border-violet-100 rounded-2xl shadow-lg shadow-violet-100/50 px-4 py-3 flex items-start gap-3 w-52">
-              <div className="mt-0.5 p-2 rounded-xl bg-violet-50 border border-violet-100 shrink-0">
-                <card.icon className="w-4 h-4 text-violet-600" strokeWidth={1.5} />
+            <div
+              className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52"
+              style={{
+                background: "rgba(15, 20, 50, 0.75)",
+                border: "1px solid rgba(120, 140, 255, 0.25)",
+                boxShadow: "0 0 20px rgba(80, 100, 255, 0.10), 0 4px 20px rgba(0,0,0,0.4)",
+              }}
+            >
+              <div
+                className="mt-0.5 p-2 rounded-xl shrink-0"
+                style={{
+                  background: "rgba(100, 120, 255, 0.12)",
+                  border: "1px solid rgba(100, 130, 255, 0.25)",
+                }}
+              >
+                <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="font-bold text-[13px] text-slate-800 leading-tight mb-1">{card.title}</p>
-                <p className="text-[11px] text-slate-400 leading-snug">{card.desc}</p>
+                <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
+                <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
               </div>
             </div>
           </motion.div>
@@ -141,17 +175,23 @@ export default function Hero() {
 
         {/* Shield icon above label */}
         <motion.div
-          className="mb-3 p-3 rounded-2xl bg-violet-600/10 border border-violet-300/30 backdrop-blur-sm"
+          className="mb-3 p-3 rounded-2xl backdrop-blur-sm"
+          style={{
+            background: "rgba(100, 130, 255, 0.10)",
+            border: "1px solid rgba(120, 160, 255, 0.30)",
+            boxShadow: "0 0 20px rgba(100, 140, 255, 0.20)",
+          }}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Shield className="w-6 h-6 text-violet-600" strokeWidth={1.5} />
+          <Shield className="w-6 h-6" style={{ color: "#90B4FF" }} strokeWidth={1.5} />
         </motion.div>
 
         {/* Institution label */}
         <motion.p
-          className="text-violet-600 font-semibold text-xs uppercase tracking-[0.3em] mb-5"
+          className="font-semibold text-xs uppercase tracking-[0.3em] mb-5"
+          style={{ color: "#7A9ACC" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -159,12 +199,12 @@ export default function Hero() {
           Chandigarh University
         </motion.p>
 
-        {/* Headline — hard line breaks, large bold */}
+        {/* Headline — white to lavender gradient */}
         <motion.h1
           className="font-heading font-extrabold leading-tight mb-5 max-w-[560px]"
           style={{
             fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-            background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #7c3aed 100%)",
+            background: "linear-gradient(160deg, #FFFFFF 0%, #E0E8FF 45%, #C4BBFF 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -180,7 +220,8 @@ export default function Hero() {
 
         {/* Subtext */}
         <motion.p
-          className="text-slate-500 text-base max-w-xs mb-9 leading-relaxed"
+          className="text-base max-w-xs mb-9 leading-relaxed"
+          style={{ color: "rgba(220, 225, 240, 0.75)" }}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
@@ -197,8 +238,11 @@ export default function Hero() {
         >
           <Link
             href="#connect"
-            className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm shadow-lg shadow-violet-400/40 hover:shadow-violet-400/60 transition-all duration-300 hover:-translate-y-0.5"
-            style={{ background: "linear-gradient(135deg, #7c3aed, #6d28d9)" }}
+            className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed, #5A6FE8)",
+              boxShadow: "0 4px 24px rgba(120, 80, 240, 0.45), 0 0 0 1px rgba(140,100,255,0.2)",
+            }}
           >
             Become a Member
             <ExternalLink className="w-4 h-4" />
@@ -206,7 +250,13 @@ export default function Hero() {
 
           <Link
             href="#vision-mission"
-            className="flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white border border-violet-200 text-violet-700 font-semibold text-sm shadow-sm hover:bg-violet-50 hover:border-violet-300 transition-all duration-300 hover:-translate-y-0.5"
+            className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "#E8ECFF",
+              backdropFilter: "blur(8px)",
+            }}
           >
             Explore
             <ArrowDown className="w-4 h-4" />
@@ -217,18 +267,28 @@ export default function Hero() {
       {/* ── Stats strip pinned to bottom ── */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 z-20 py-6 px-4"
+        style={{
+          background: "linear-gradient(to top, rgba(5,9,20,0.90) 0%, rgba(5,9,20,0.40) 100%)",
+          borderTop: "1px solid rgba(100, 130, 255, 0.12)",
+        }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.5 }}
       >
-        <div className="max-w-3xl mx-auto flex items-center justify-center divide-x divide-slate-200/80">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center px-6 sm:px-12">
+        <div className="max-w-3xl mx-auto flex items-center justify-center" style={{ borderColor: "rgba(100, 130, 255, 0.20)" }}>
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className="flex flex-col items-center px-6 sm:px-12"
+              style={{
+                borderRight: i < stats.length - 1 ? "1px solid rgba(100, 130, 255, 0.22)" : "none",
+              }}
+            >
               <div className="flex items-center gap-2 mb-0.5">
-                <stat.icon className="w-4 h-4 text-violet-500" strokeWidth={1.5} />
-                <span className="font-extrabold text-xl text-slate-800">{stat.value}</span>
+                <stat.icon className="w-4 h-4" style={{ color: "#7A9AFF" }} strokeWidth={1.5} />
+                <span className="font-extrabold text-xl" style={{ color: "#FFFFFF" }}>{stat.value}</span>
               </div>
-              <span className="text-[11px] text-slate-400 font-medium tracking-wide">{stat.label}</span>
+              <span className="text-[11px] font-medium tracking-wide" style={{ color: "#7A8BAA" }}>{stat.label}</span>
             </div>
           ))}
         </div>

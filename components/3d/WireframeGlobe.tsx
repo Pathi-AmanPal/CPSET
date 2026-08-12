@@ -204,45 +204,56 @@ export default function WireframeGlobe({
       const yaw = yawRef.current;
       const pitch = pitchRef.current;
 
-      // ── 1. Atmospheric halo ──
-      const halo = ctx.createRadialGradient(cx, cy, radius * 0.42, cx, cy, radius * 1.3);
-      halo.addColorStop(0, "rgba(166, 145, 235, 0.12)");
-      halo.addColorStop(0.6, "rgba(166, 145, 235, 0.04)");
-      halo.addColorStop(1, "rgba(166, 145, 235, 0)");
-      ctx.fillStyle = halo;
+      // ── 1. Ambient page glow behind globe (dark bg only) ──
+      const pageGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.8);
+      pageGlow.addColorStop(0, "rgba(30, 60, 180, 0.18)");
+      pageGlow.addColorStop(0.5, "rgba(20, 40, 130, 0.08)");
+      pageGlow.addColorStop(1, "rgba(10, 20, 80, 0)");
+      ctx.fillStyle = pageGlow;
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.3, 0, Math.PI * 2);
+      ctx.arc(cx, cy, radius * 1.8, 0, Math.PI * 2);
       ctx.fill();
 
-      // ── 2. Globe clipping region ──
+      // ── 2. Atmospheric halo — vivid blue-purple glow ──
+      const halo = ctx.createRadialGradient(cx, cy, radius * 0.78, cx, cy, radius * 1.42);
+      halo.addColorStop(0, "rgba(60, 120, 255, 0.0)");
+      halo.addColorStop(0.4, "rgba(80, 130, 255, 0.18)");
+      halo.addColorStop(0.75, "rgba(100, 80, 220, 0.10)");
+      halo.addColorStop(1, "rgba(60, 40, 180, 0)");
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 1.42, 0, Math.PI * 2);
+      ctx.fill();
+
+      // ── 3. Globe clipping region ──
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.clip();
 
-      // ── 3. Sphere fill gradient ──
+      // ── 4. Sphere fill — deep dark navy, transparent at edges ──
       const globeFill = ctx.createRadialGradient(
-        cx - radius * 0.34, cy - radius * 0.4, radius * 0.08,
-        cx + radius * 0.2, cy + radius * 0.2, radius * 1.2
+        cx - radius * 0.28, cy - radius * 0.32, radius * 0.06,
+        cx + radius * 0.15, cy + radius * 0.15, radius * 1.15
       );
-      globeFill.addColorStop(0, "rgba(255,255,255,0.98)");
-      globeFill.addColorStop(0.34, "rgba(246,243,255,0.92)");
-      globeFill.addColorStop(0.72, "rgba(205,193,244,0.22)");
-      globeFill.addColorStop(1, "rgba(154,132,220,0.18)");
+      globeFill.addColorStop(0, "rgba(8, 18, 55, 0.97)");
+      globeFill.addColorStop(0.30, "rgba(6, 14, 44, 0.92)");
+      globeFill.addColorStop(0.68, "rgba(10, 22, 65, 0.55)");
+      globeFill.addColorStop(1, "rgba(5, 12, 40, 0.30)");
       ctx.fillStyle = globeFill;
       ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
-      // ── 4. Ambient side shadow ──
+      // ── 5. Ambient side light — subtle left-edge blue tint ──
       const shade = ctx.createLinearGradient(cx - radius, cy, cx + radius, cy);
-      shade.addColorStop(0, "rgba(255,255,255,0.25)");
-      shade.addColorStop(0.58, "rgba(100,75,180,0.01)");
-      shade.addColorStop(1, "rgba(75,55,145,0.08)");
+      shade.addColorStop(0, "rgba(60, 130, 255, 0.10)");
+      shade.addColorStop(0.45, "rgba(20, 60, 180, 0.02)");
+      shade.addColorStop(1, "rgba(5, 20, 80, 0.06)");
       ctx.fillStyle = shade;
       ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
-      // ── 5. Accurate 3D Latitude Wireframe Rings ──
+      // ── 6. Accurate 3D Latitude Wireframe Rings — vivid cyan-blue ──
       latRingSamples.forEach((ringSamples) => {
-        ctx.lineWidth = 0.75;
+        ctx.lineWidth = 0.8;
         for (let i = 0; i < ringSamples.length - 1; i++) {
           const p1 = project3D(ringSamples[i].latRad, ringSamples[i].lonRad, yaw, pitch, cx, cy, radius);
           const p2 = project3D(ringSamples[i + 1].latRad, ringSamples[i + 1].lonRad, yaw, pitch, cx, cy, radius);
@@ -250,8 +261,8 @@ export default function WireframeGlobe({
           const avgDepth = (p1.depth + p2.depth) / 2;
           if (avgDepth < -0.2) continue; // Backface cull
 
-          const alpha = 0.04 + Math.max(0, avgDepth) * 0.16;
-          ctx.strokeStyle = `rgba(123, 103, 194, ${alpha})`;
+          const alpha = 0.22 + Math.max(0, avgDepth) * 0.42;
+          ctx.strokeStyle = `rgba(90, 150, 255, ${alpha})`;
           ctx.beginPath();
           ctx.moveTo(p1.sx, p1.sy);
           ctx.lineTo(p2.sx, p2.sy);
@@ -259,9 +270,9 @@ export default function WireframeGlobe({
         }
       });
 
-      // ── 6. Accurate 3D Longitude Wireframe Meridians ──
+      // ── 7. Accurate 3D Longitude Wireframe Meridians — vivid cyan-blue ──
       lonMeridianSamples.forEach((meridianSamples) => {
-        ctx.lineWidth = 0.75;
+        ctx.lineWidth = 0.8;
         for (let i = 0; i < meridianSamples.length - 1; i++) {
           const p1 = project3D(meridianSamples[i].latRad, meridianSamples[i].lonRad, yaw, pitch, cx, cy, radius);
           const p2 = project3D(meridianSamples[i + 1].latRad, meridianSamples[i + 1].lonRad, yaw, pitch, cx, cy, radius);
@@ -269,8 +280,8 @@ export default function WireframeGlobe({
           const avgDepth = (p1.depth + p2.depth) / 2;
           if (avgDepth < -0.2) continue;
 
-          const alpha = 0.05 + Math.max(0, avgDepth) * 0.18;
-          ctx.strokeStyle = `rgba(128, 101, 205, ${alpha})`;
+          const alpha = 0.25 + Math.max(0, avgDepth) * 0.40;
+          ctx.strokeStyle = `rgba(100, 155, 255, ${alpha})`;
           ctx.beginPath();
           ctx.moveTo(p1.sx, p1.sy);
           ctx.lineTo(p2.sx, p2.sy);
@@ -278,38 +289,58 @@ export default function WireframeGlobe({
         }
       });
 
-      // ── 7. Accurate 3D Land Points ──
-      landPoints.forEach(({ lonRad, latRad, size }) => {
+      // ── 8. Accurate 3D Land Points — bright blue-white with hub glow nodes ──
+      landPoints.forEach(({ lonRad, latRad, size }, dotIndex) => {
         const { sx, sy, depth } = project3D(latRad, lonRad, yaw, pitch, cx, cy, radius);
         if (depth < -0.06) return; // Backface cull
 
-        const opacity = 0.18 + depth * 0.32;
-        const scaleSize = size * (0.85 + depth * 0.3);
+        const isHub = dotIndex % 13 === 0; // ~8% are hub nodes
+        const opacity = 0.55 + depth * 0.40;
+        const scaleSize = size * (0.9 + depth * 0.32);
 
-        ctx.fillStyle = `rgba(135, 108, 211, ${opacity})`;
-        ctx.beginPath();
-        ctx.arc(sx, sy, scaleSize, 0, Math.PI * 2);
-        ctx.fill();
+        if (isHub) {
+          // Hub node — larger with radial glow
+          const hubGlow = ctx.createRadialGradient(sx, sy, 0, sx, sy, scaleSize * 4.5);
+          hubGlow.addColorStop(0, `rgba(200, 230, 255, ${Math.min(opacity * 1.1, 1.0)})`);
+          hubGlow.addColorStop(0.35, `rgba(140, 195, 255, ${opacity * 0.55})`);
+          hubGlow.addColorStop(1, "rgba(80, 160, 255, 0)");
+          ctx.fillStyle = hubGlow;
+          ctx.beginPath();
+          ctx.arc(sx, sy, scaleSize * 4.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(220, 240, 255, ${Math.min(opacity * 1.15, 1.0)})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, scaleSize * 1.7, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Regular land dot — bright blue-white
+          ctx.fillStyle = `rgba(140, 195, 255, ${opacity})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, scaleSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
       });
 
       ctx.restore(); // end clip
 
-      // ── 8. Rim Highlight ──
+      // ── 9. Rim Highlight — bright arc along upper-left edge ──
       const rim = ctx.createRadialGradient(
-        cx - radius * 0.2, cy - radius * 0.25, radius * 0.5,
-        cx, cy, radius * 1.04
+        cx - radius * 0.22, cy - radius * 0.28, radius * 0.52,
+        cx, cy, radius * 1.03
       );
-      rim.addColorStop(0, "rgba(255,255,255,0)");
-      rim.addColorStop(0.83, "rgba(145,121,220,0)");
-      rim.addColorStop(1, "rgba(145,121,220,0.18)");
+      rim.addColorStop(0, "rgba(120, 200, 255, 0)");
+      rim.addColorStop(0.80, "rgba(100, 180, 255, 0)");
+      rim.addColorStop(0.92, "rgba(120, 195, 255, 0.40)");
+      rim.addColorStop(1, "rgba(160, 210, 255, 0.55)");
       ctx.fillStyle = rim;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // ── 9. Outer Sphere Border ──
-      ctx.strokeStyle = "rgba(145,121,220,0.22)";
-      ctx.lineWidth = 1.2;
+      // ── 10. Outer Sphere Border — glowing blue ──
+      ctx.strokeStyle = "rgba(100, 160, 255, 0.45)";
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.stroke();

@@ -9,14 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#FFFFFF",
-        surface: "#F8FAFC",
-        cobalt: "#0047AB",
-        royal: "#002366",
-        violet: "#8B00FF",
-        body: "#334155",
-        heading: "#0F172A",
-        alert: "#FF0000",
+        bg: "#070B1A",
+        surface: "#0D1230",
+        cobalt: "#5A8AFF",
+        royal: "#E8ECFF",
+        violet: "#9B7FFF",
+        body: "#B8BDD6",
+        heading: "#F0F4FF",
+        alert: "#FF4466",
       },
       fontFamily: {
         heading: ["var(--font-space-grotesk)", "sans-serif"],

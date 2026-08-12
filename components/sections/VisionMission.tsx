@@ -66,7 +66,7 @@ export default function VisionMissionPage() {
         <section className="relative py-16 md:py-24 text-center">
           {/* Ambient gradient wash */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[600px] h-[300px] bg-gradient-to-r from-cobalt/15 via-violet/15 to-cobalt/15 blur-[120px] rounded-full" />
+            <div className="w-[600px] h-[300px] blur-[120px] rounded-full" style={{ background: "radial-gradient(ellipse, rgba(60,100,255,0.15) 0%, rgba(100,60,200,0.10) 50%, transparent 100%)" }} />
           </div>
 
           <motion.p

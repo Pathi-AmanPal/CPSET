@@ -46,9 +46,10 @@ export default function IntroStrip() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="glass rounded-xl p-6 flex-1 min-w-[140px] text-center border border-slate-200 shadow-sm"
+                className="glass rounded-xl p-6 flex-1 min-w-[140px] text-center"
+                style={{ border: "1px solid rgba(100, 130, 255, 0.20)" }}
               >
-                <stat.icon className="w-6 h-6 text-violet mx-auto mb-3" />
+                <stat.icon className="w-6 h-6 text-cobalt mx-auto mb-3" />
                 <div className="font-heading font-bold text-3xl text-royal mb-1">
                   <CountUp end={stat.value} suffix={stat.suffix} />
                 </div>

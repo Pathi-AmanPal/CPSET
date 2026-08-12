@@ -1,10 +1,10 @@
 :root {
-  --purple-primary: rgba(0, 71, 171, 1);
-  --purple-glow: rgba(0, 71, 171, 0.18);
-  --purple-border: rgba(0, 71, 171, 0.6);
-  --border-color: rgba(0, 35, 102, 0.12);
-  --background-card: #FFFFFF;
-  color-scheme: light;
+  --purple-primary: rgba(90, 138, 255, 1);
+  --purple-glow: rgba(90, 138, 255, 0.22);
+  --purple-border: rgba(120, 150, 255, 0.50);
+  --border-color: rgba(120, 140, 255, 0.18);
+  --background-card: rgba(13, 18, 48, 0.85);
+  color-scheme: dark;
 }
 
 .card-grid {
@@ -27,7 +27,9 @@
   border-radius: 24px;
   border: 1px solid var(--border-color);
   background: var(--background-card);
-  box-shadow: 0 4px 20px rgba(0, 35, 102, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0, 10, 60, 0.40), 0 0 0 0 transparent;
   font-weight: 300;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -40,20 +42,20 @@
 
 .magic-bento-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(132, 0, 255, 0.3);
-  box-shadow: 0 12px 35px rgba(132, 0, 255, 0.18);
+  border-color: rgba(120, 150, 255, 0.45);
+  box-shadow: 0 0 28px rgba(100, 140, 255, 0.20), 0 12px 35px rgba(0, 10, 60, 0.50);
 }
 
 .magic-bento-card:hover .magic-bento-card__label {
-  color: #8B00FF;
-  background: rgba(132, 0, 255, 0.12);
+  color: #A890FF;
+  background: rgba(130, 100, 255, 0.18);
 }
 
 .magic-bento-card__header,
 .magic-bento-card__content {
   display: flex;
   position: relative;
-  color: #0F172A;
+  color: #F0F4FF;
   z-index: 2;
 }
 
@@ -73,8 +75,8 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #0047AB;
-  background: rgba(0, 71, 171, 0.08);
+  color: #8B9FFF;
+  background: rgba(100, 120, 255, 0.14);
   padding: 4px 12px;
   border-radius: 20px;
 }
@@ -82,15 +84,15 @@
 .magic-bento-card__title {
   font-weight: 700;
   font-size: 20px;
-  color: #002366;
+  color: #FFFFFF;
   margin: 0 0 0.5em;
 }
 
 .magic-bento-card__description {
   font-size: 14px;
   line-height: 1.6;
-  color: #334155;
-  opacity: 0.9;
+  color: rgba(200, 205, 225, 0.75);
+  opacity: 1;
 }
 
 @media (max-width: 599px) {
@@ -208,7 +210,7 @@
 
 /* Global spotlight styles */
 .global-spotlight {
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
   will-change: transform, opacity;
   z-index: 200 !important;
   pointer-events: none;

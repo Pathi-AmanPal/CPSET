@@ -55,8 +55,11 @@ export default function TeamGrid() {
             initial="hidden"
             animate="visible"
           >
-            <div className="w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mx-auto mb-6">
-              <Users className="w-8 h-8 text-cobalt/50" />
+            <div
+              className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+              style={{ background: "rgba(13,18,48,0.80)", border: "1px solid rgba(100,130,255,0.20)" }}
+            >
+              <Users className="w-8 h-8 text-cobalt/70" />
             </div>
             <h3 className="font-heading text-xl font-semibold text-royal mb-2">
               Team roster coming soon
@@ -91,7 +94,7 @@ export default function TeamGrid() {
                         className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,11,26,1) 0%, rgba(7,11,26,0.3) 40%, transparent 100%)" }} />
                     </div>
                   )}
                   <div className="p-6">

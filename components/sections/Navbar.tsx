@@ -54,8 +54,14 @@ export default function Navbar() {
     <>
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "shadow-md border-b border-slate-100" : "border-b border-slate-100"
-        } bg-white`}
+          scrolled ? "shadow-[0_4px_24px_rgba(0,0,0,0.5)]" : ""
+        }`}
+        style={{
+          background: "rgba(7, 11, 26, 0.96)",
+          borderBottom: "1px solid rgba(80, 120, 255, 0.15)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-[68px]">
@@ -69,8 +75,8 @@ export default function Navbar() {
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="font-heading font-bold text-lg text-royal tracking-tight">CPSET</span>
-                <span className="font-heading font-medium text-[9px] text-cobalt/70 tracking-[0.18em] uppercase">
+                <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>CPSET</span>
+                <span className="font-heading font-medium text-[9px] tracking-[0.18em] uppercase" style={{ color: "#5A7AAA" }}>
                   Chandigarh University
                 </span>
               </div>
@@ -87,9 +93,12 @@ export default function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`px-3 py-2 text-sm font-medium transition-all duration-200 cursor-pointer relative ${
                       active
-                        ? "text-violet-700 font-semibold"
-                        : "text-slate-600 hover:text-violet-700"
+                        ? "font-semibold"
+                        : ""
                     }`}
+                    style={{ color: active ? "#FFFFFF" : "#8899CC" }}
+                    onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = "#C4D0FF"; }}
+                    onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = "#8899CC"; }}
                   >
                     {link.label}
                     {active && (
@@ -120,10 +129,13 @@ export default function Navbar() {
               {/* Mobile toggle */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
+                className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
+                style={{ color: "#B8BDD6" }}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)")}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = "transparent")}
                 aria-label="Toggle menu"
               >
-                {mobileOpen ? <X className="w-5 h-5 text-body" /> : <Menu className="w-5 h-5 text-body" />}
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -140,11 +152,17 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
           >
             <div
-              className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
-              className="absolute right-0 top-0 bottom-0 w-72 glass-strong pt-20 px-4"
+              className="absolute right-0 top-0 bottom-0 w-72 pt-20 px-4"
+              style={{
+                background: "rgba(8, 12, 35, 0.95)",
+                borderLeft: "1px solid rgba(80, 120, 255, 0.20)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+              }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -158,11 +176,12 @@ export default function Navbar() {
                       key={link.href}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-                        active
-                          ? "text-cobalt bg-cobalt/10 font-semibold"
-                          : "text-body/80 hover:text-cobalt hover:bg-slate-100"
-                      }`}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-all cursor-pointer`}
+                      style={{
+                        color: active ? "#FFFFFF" : "#8899CC",
+                        background: active ? "rgba(90, 138, 255, 0.12)" : "transparent",
+                        fontWeight: active ? 600 : 400,
+                      }}
                     >
                       {link.label}
                     </a>
@@ -171,7 +190,8 @@ export default function Navbar() {
                 <a
                   href="#connect"
                   onClick={(e) => handleNavClick(e, "#connect")}
-                  className="mt-3 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-cobalt to-violet"
+                  className="mt-3 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold text-white"
+                  style={{ background: "linear-gradient(135deg, #7c3aed, #5A6FE8)" }}
                 >
                   Become a Member <ExternalLink className="w-4 h-4" />
                 </a>

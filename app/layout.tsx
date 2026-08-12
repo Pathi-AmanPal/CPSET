@@ -53,8 +53,8 @@ export default function RootLayout({
           hideDefaultCursor={true}
           hoverDuration={0.2}
           parallaxOn={true}
-          cursorColor="#0047AB"
-          cursorColorOnTarget="#0047AB"
+          cursorColor="#5A8AFF"
+          cursorColorOnTarget="#9B7FFF"
         />
 
         {/* Ambient Vibrant Blue to Purple Gradient Background Mesh */}

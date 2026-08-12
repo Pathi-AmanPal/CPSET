@@ -59,8 +59,11 @@ export default function EventsTimeline() {
             initial="hidden"
             animate="visible"
           >
-            <div className="w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mx-auto mb-6">
-              <Sparkles className="w-8 h-8 text-violet/50" />
+            <div
+              className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+              style={{ background: "rgba(13,18,48,0.80)", border: "1px solid rgba(100,130,255,0.20)" }}
+            >
+              <Sparkles className="w-8 h-8 text-cobalt" />
             </div>
             <h3 className="font-heading text-xl font-semibold text-royal mb-2">
               First event drops soon
@@ -189,7 +192,10 @@ function EventCard({
 
             {accent && (
               <div className="mt-3">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-500/10 text-green-700 border border-green-500/20">
+                <span
+                  className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                  style={{ background: "rgba(34,197,94,0.12)", color: "#4ADE80", border: "1px solid rgba(34,197,94,0.25)" }}
+                >
                   Upcoming
                 </span>
               </div>
