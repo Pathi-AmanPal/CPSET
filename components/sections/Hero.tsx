@@ -6,6 +6,7 @@ import {
   ArrowDown,
   ExternalLink,
   Lock,
+  Shield,
   Cpu,
   Network,
   Lightbulb,
