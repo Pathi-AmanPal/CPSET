@@ -36,10 +36,10 @@ function getInitials(name: string) {
 
 const MENTOR: PolaroidConfig = {
   id: "mentor",
-  name: "Syed Irfan",
-  role: "Mentor & Patron",
+  name: "Dr. Syed Irfan",
+  role: "CPSET Coordinator",
   photo: "/images/team/syed.jpeg",
-  bio: "Directing cybersecurity research, privacy engineering, and mentoring CPSET's next-generation threat analysts and security engineers.",
+  bio: "Directing cybersecurity research, privacy engineering, and coordinating CPSET's next-generation threat analysts and security engineers.",
   quote: "Privacy isn't an afterthought — it is the core foundation of every emerging technology.",
   tapeColor: "#C98B2D",
   rotation: -1,
