@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import PremiumCursor from "@/components/ui/PremiumCursor";
+import TargetCursor from "@/components/ui/TargetCursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -62,8 +62,16 @@ export default function RootLayout({
       <body className="circuit-bg min-h-screen relative overflow-x-hidden"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}>
 
-        {/* Premium Apple-physics cursor */}
-        <PremiumCursor />
+        {/* Target locking cursor: steady shape when unhovered, locks onto buttons on hover */}
+        <TargetCursor
+          targetSelector='.cursor-target, button, a, input, select, textarea, [role="button"]'
+          spinDuration={0}
+          hideDefaultCursor={true}
+          hoverDuration={0.18}
+          parallaxOn={true}
+          cursorColor="#5A8AFF"
+          cursorColorOnTarget="#9B7FFF"
+        />
 
         {/* Ambient background mesh — deeper void colours */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">

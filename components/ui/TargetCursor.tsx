@@ -126,9 +126,11 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       if (spinTl.current) {
         spinTl.current.kill();
       }
-      spinTl.current = gsap
-        .timeline({ repeat: -1 })
-        .to(cursor, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+      if (spinDuration > 0) {
+        spinTl.current = gsap
+          .timeline({ repeat: -1 })
+          .to(cursor, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+      }
     };
 
     createSpinTimeline();
@@ -332,21 +334,25 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
         }
 
         resumeTimeout = setTimeout(() => {
-          if (!activeTarget && cursorRef.current && spinTl.current) {
-            const currentRotation = gsap.getProperty(cursorRef.current, 'rotation') as number;
-            const normalizedRotation = currentRotation % 360;
-            spinTl.current.kill();
-            spinTl.current = gsap
-              .timeline({ repeat: -1 })
-              .to(cursorRef.current, { rotation: '+=360', duration: spinDuration, ease: 'none' });
-            gsap.to(cursorRef.current, {
-              rotation: normalizedRotation + 360,
-              duration: spinDuration * (1 - normalizedRotation / 360),
-              ease: 'none',
-              onComplete: () => {
-                spinTl.current?.restart();
-              }
-            });
+          if (!activeTarget && cursorRef.current) {
+            if (spinDuration > 0) {
+              const currentRotation = gsap.getProperty(cursorRef.current, 'rotation') as number;
+              const normalizedRotation = currentRotation % 360;
+              spinTl.current?.kill();
+              spinTl.current = gsap
+                .timeline({ repeat: -1 })
+                .to(cursorRef.current, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+              gsap.to(cursorRef.current, {
+                rotation: normalizedRotation + 360,
+                duration: spinDuration * (1 - normalizedRotation / 360),
+                ease: 'none',
+                onComplete: () => {
+                  spinTl.current?.restart();
+                }
+              });
+            } else {
+              gsap.to(cursorRef.current, { rotation: 0, duration: 0.15 });
+            }
           }
           resumeTimeout = null;
         }, 50);
