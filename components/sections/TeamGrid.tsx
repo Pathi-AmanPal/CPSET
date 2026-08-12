@@ -12,14 +12,26 @@ interface PolaroidConfig {
   id: string;
   name: string;
   role: string;
-  photo: string;
+  department?: string;
+  photo?: string;
   bio: string;
-  quote: string;
+  quote?: string;
   tapeColor: string;
   rotation: number;
   badge: string;
   dossierNo: string;
   initialPos: { x: number; y: number };
+  teamMembers?: string[];
+}
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .filter(Boolean)
+    .join("")
+    .substring(0, 2)
+    .toUpperCase();
 }
 
 const MENTOR: PolaroidConfig = {
@@ -38,82 +50,123 @@ const MENTOR: PolaroidConfig = {
 
 const TEAM_MEMBERS: PolaroidConfig[] = [
   {
-    id: "m1",
+    id: "m-president",
     name: "Husanpreet Kaur",
     role: "President",
     photo: "/images/team/husanpreet-kaur.png",
-    bio: "Directing student research initiatives, privacy preservation frameworks, and core lab operations.",
+    bio: "Directing overall student leadership, strategic vision, research initiatives, and core lab operations.",
     quote: "We don't just study vulnerabilities — we architect privacy-first systems.",
     tapeColor: "#7C3AED",
-    rotation: -7,
-    badge: "PRESIDENT",
-    dossierNo: "CPSET-DOSSIER-02",
-    initialPos: { x: -310, y: -140 },
-  },
-  {
-    id: "m2",
-    name: "Manya Sharma",
-    role: "Vice President",
-    photo: "/images/team/manya-sharma.png",
-    bio: "Spearheading Zero-Knowledge Proof research and cryptographic protocol implementations.",
-    quote: "Mathematical proof is the ultimate truth in digital privacy.",
-    tapeColor: "#2563EB",
-    rotation: 8,
-    badge: "VICE PRES",
-    dossierNo: "CPSET-DOSSIER-03",
-    initialPos: { x: 310, y: -140 },
-  },
-  {
-    id: "m3",
-    name: "Pranav Chauhan",
-    role: "Red Team & CTF Captain",
-    photo: "/images/team/pranav-chauhan.png",
-    bio: "Kernel exploit developer & Red Teamer. Winner of national Capture The Flag cybersecurity competitions.",
-    quote: "To defend a system, you must think like an adversary.",
-    tapeColor: "#DC2626",
-    rotation: 5,
-    badge: "RED TEAM",
-    dossierNo: "CPSET-DOSSIER-04",
-    initialPos: { x: -320, y: 130 },
-  },
-  {
-    id: "m4",
-    name: "Yamiki Chaturvedi",
-    role: "AI & ML Security Lead",
-    photo: "/images/team/yamiki-chaturvedi.jpeg",
-    bio: "Investigating Adversarial AI attacks, prompt injection vectors, and Privacy-Preserving Machine Learning.",
-    quote: "As AI advances, securing intelligence itself becomes our greatest challenge.",
-    tapeColor: "#0891B2",
-    rotation: -10,
-    badge: "AI LEAD",
-    dossierNo: "CPSET-DOSSIER-05",
-    initialPos: { x: 320, y: 130 },
-  },
-  {
-    id: "m5",
-    name: "Dilpreet Kaur",
-    role: "Cloud & DevSecOps",
-    photo: "/images/team/dilpreet-kaur.jpeg",
-    bio: "Architecting automated threat detection pipelines, Kubernetes security policies, and DevSecOps frameworks.",
-    quote: "Automation without continuous security is just automated risk.",
-    tapeColor: "#059669",
-    rotation: 11,
-    badge: "CLOUD SEC",
-    dossierNo: "CPSET-DOSSIER-06",
-    initialPos: { x: -160, y: 290 },
-  },
-  {
-    id: "m6",
-    name: "Shaan XD",
-    role: "Network Security & Forensics",
-    photo: "/images/team/shaan-xd.jpg",
-    bio: "Specializing in deep packet inspection, incident response, and memory forensics for enterprise systems.",
-    quote: "Every digital action leaves a trace behind.",
-    tapeColor: "#9333EA",
     rotation: -6,
-    badge: "FORENSICS",
+    badge: "PRESIDENT",
+    dossierNo: "CPSET-DOSSIER-01",
+    initialPos: { x: -330, y: -170 },
+  },
+  {
+    id: "m-webmaster",
+    name: "Pathi Aman Pal",
+    role: "Web Master Lead",
+    photo: "",
+    bio: "Leading full-stack web architecture, system infrastructure, and interactive digital interfaces for CPSET platforms.",
+    tapeColor: "#3B82F6",
+    rotation: 5,
+    badge: "WEB MASTER",
+    dossierNo: "CPSET-DOSSIER-02",
+    initialPos: { x: 0, y: -190 },
+    teamMembers: ["Pullagura Mahan Shashank Yadav", "Rahul Jaluthria", "Pankaj Saini"],
+  },
+  {
+    id: "m-social",
+    name: "Manya Sharma",
+    role: "Social Media Lead",
+    photo: "/images/team/manya-sharma.png",
+    bio: "Directing digital outreach, community engagement, brand identity, and social media presence.",
+    quote: "Connecting the cybersecurity community through clear, powerful digital narratives.",
+    tapeColor: "#EC4899",
+    rotation: 7,
+    badge: "SOCIAL MEDIA",
+    dossierNo: "CPSET-DOSSIER-03",
+    initialPos: { x: 330, y: -170 },
+    teamMembers: ["Harshit Narang", "Shaan", "Rahul Jaluthria"],
+  },
+  {
+    id: "m-technical",
+    name: "Harish Soni",
+    role: "Technical Lead",
+    photo: "",
+    bio: "Directing technical operations, exploit analysis, vulnerability research, and Capture The Flag competitions.",
+    tapeColor: "#DC2626",
+    rotation: -8,
+    badge: "TECHNICAL",
+    dossierNo: "CPSET-DOSSIER-04",
+    initialPos: { x: -350, y: 15 },
+    teamMembers: ["Pankaj Saini", "Nayan Jain"],
+  },
+  {
+    id: "m-discipline",
+    name: "Yuvi Booti",
+    role: "Discipline Lead",
+    photo: "",
+    bio: "Ensuring operational standards, event discipline, ethical protocols, and organizational coordination.",
+    tapeColor: "#0891B2",
+    rotation: 8,
+    badge: "DISCIPLINE",
+    dossierNo: "CPSET-DOSSIER-05",
+    initialPos: { x: 350, y: 15 },
+    teamMembers: ["Arshdeep Singh", "Yamiki Chaturvedi", "Aditya Jha"],
+  },
+  {
+    id: "m-management",
+    name: "Ridhima Gulati",
+    role: "Management Lead",
+    photo: "",
+    bio: "Managing event logistics, organizational planning, cross-functional coordination, and core workflows.",
+    tapeColor: "#F59E0B",
+    rotation: -5,
+    badge: "MANAGEMENT",
+    dossierNo: "CPSET-DOSSIER-06",
+    initialPos: { x: -340, y: 200 },
+    teamMembers: ["Jeavi", "Pranav Chauhan", "Jashanpreet Kaur"],
+  },
+  {
+    id: "m-content",
+    name: "Dilpreet Kaur",
+    role: "Content Writing Lead",
+    photo: "/images/team/dilpreet-kaur.jpeg",
+    bio: "Overseeing technical documentation, cybersecurity articles, research publications, and official communications.",
+    quote: "Precision in words is as crucial as precision in code.",
+    tapeColor: "#059669",
+    rotation: 9,
+    badge: "CONTENT",
     dossierNo: "CPSET-DOSSIER-07",
-    initialPos: { x: 160, y: 290 },
+    initialPos: { x: -115, y: 200 },
+    teamMembers: ["Shaan"],
+  },
+  {
+    id: "m-sponsorship",
+    name: "Gopal Thakur",
+    role: "Sponsorship Lead",
+    photo: "",
+    bio: "Managing industry partnerships, corporate sponsorships, vendor relations, and resource acquisition.",
+    tapeColor: "#10B981",
+    rotation: -7,
+    badge: "SPONSORSHIP",
+    dossierNo: "CPSET-DOSSIER-08",
+    initialPos: { x: 115, y: 200 },
+    teamMembers: ["Sukhwinder Singh", "Gagandeep Kaur"],
+  },
+  {
+    id: "m-anchoring",
+    name: "Prince Khatana",
+    role: "Anchoring Lead",
+    photo: "",
+    bio: "Leading event hosting, keynote introductions, stage announcements, and public presentation.",
+    tapeColor: "#8B5CF6",
+    rotation: 6,
+    badge: "ANCHORING",
+    dossierNo: "CPSET-DOSSIER-09",
+    initialPos: { x: 340, y: 200 },
+    teamMembers: ["Sumit Chauhan", "Ansh Rana", "Yamiki Chaturvedi"],
   },
 ];
 
@@ -134,6 +187,7 @@ function PolaroidCard({
   const [pos, setPos] = useState(config.initialPos);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const dragStartRef = useRef({ x: 0, y: 0 });
   const posStartRef = useRef({ x: 0, y: 0 });
@@ -251,27 +305,37 @@ function PolaroidCard({
           style={{
             position: "relative",
             aspectRatio: isMentor ? "4/4.5" : "4/4",
-            background: "#1a1a2e",
+            background: "#0d1326",
             overflow: "hidden",
             borderRadius: "1px",
           }}
         >
-          <Image
-            src={config.photo}
-            alt={config.name}
-            fill
-            className="object-cover object-top"
-            unoptimized
-            draggable={false}
-            style={{ filter: "contrast(1.04) saturate(1.05)" }}
-          />
+          {config.photo && !imgError ? (
+            <Image
+              src={config.photo}
+              alt={config.name}
+              fill
+              className="object-cover object-top"
+              unoptimized
+              draggable={false}
+              onError={() => setImgError(true)}
+              style={{ filter: "contrast(1.04) saturate(1.05)" }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex flex-col items-center justify-center p-2 text-center select-none">
+              <div className="w-11 h-11 rounded-full bg-indigo-500/20 border border-indigo-400/35 flex items-center justify-center text-indigo-300 font-mono font-bold text-sm mb-1 shadow-inner">
+                {getInitials(config.name)}
+              </div>
+              <span className="font-mono text-[8px] text-indigo-300/60 uppercase tracking-widest">CPSET LEAD</span>
+            </div>
+          )}
           {/* Badge chip (top-right) */}
           <span
             style={{
               position: "absolute",
               top: "6px",
               right: "6px",
-              background: "rgba(0,0,0,0.82)",
+              background: "rgba(0,0,0,0.85)",
               color: "#fbbf24",
               fontFamily: "monospace",
               fontSize: "8px",
@@ -279,6 +343,7 @@ function PolaroidCard({
               letterSpacing: "0.08em",
               padding: "2px 6px",
               borderRadius: "2px",
+              zIndex: 10,
             }}
           >
             {config.badge}
@@ -443,9 +508,37 @@ function DossierModal({ config, onClose }: { config: PolaroidConfig | null; onCl
             )}
 
             {/* Bio */}
-            <p style={{ fontSize: "13px", lineHeight: 1.65, color: "#57534e", marginBottom: "20px" }}>
+            <p style={{ fontSize: "13px", lineHeight: 1.65, color: "#57534e", marginBottom: "16px" }}>
               {config.bio}
             </p>
+
+            {/* Department Team Members */}
+            {config.teamMembers && config.teamMembers.length > 0 && (
+              <div style={{ marginBottom: "20px", paddingTop: "12px", borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+                <span style={{ fontFamily: "monospace", fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em", color: "#78716c", textTransform: "uppercase", display: "block", marginBottom: "8px" }}>
+                  DEPARTMENT OPERATORS ({config.teamMembers.length})
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {config.teamMembers.map((m, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "10.5px",
+                        background: "rgba(0,0,0,0.05)",
+                        border: "1px solid rgba(0,0,0,0.1)",
+                        padding: "3px 9px",
+                        borderRadius: "3px",
+                        color: "#44403c",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Footer */}
             <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "monospace", fontSize: "9px", color: "#a8a29e", letterSpacing: "0.1em", borderTop: "1px solid rgba(0,0,0,0.07)", paddingTop: "12px" }}>
