@@ -45,7 +45,7 @@ const MENTOR: PolaroidConfig = {
   rotation: -1,
   badge: "MENTOR",
   dossierNo: "CPSET-SUBJECT-01",
-  initialPos: { x: 0, y: 0 },
+  initialPos: { x: 0, y: -10 },
 };
 
 const TEAM_MEMBERS: PolaroidConfig[] = [
@@ -60,7 +60,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -6,
     badge: "PRESIDENT",
     dossierNo: "CPSET-DOSSIER-01",
-    initialPos: { x: -330, y: -170 },
+    initialPos: { x: -360, y: -230 },
   },
   {
     id: "m-webmaster",
@@ -72,8 +72,21 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 5,
     badge: "WEB MASTER",
     dossierNo: "CPSET-DOSSIER-02",
-    initialPos: { x: 0, y: -190 },
+    initialPos: { x: -120, y: -240 },
     teamMembers: ["Pullagura Mahan Shashank Yadav", "Rahul Jaluthria", "Pankaj Saini"],
+  },
+  {
+    id: "m-technical",
+    name: "Harish Soni",
+    role: "Technical Lead",
+    photo: "",
+    bio: "Directing technical operations, exploit analysis, vulnerability research, and Capture The Flag competitions.",
+    tapeColor: "#DC2626",
+    rotation: -4,
+    badge: "TECHNICAL",
+    dossierNo: "CPSET-DOSSIER-03",
+    initialPos: { x: 120, y: -240 },
+    teamMembers: ["Pankaj Saini", "Nayan Jain"],
   },
   {
     id: "m-social",
@@ -85,22 +98,9 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     tapeColor: "#EC4899",
     rotation: 7,
     badge: "SOCIAL MEDIA",
-    dossierNo: "CPSET-DOSSIER-03",
-    initialPos: { x: 330, y: -170 },
-    teamMembers: ["Harshit Narang", "Shaan", "Rahul Jaluthria"],
-  },
-  {
-    id: "m-technical",
-    name: "Harish Soni",
-    role: "Technical Lead",
-    photo: "",
-    bio: "Directing technical operations, exploit analysis, vulnerability research, and Capture The Flag competitions.",
-    tapeColor: "#DC2626",
-    rotation: -8,
-    badge: "TECHNICAL",
     dossierNo: "CPSET-DOSSIER-04",
-    initialPos: { x: -350, y: 15 },
-    teamMembers: ["Pankaj Saini", "Nayan Jain"],
+    initialPos: { x: 360, y: -230 },
+    teamMembers: ["Harshit Narang", "Shaan", "Rahul Jaluthria"],
   },
   {
     id: "m-discipline",
@@ -109,10 +109,10 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     photo: "",
     bio: "Ensuring operational standards, event discipline, ethical protocols, and organizational coordination.",
     tapeColor: "#0891B2",
-    rotation: 8,
+    rotation: -7,
     badge: "DISCIPLINE",
     dossierNo: "CPSET-DOSSIER-05",
-    initialPos: { x: 350, y: 15 },
+    initialPos: { x: -380, y: 0 },
     teamMembers: ["Arshdeep Singh", "Yamiki Chaturvedi", "Aditya Jha"],
   },
   {
@@ -122,10 +122,10 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     photo: "",
     bio: "Managing event logistics, organizational planning, cross-functional coordination, and core workflows.",
     tapeColor: "#F59E0B",
-    rotation: -5,
+    rotation: 6,
     badge: "MANAGEMENT",
     dossierNo: "CPSET-DOSSIER-06",
-    initialPos: { x: -340, y: 200 },
+    initialPos: { x: 380, y: 0 },
     teamMembers: ["Jeavi", "Pranav Chauhan", "Jashanpreet Kaur"],
   },
   {
@@ -136,10 +136,10 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     bio: "Overseeing technical documentation, cybersecurity articles, research publications, and official communications.",
     quote: "Precision in words is as crucial as precision in code.",
     tapeColor: "#059669",
-    rotation: 9,
+    rotation: -5,
     badge: "CONTENT",
     dossierNo: "CPSET-DOSSIER-07",
-    initialPos: { x: -115, y: 200 },
+    initialPos: { x: -360, y: 230 },
     teamMembers: ["Shaan"],
   },
   {
@@ -149,10 +149,10 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     photo: "",
     bio: "Managing industry partnerships, corporate sponsorships, vendor relations, and resource acquisition.",
     tapeColor: "#10B981",
-    rotation: -7,
+    rotation: 4,
     badge: "SPONSORSHIP",
     dossierNo: "CPSET-DOSSIER-08",
-    initialPos: { x: 115, y: 200 },
+    initialPos: { x: -120, y: 240 },
     teamMembers: ["Sukhwinder Singh", "Gagandeep Kaur"],
   },
   {
@@ -165,7 +165,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 6,
     badge: "ANCHORING",
     dossierNo: "CPSET-DOSSIER-09",
-    initialPos: { x: 340, y: 200 },
+    initialPos: { x: 120, y: 240 },
     teamMembers: ["Sumit Chauhan", "Ansh Rana", "Yamiki Chaturvedi"],
   },
 ];
@@ -233,9 +233,9 @@ function PolaroidCard({
     if (!hasMovedRef.current) onClick(config);
   };
 
-  const w = isMentor ? 210 : 165;
+  const w = isMentor ? 155 : 120;
   const marginL = -(w / 2);
-  const marginT = isMentor ? -120 : -95;
+  const marginT = isMentor ? -88 : -68;
 
   return (
     <div
@@ -273,7 +273,7 @@ function PolaroidCard({
       <div
         style={{
           background: "#F9F7F4",
-          padding: isMentor ? "10px 10px 18px" : "8px 8px 14px",
+          padding: isMentor ? "7px 7px 12px" : "6px 6px 10px",
           borderRadius: "2px",
           border: "1px solid rgba(0,0,0,0.08)",
           position: "relative",
@@ -284,15 +284,15 @@ function PolaroidCard({
         <div
           style={{
             position: "absolute",
-            top: "-10px",
+            top: "-8px",
             left: "50%",
             transform: "translateX(-50%)",
-            width: isMentor ? "56px" : "48px",
-            height: "20px",
-            borderRadius: "10px",
+            width: isMentor ? "42px" : "36px",
+            height: "16px",
+            borderRadius: "8px",
             background: "linear-gradient(180deg, rgba(17, 78, 96, 0.95) 0%, rgba(60, 160, 181, 0.9) 55%, rgba(139, 216, 232, 0.95) 100%)",
             border: "1px solid rgba(255, 255, 255, 0.45)",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
             backdropFilter: "blur(6px)",
             WebkitBackdropFilter: "blur(6px)",
             zIndex: 15,
@@ -657,7 +657,7 @@ export default function TeamGrid() {
           {/* Canvas */}
           <div
             className="relative z-10"
-            style={{ minHeight: "780px", touchAction: "none" }}
+            style={{ minHeight: "880px", touchAction: "none" }}
           >
           {/* Mentor card */}
           <PolaroidCard
