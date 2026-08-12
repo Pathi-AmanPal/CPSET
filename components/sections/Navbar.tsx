@@ -65,15 +65,22 @@ export default function Navbar() {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-[68px]">
-            {/* Logo with institution subtitle */}
+          <div className="flex items-center h-16 md:h-[68px]">
+
+            {/* ── Left: Logo + CPSET ── */}
             <a
               href="#hero"
               onClick={(e) => handleNavClick(e, "#hero")}
-              className="flex items-center gap-2.5 group cursor-pointer"
+              className="flex items-center gap-2.5 group cursor-pointer shrink-0"
             >
-              {/* CPSET Logo image */}
-              <div className="relative w-11 h-11 shrink-0 group-hover:scale-105 transition-transform duration-200">
+              {/* Glow ring + logo image */}
+              <div
+                className="relative w-11 h-11 shrink-0 group-hover:scale-105 transition-transform duration-200 rounded-full"
+                style={{
+                  background: "radial-gradient(circle, rgba(90,138,255,0.30) 0%, rgba(130,80,255,0.18) 50%, transparent 75%)",
+                  boxShadow: "0 0 16px rgba(90,138,255,0.35), 0 0 6px rgba(130,80,255,0.25)",
+                }}
+              >
                 <Image
                   src="/logo.png"
                   alt="CPSET Logo"
@@ -82,16 +89,11 @@ export default function Navbar() {
                   priority
                 />
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>CPSET</span>
-                <span className="font-heading font-medium text-[9px] tracking-[0.18em] uppercase" style={{ color: "#5A7AAA" }}>
-                  Chandigarh University
-                </span>
-              </div>
+              <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>CPSET</span>
             </a>
 
-            {/* Desktop nav */}
-            <div className="hidden lg:flex items-center gap-0.5">
+            {/* ── Center: Nav links (absolutely centered) ── */}
+            <div className="hidden lg:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
               {links.map((link) => {
                 const active = activeSection === link.href;
                 return (
@@ -100,9 +102,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`px-3 py-2 text-sm font-medium transition-all duration-200 cursor-pointer relative ${
-                      active
-                        ? "font-semibold"
-                        : ""
+                      active ? "font-semibold" : ""
                     }`}
                     style={{ color: active ? "#FFFFFF" : "#8899CC" }}
                     onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = "#C4D0FF"; }}
@@ -121,9 +121,8 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* Navbar CTA + Mobile toggle */}
-            <div className="flex items-center gap-3">
-              {/* Become a Member button — desktop only */}
+            {/* ── Right: CTA + Mobile toggle ── */}
+            <div className="flex items-center gap-3 ml-auto">
               <a
                 href="#connect"
                 onClick={(e) => handleNavClick(e, "#connect")}
@@ -146,6 +145,7 @@ export default function Navbar() {
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
+
           </div>
         </div>
       </motion.nav>

@@ -6,7 +6,6 @@ import {
   ArrowDown,
   ExternalLink,
   Lock,
-  Shield,
   Cpu,
   Network,
   Lightbulb,
@@ -17,6 +16,7 @@ import {
   Trophy,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const leftCards = [
   {
@@ -173,31 +173,28 @@ export default function Hero() {
       {/* ── Center overlay content (on top of globe) ── */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-20 pb-24">
 
-        {/* Shield icon above label */}
+        {/* CPSET Logo above headline */}
         <motion.div
-          className="mb-3 p-3 rounded-2xl backdrop-blur-sm"
-          style={{
-            background: "rgba(100, 130, 255, 0.10)",
-            border: "1px solid rgba(120, 160, 255, 0.30)",
-            boxShadow: "0 0 20px rgba(100, 140, 255, 0.20)",
-          }}
+          className="mb-5 relative"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Shield className="w-6 h-6" style={{ color: "#90B4FF" }} strokeWidth={1.5} />
+          <div
+            className="relative w-24 h-24 mx-auto"
+            style={{
+              filter: "drop-shadow(0 0 18px rgba(90,138,255,0.50)) drop-shadow(0 0 8px rgba(130,80,255,0.35))",
+            }}
+          >
+            <Image
+              src="/logo.png"
+              alt="CPSET Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </motion.div>
-
-        {/* Institution label */}
-        <motion.p
-          className="font-semibold text-xs uppercase tracking-[0.3em] mb-5"
-          style={{ color: "#7A9ACC" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          Chandigarh University
-        </motion.p>
 
         {/* Headline — white to lavender gradient */}
         <motion.h1
