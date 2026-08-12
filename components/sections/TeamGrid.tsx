@@ -215,36 +215,6 @@ function PolaroidCard({
       }}
       className="select-none"
     >
-      {/* Push pin */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-14px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 10,
-          pointerEvents: "none",
-        }}
-      >
-        <div
-          style={{
-            width: "22px",
-            height: "22px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle at 38% 35%, #fde68a, #d97706 60%, #92400e)",
-            border: "2px solid #78350f",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.3)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "rgba(0,0,0,0.4)" }} />
-        </div>
-        {/* Pin drop shadow on board */}
-        <div style={{ position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)", width: "6px", height: "10px", background: "rgba(0,0,0,0.5)", filter: "blur(2px)", borderRadius: "50%" }} />
-      </div>
-
       {/* Polaroid frame */}
       <div
         style={{
@@ -256,21 +226,23 @@ function PolaroidCard({
           overflow: "visible",
         }}
       >
-        {/* Washi tape strip */}
+        {/* Glassmorphic Sticker (Teal/Cyan gradient pill) */}
         <div
           style={{
             position: "absolute",
             top: "-10px",
             left: "50%",
-            width: "50px",
-            height: "18px",
-            marginLeft: "-25px",
-            background: config.tapeColor,
-            opacity: 0.82,
-            borderRadius: "1px",
-            clipPath: "polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%)",
-            transform: "rotate(-1.5deg)",
-            zIndex: 5,
+            transform: "translateX(-50%)",
+            width: isMentor ? "56px" : "48px",
+            height: "20px",
+            borderRadius: "10px",
+            background: "linear-gradient(180deg, rgba(17, 78, 96, 0.95) 0%, rgba(60, 160, 181, 0.9) 55%, rgba(139, 216, 232, 0.95) 100%)",
+            border: "1px solid rgba(255, 255, 255, 0.45)",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            zIndex: 15,
+            pointerEvents: "none",
           }}
         />
 
@@ -396,19 +368,21 @@ function DossierModal({ config, onClose }: { config: PolaroidConfig | null; onCl
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Tape decoration on modal */}
+            {/* Glassmorphic Sticker on modal */}
             <div
               style={{
                 position: "absolute",
                 top: "-10px",
                 left: "50%",
-                transform: "translateX(-50%) rotate(-2deg)",
-                width: "60px",
+                transform: "translateX(-50%)",
+                width: "56px",
                 height: "20px",
-                background: config.tapeColor,
-                opacity: 0.75,
-                borderRadius: "1px",
-                clipPath: "polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%)",
+                borderRadius: "10px",
+                background: "linear-gradient(180deg, rgba(17, 78, 96, 0.95) 0%, rgba(60, 160, 181, 0.9) 55%, rgba(139, 216, 232, 0.95) 100%)",
+                border: "1px solid rgba(255, 255, 255, 0.45)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
+                backdropFilter: "blur(6px)",
+                WebkitBackdropFilter: "blur(6px)",
               }}
             />
 
