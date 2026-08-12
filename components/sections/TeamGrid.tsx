@@ -600,6 +600,7 @@ export default function TeamGrid() {
           </div>
         </div>
       </div>
+    </div>
 
       {/* Dossier modal */}
       <DossierModal config={selected} onClose={() => setSelected(null)} />
