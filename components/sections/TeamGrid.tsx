@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchTeam } from "@/lib/fetchers";
-import type { TeamMember } from "@/lib/types";
 import {
   Shield,
   RotateCcw,
@@ -12,8 +11,6 @@ import {
   FileText,
   Sparkles,
   Pin,
-  ExternalLink,
-  Award,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -28,11 +25,11 @@ interface BoardPerson {
   tag?: string;
   handwrittenTag?: string;
   quote?: string;
-  initialOffset: { x: number; y: number }; // Offset relative to center on desktop
-  rotation: number; // Polaroid tilt degrees (-12 to 12)
+  initialOffset: { x: number; y: number }; // Desktop offset relative to board center
+  rotation: number; // Polaroid rotation tilt degrees (-12 to 12)
 }
 
-// ── Master Roster Default Data ──
+// ── Master Roster Data ──
 const MENTOR_DATA: BoardPerson = {
   id: "mentor-syed-irfan",
   name: "Syed Irfan",
@@ -43,7 +40,7 @@ const MENTOR_DATA: BoardPerson = {
   bio: "Directing cybersecurity research, privacy engineering, and mentoring CPSET's next-generation threat analysts and security engineers.",
   quote: "Privacy isn't an afterthought — it is the core foundation of every emerging technology.",
   photoUrl: "/images/team/syed-irfan.jpg",
-  initialOffset: { x: 0, y: -20 },
+  initialOffset: { x: 0, y: -15 },
   rotation: 0,
 };
 
@@ -58,7 +55,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Directing student research initiatives, privacy preservation frameworks, and core lab operations.",
     quote: "We don't just study vulnerabilities — we architect privacy-first systems.",
     photoUrl: "/images/team/A0DDFE75-4454-4F88-B8F9-C16A60AC1585 - Husanpreet Kaur.png",
-    initialOffset: { x: -330, y: -150 },
+    initialOffset: { x: -310, y: -140 },
     rotation: -7,
   },
   {
@@ -71,7 +68,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Spearheading Zero-Knowledge Proof research and cryptographic protocol implementations.",
     quote: "Mathematical proof is the ultimate truth in digital privacy.",
     photoUrl: "/images/team/file_00000000800871f89b49b72c1688555a - Manya Sharma.png",
-    initialOffset: { x: 330, y: -150 },
+    initialOffset: { x: 310, y: -140 },
     rotation: 8,
   },
   {
@@ -84,7 +81,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Kernel exploit developer & Red Teamer. Winner of national Capture The Flag cybersecurity competitions.",
     quote: "To defend a system, you must think like an adversary.",
     photoUrl: "/images/team/Pranav Chauhan - Pranav Chauhan.png",
-    initialOffset: { x: -370, y: 70 },
+    initialOffset: { x: -340, y: 70 },
     rotation: 5,
   },
   {
@@ -97,7 +94,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Investigating Adversarial AI attacks, prompt injection vectors, and Privacy-Preserving Machine Learning models.",
     quote: "As AI advances, securing intelligence itself becomes our greatest challenge.",
     photoUrl: "/images/team/yamiki photo - Yamiki Chaturvedi.jpeg",
-    initialOffset: { x: 370, y: 70 },
+    initialOffset: { x: 340, y: 70 },
     rotation: -10,
   },
   {
@@ -110,7 +107,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Architecting automated threat detection pipelines, Kubernetes security policies, and DevSecOps frameworks.",
     quote: "Automation without continuous security is just automated risk.",
     photoUrl: "/images/team/IMG_6502 - Dilpreetkaur.jpeg",
-    initialOffset: { x: -220, y: 250 },
+    initialOffset: { x: -210, y: 240 },
     rotation: 11,
   },
   {
@@ -123,7 +120,7 @@ const DEFAULT_TEAM: BoardPerson[] = [
     bio: "Specializing in deep packet inspection, incident response, and memory forensics for enterprise systems.",
     quote: "Every digital action leaves a trace behind.",
     photoUrl: "/images/team/pho - Shaan XD.jpg",
-    initialOffset: { x: 220, y: 250 },
+    initialOffset: { x: 210, y: 240 },
     rotation: -6,
   },
 ];
@@ -139,7 +136,7 @@ export default function TeamGrid() {
 
   const [stringPaths, setStringPaths] = useState<{ id: string; d: string }[]>([]);
 
-  // Fetch real team members if API has entries
+  // Merge API members if fetched
   useEffect(() => {
     fetchTeam()
       .then((apiMembers) => {
@@ -162,12 +159,10 @@ export default function TeamGrid() {
           setTeamMembers(merged);
         }
       })
-      .catch(() => {
-        // Keep default team on error
-      });
+      .catch(() => {});
   }, []);
 
-  // Recalculate dynamic SVG strings between Mentor pin and member pins
+  // Recalculate dynamic SVG strings between Mentor pin and team member pins
   const updateStrings = useCallback(() => {
     if (!boardRef.current || !mentorPinRef.current) return;
 
@@ -187,7 +182,7 @@ export default function TeamGrid() {
       const pX = pRect.left + pRect.width / 2 - boardRect.left;
       const pY = pRect.top + pRect.height / 2 - boardRect.top;
 
-      // Quadratic Bezier droop curve (gravity sag)
+      // Quadratic Bezier curve (gravity sag)
       const dx = pX - mX;
       const dy = pY - mY;
       const dist = Math.hypot(dx, dy);
@@ -205,7 +200,7 @@ export default function TeamGrid() {
     setStringPaths(newPaths);
   }, [teamMembers]);
 
-  // RequestAnimationFrame loop on drag & window resize
+  // RequestAnimationFrame animation loop
   useEffect(() => {
     let animId: number;
 
@@ -231,11 +226,11 @@ export default function TeamGrid() {
 
   return (
     <main className="pt-24 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ── Case Board Section Header ── */}
+      {/* ── Section Header ── */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-400 text-xs font-typewriter tracking-widest uppercase mb-4 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
           <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-          CPSET CASE BOARD &bull; DOSSIER NO. 2026-X
+          CPSET NETWORK &bull; INVESTIGATION BOARD
         </div>
         <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-royal tracking-tight mb-3">
           Meet the Team
@@ -252,7 +247,7 @@ export default function TeamGrid() {
         <div className="flex items-center gap-2 text-xs text-body/60 font-typewriter">
           <Info className="w-4 h-4 text-violet-400 shrink-0" />
           <span className="hidden sm:inline">
-            Interactive Investigation Wall &bull; Drag polaroids to reposition
+            Interactive Investigation Board &bull; Drag polaroid cards to reposition
           </span>
           <span className="sm:hidden">Drag polaroids to explore</span>
         </div>
@@ -262,41 +257,31 @@ export default function TeamGrid() {
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-violet-950/60 border border-violet-500/30 text-violet-300 text-xs font-medium hover:bg-violet-900/70 hover:border-violet-400/50 transition-all shadow-md active:scale-95 cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          Reset Pins
+          Reset Board
         </button>
       </div>
 
-      {/* ── MASTER CASE BOARD CONTAINER (Wood Frame + Cork + Purple Light Flash) ── */}
-      <div className="relative wood-frame-outer rounded-3xl overflow-hidden wood-frame-border">
-        {/* Photorealistic Wood Frame Corner Accents / Brass Plates */}
-        <div className="absolute top-2 left-2 z-30 w-6 h-6 border-t-2 border-l-2 border-amber-600/60 rounded-tl-sm pointer-events-none" />
-        <div className="absolute top-2 right-2 z-30 w-6 h-6 border-t-2 border-r-2 border-purple-400/70 rounded-tr-sm pointer-events-none" />
-        <div className="absolute bottom-2 left-2 z-30 w-6 h-6 border-b-2 border-l-2 border-amber-600/60 rounded-bl-sm pointer-events-none" />
-        <div className="absolute bottom-2 right-2 z-30 w-6 h-6 border-b-2 border-r-2 border-purple-400/70 rounded-br-sm pointer-events-none" />
+      {/* ── MASTER CASE BOARD CONTAINER (CUSTOM BACKGROUND IMAGE) ── */}
+      <div className="relative rounded-3xl overflow-hidden border border-purple-500/30 shadow-2xl shadow-purple-950/50">
 
-        {/* CORKBOARD CANVAS BOARD */}
+        {/* ── BACKGROUND IMAGE LAYER ── */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/case-board-bg.png"
+            alt="CPSET Case Board Background"
+            fill
+            className="object-cover object-center"
+            priority
+          />
+          {/* Subtle Ambient Vignette Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30 pointer-events-none" />
+        </div>
+
+        {/* ── CORKBOARD CANVAS OVERLAY ── */}
         <div
           ref={boardRef}
-          className="relative corkboard-texture min-h-[780px] md:min-h-[840px] w-full p-4 sm:p-8 flex items-center justify-center overflow-hidden select-none purple-right-edge-glow"
+          className="relative min-h-[750px] md:min-h-[820px] w-full p-4 sm:p-8 flex items-center justify-center overflow-hidden select-none z-10"
         >
-          {/* ── PURPLE LIGHT FLASH OVERLAY (FLICKER / BEAM FROM RIGHT SIDE) ── */}
-          <div className="purple-flash-overlay absolute inset-0 z-10" />
-
-          {/* Glowing Purple Spotlight Source Artifact on Right Side */}
-          <div className="absolute right-0 top-1/4 w-[420px] h-[520px] bg-gradient-to-l from-fuchsia-600/35 via-violet-600/20 to-transparent rounded-full blur-[70px] pointer-events-none z-10" />
-          <div className="absolute right-4 top-8 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/40 text-[10px] font-typewriter text-purple-300 shadow-[0_0_20px_rgba(192,38,211,0.4)] pointer-events-none">
-            <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
-            PURPLE LIGHT SCANNER &bull; ACTIVE
-          </div>
-
-          {/* Background Confidential Stamp Watermark */}
-          <div className="absolute top-12 left-10 text-white/5 font-typewriter text-4xl sm:text-6xl font-bold uppercase tracking-[0.2em] -rotate-12 pointer-events-none z-0">
-            CPSET CONFIDENTIAL
-          </div>
-          <div className="absolute bottom-12 right-16 text-purple-500/10 font-handwriting text-5xl sm:text-7xl font-bold -rotate-6 pointer-events-none z-0">
-            Case File #2026
-          </div>
-
           {/* ── DYNAMIC LIVE SVG STRINGS NETWORK OVERLAY ── */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             <defs>
@@ -311,9 +296,9 @@ export default function TeamGrid() {
 
               {/* Purple Thread Gradient */}
               <linearGradient id="purpleThread" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#C026D3" />
-                <stop offset="50%" stopColor="#9333EA" />
-                <stop offset="100%" stopColor="#A855F7" />
+                <stop offset="0%" stopColor="#E024C3" />
+                <stop offset="50%" stopColor="#A855F7" />
+                <stop offset="100%" stopColor="#3B82F6" />
               </linearGradient>
             </defs>
 
@@ -323,7 +308,7 @@ export default function TeamGrid() {
                 <path
                   d={d}
                   fill="none"
-                  stroke="rgba(192, 38, 211, 0.45)"
+                  stroke="rgba(192, 38, 211, 0.5)"
                   strokeWidth="6"
                   strokeLinecap="round"
                   filter="url(#stringGlow)"
@@ -334,7 +319,6 @@ export default function TeamGrid() {
                   fill="none"
                   stroke="url(#purpleThread)"
                   strokeWidth="2.5"
-                  strokeDasharray="none"
                   strokeLinecap="round"
                 />
               </g>
@@ -359,12 +343,11 @@ export default function TeamGrid() {
                 className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 w-7 h-7 rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 border border-amber-800 shadow-[0_4px_10px_rgba(0,0,0,0.8)] flex items-center justify-center group"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-900/60 inset-0 m-auto" />
-                {/* Pin Shadow */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 w-1.5 h-3 bg-amber-950/80 blur-[1px]" />
               </div>
 
-              {/* Polaroid Frame (1.4x Mentor Scale) */}
-              <div className="w-[220px] sm:w-[250px] bg-[#FAF7F2] p-3.5 pb-6 rounded-sm polaroid-card-shadow border border-amber-100/60 relative group transition-shadow duration-300 hover:polaroid-card-shadow-lifted">
+              {/* Polaroid Frame (1.35x Mentor Scale) */}
+              <div className="w-[210px] sm:w-[235px] bg-[#FAF7F2] p-3 pb-5 rounded-sm polaroid-card-shadow border border-amber-100/60 relative group transition-shadow duration-300 hover:polaroid-card-shadow-lifted">
                 {/* Adhesive Tape Corner Accent */}
                 <div className="absolute -top-2.5 -right-3 w-12 h-5 bg-amber-100/60 backdrop-blur-xs border border-amber-200/40 rotate-12 shadow-xs pointer-events-none" />
 
@@ -383,17 +366,17 @@ export default function TeamGrid() {
 
                 {/* Polaroid Tag Info */}
                 <div className="text-center px-1">
-                  <span className="block font-typewriter text-sm font-bold text-amber-950 tracking-tight">
+                  <span className="block font-typewriter text-xs font-bold text-amber-950 tracking-tight">
                     {MENTOR_DATA.name}
                   </span>
-                  <span className="block text-xs font-semibold text-violet-800 font-sans mt-0.5">
+                  <span className="block text-[11px] font-semibold text-violet-800 font-sans mt-0.5">
                     {MENTOR_DATA.role}
                   </span>
                 </div>
 
                 {/* Red/Purple Handwritten "MENTOR" Scrawl Tag */}
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-amber-200/95 border border-amber-400/60 px-4 py-0.5 rounded-sm shadow-md rotate-[-4deg]">
-                  <span className="font-handwriting text-xl font-bold text-purple-950 leading-none">
+                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-amber-200/95 border border-amber-400/60 px-3.5 py-0.5 rounded-sm shadow-md rotate-[-4deg]">
+                  <span className="font-handwriting text-lg font-bold text-purple-900 leading-none">
                     {MENTOR_DATA.handwrittenTag}
                   </span>
                 </div>
@@ -436,7 +419,7 @@ export default function TeamGrid() {
               </div>
 
               {/* Polaroid Frame */}
-              <div className="w-[165px] bg-[#FAF7F2] p-2.5 pb-4 rounded-sm polaroid-card-shadow border border-amber-100/60 transition-shadow duration-300 hover:polaroid-card-shadow-lifted relative">
+              <div className="w-[160px] bg-[#FAF7F2] p-2.5 pb-4 rounded-sm polaroid-card-shadow border border-amber-100/60 transition-shadow duration-300 hover:polaroid-card-shadow-lifted relative">
                 {/* Photo Container */}
                 <div className="relative aspect-[4/4] w-full bg-slate-900 overflow-hidden rounded-xs border border-amber-900/15 mb-2.5">
                   {member.photoUrl ? (
@@ -480,7 +463,7 @@ export default function TeamGrid() {
             </motion.div>
           ))}
 
-          {/* ── MOBILE RESPONSIVE GRID OVERLAY (STACKED CARDS ON MOBILE) ── */}
+          {/* ── MOBILE RESPONSIVE GRID OVERLAY ── */}
           <div className="w-full grid grid-cols-2 gap-4 md:hidden relative z-30 pt-16 pb-8">
             {teamMembers.map((member) => (
               <div
