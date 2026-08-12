@@ -40,7 +40,7 @@ const MENTOR_DATA: BoardPerson = {
   handwrittenTag: "MENTOR",
   bio: "Directing cybersecurity research, privacy engineering, and mentoring CPSET's next-generation threat analysts and security engineers.",
   quote: "Privacy isn't an afterthought — it is the core foundation of every emerging technology.",
-  photoUrl: "/images/team/syed-irfan.png",
+  photoUrl: "/images/team/syed.jpeg",
   initialOffset: { x: 0, y: -15 },
   rotation: 0,
 };
