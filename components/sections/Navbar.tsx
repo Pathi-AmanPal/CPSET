@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Shield, ExternalLink } from "lucide-react";
+import { Menu, X, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const links = [
   { href: "#hero", label: "Home" },
@@ -71,8 +72,15 @@ export default function Navbar() {
               onClick={(e) => handleNavClick(e, "#hero")}
               className="flex items-center gap-2.5 group cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cobalt to-violet flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,71,171,0.3)] transition-shadow">
-                <Shield className="w-5 h-5 text-white" />
+              {/* CPSET Logo image */}
+              <div className="relative w-11 h-11 shrink-0 group-hover:scale-105 transition-transform duration-200">
+                <Image
+                  src="/logo.png"
+                  alt="CPSET Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>CPSET</span>
