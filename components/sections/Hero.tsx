@@ -11,7 +11,6 @@ import {
   Lightbulb,
   Star,
   Users,
-  BookOpen,
   Calendar,
   Trophy,
 } from "lucide-react";
