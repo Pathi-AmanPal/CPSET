@@ -54,24 +54,34 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-500 ${
-          scrolled
-            ? "shadow-[0_8px_32px_rgba(0,4,32,0.65),0_1px_0_rgba(90,138,255,0.12)]"
-            : ""
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-500"
         style={{
-          // Apple glass-nav: rich blur + inner-top highlight
+          // ── True Glassmorphism ──
+          // Background: translucent dark navy with enough opacity to show the blur
           background: scrolled
-            ? "rgba(5, 7, 18, 0.80)"
-            : "rgba(6, 8, 16, 0.55)",
-          backdropFilter: "blur(24px) saturate(200%)",
-          WebkitBackdropFilter: "blur(24px) saturate(200%)",
-          borderBottom: scrolled
-            ? "1px solid rgba(90,138,255,0.14)"
-            : "1px solid rgba(90,138,255,0.07)",
+            ? "rgba(7, 9, 22, 0.82)"
+            : "rgba(8, 10, 24, 0.62)",
+          backdropFilter: "blur(28px) saturate(180%) brightness(0.95)",
+          WebkitBackdropFilter: "blur(28px) saturate(180%) brightness(0.95)",
+
+          // Bottom border: always visible neon-cobalt line
+          borderBottom: "1px solid rgba(90, 138, 255, 0.20)",
+
+          // Box shadow stack:
+          // 1. Inner top highlight (frosted glass rim)
+          // 2. Outer bottom glow
           boxShadow: scrolled
-            ? "0 1px 0 rgba(255,255,255,0.04) inset"
-            : "none",
+            ? [
+                "inset 0 1px 0 rgba(255,255,255,0.07)",
+                "inset 0 -1px 0 rgba(90,138,255,0.15)",
+                "0 8px 40px rgba(0, 4, 40, 0.70)",
+                "0 0 1px rgba(90,138,255,0.10)",
+              ].join(", ")
+            : [
+                "inset 0 1px 0 rgba(255,255,255,0.05)",
+                "inset 0 -1px 0 rgba(90,138,255,0.10)",
+                "0 4px 24px rgba(0, 4, 40, 0.40)",
+              ].join(", "),
         }}
       >
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
