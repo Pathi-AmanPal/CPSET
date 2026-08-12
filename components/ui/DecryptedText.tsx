@@ -25,6 +25,7 @@ export interface DecryptedTextProps {
   speed?: number;
   maxIterations?: number;
   sequential?: boolean;
+  wordByWord?: boolean;
   revealDirection?: 'start' | 'end' | 'center';
   useOriginalCharsOnly?: boolean;
   characters?: string;
@@ -38,9 +39,10 @@ export interface DecryptedTextProps {
 
 export default function DecryptedText({
   text,
-  speed = 50,
-  maxIterations = 10,
-  sequential = false,
+  speed = 60,
+  maxIterations = 6,
+  sequential = true,
+  wordByWord = true,
   revealDirection = 'start',
   useOriginalCharsOnly = false,
   characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+',
@@ -51,17 +53,7 @@ export default function DecryptedText({
   clickMode = 'once',
   ...props
 }: DecryptedTextProps) {
-  const [displayText, setDisplayText] = useState(text);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [revealedIndices, setRevealedIndices] = useState<Set<number>>(new Set());
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const [isDecrypted, setIsDecrypted] = useState(animateOn !== 'click');
-  const [direction, setDirection] = useState<'forward' | 'reverse'>('forward');
-
-  const containerRef = useRef<HTMLSpanElement | null>(null);
-  const orderRef = useRef<number[]>([]);
-  const pointerRef = useRef(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const words = useMemo(() => text.split(' '), [text]);
 
   const availableChars = useMemo(() => {
     return useOriginalCharsOnly
@@ -69,261 +61,93 @@ export default function DecryptedText({
       : characters.split('');
   }, [useOriginalCharsOnly, text, characters]);
 
-  const shuffleText = useCallback(
-    (originalText: string, currentRevealed: Set<number>) => {
-      return originalText
-        .split('')
-        .map((char, i) => {
-          if (char === ' ') return ' ';
-          if (currentRevealed.has(i)) return originalText[i];
-          return availableChars[Math.floor(Math.random() * availableChars.length)];
-        })
-        .join('');
+  const getRandomScramble = useCallback(
+    (wordLength: number) => {
+      let res = '';
+      for (let i = 0; i < wordLength; i++) {
+        res += availableChars[Math.floor(Math.random() * availableChars.length)];
+      }
+      return res;
     },
     [availableChars]
   );
 
-  const computeOrder = useCallback(
-    (len: number) => {
-      const order: number[] = [];
-      if (len <= 0) return order;
-      if (revealDirection === 'start') {
-        for (let i = 0; i < len; i++) order.push(i);
-        return order;
-      }
-      if (revealDirection === 'end') {
-        for (let i = len - 1; i >= 0; i--) order.push(i);
-        return order;
-      }
-      const middle = Math.floor(len / 2);
-      let offset = 0;
-      while (order.length < len) {
-        if (offset % 2 === 0) {
-          const idx = middle + offset / 2;
-          if (idx >= 0 && idx < len) order.push(idx);
-        } else {
-          const idx = middle - Math.ceil(offset / 2);
-          if (idx >= 0 && idx < len) order.push(idx);
-        }
-        offset++;
-      }
-      return order.slice(0, len);
-    },
-    [revealDirection]
+  const [revealedWordsCount, setRevealedWordsCount] = useState(words.length);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [isDecrypted, setIsDecrypted] = useState(animateOn !== 'click');
+
+  const containerRef = useRef<HTMLSpanElement | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [scrambledWords, setScrambledWords] = useState<string[]>(() =>
+    words.map((w) => getRandomScramble(w.length))
   );
 
-  const fillAllIndices = useCallback(() => {
-    const s = new Set<number>();
-    for (let i = 0; i < text.length; i++) s.add(i);
-    return s;
-  }, [text]);
-
-  const removeRandomIndices = useCallback((set: Set<number>, count: number) => {
-    const arr = Array.from(set);
-    for (let i = 0; i < count && arr.length > 0; i++) {
-      const idx = Math.floor(Math.random() * arr.length);
-      arr.splice(idx, 1);
-    }
-    return new Set(arr);
-  }, []);
-
-  const encryptInstantly = useCallback(() => {
-    const emptySet = new Set<number>();
-    setRevealedIndices(emptySet);
-    setDisplayText(shuffleText(text, emptySet));
-    setIsDecrypted(false);
-  }, [text, shuffleText]);
-
   const triggerDecrypt = useCallback(() => {
-    if (sequential) {
-      orderRef.current = computeOrder(text.length);
-      pointerRef.current = 0;
-      setRevealedIndices(new Set());
-    } else {
-      setRevealedIndices(new Set());
-    }
-    setDirection('forward');
+    if (isAnimating) return;
+    setRevealedWordsCount(0);
+    setScrambledWords(words.map((w) => getRandomScramble(w.length)));
+    setIsDecrypted(false);
     setIsAnimating(true);
-  }, [sequential, computeOrder, text.length]);
+  }, [isAnimating, words, getRandomScramble]);
 
-  const triggerReverse = useCallback(() => {
-    if (sequential) {
-      orderRef.current = computeOrder(text.length).slice().reverse();
-      pointerRef.current = 0;
-      setRevealedIndices(fillAllIndices());
-      setDisplayText(shuffleText(text, fillAllIndices()));
-    } else {
-      setRevealedIndices(fillAllIndices());
-      setDisplayText(shuffleText(text, fillAllIndices()));
-    }
-    setDirection('reverse');
-    setIsAnimating(true);
-  }, [sequential, computeOrder, fillAllIndices, shuffleText, text]);
+  const resetToPlainText = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setIsAnimating(false);
+    setRevealedWordsCount(words.length);
+    setIsDecrypted(true);
+  }, [words.length]);
 
+  // Word-by-Word Decryption Animation Loop
   useEffect(() => {
     if (!isAnimating) return;
 
-    let currentIteration = 0;
-
-    const getNextIndex = (revealedSet: Set<number>) => {
-      const textLength = text.length;
-      switch (revealDirection) {
-        case 'start':
-          return revealedSet.size;
-        case 'end':
-          return textLength - 1 - revealedSet.size;
-        case 'center': {
-          const middle = Math.floor(textLength / 2);
-          const offset = Math.floor(revealedSet.size / 2);
-          const nextIndex = revealedSet.size % 2 === 0 ? middle + offset : middle - offset - 1;
-
-          if (nextIndex >= 0 && nextIndex < textLength && !revealedSet.has(nextIndex)) {
-            return nextIndex;
-          }
-
-          for (let i = 0; i < textLength; i++) {
-            if (!revealedSet.has(i)) return i;
-          }
-          return 0;
-        }
-        default:
-          return revealedSet.size;
-      }
-    };
+    let currentWordIdx = 0;
+    let wordIteration = 0;
 
     intervalRef.current = setInterval(() => {
-      setRevealedIndices(prevRevealed => {
-        if (sequential) {
-          if (direction === 'forward') {
-            if (prevRevealed.size < text.length) {
-              const nextIndex = getNextIndex(prevRevealed);
-              const newRevealed = new Set(prevRevealed);
-              newRevealed.add(nextIndex);
-              setDisplayText(shuffleText(text, newRevealed));
-              return newRevealed;
-            } else {
-              if (intervalRef.current) clearInterval(intervalRef.current);
-              setIsAnimating(false);
-              setIsDecrypted(true);
-              return prevRevealed;
-            }
-          }
-          if (direction === 'reverse') {
-            if (pointerRef.current < orderRef.current.length) {
-              const idxToRemove = orderRef.current[pointerRef.current++];
-              const newRevealed = new Set(prevRevealed);
-              newRevealed.delete(idxToRemove);
-              setDisplayText(shuffleText(text, newRevealed));
-              if (newRevealed.size === 0) {
-                if (intervalRef.current) clearInterval(intervalRef.current);
-                setIsAnimating(false);
-                setIsDecrypted(false);
-              }
-              return newRevealed;
-            } else {
-              if (intervalRef.current) clearInterval(intervalRef.current);
-              setIsAnimating(false);
-              setIsDecrypted(false);
-              return prevRevealed;
-            }
-          }
-        } else {
-          if (direction === 'forward') {
-            setDisplayText(shuffleText(text, prevRevealed));
-            currentIteration++;
-            if (currentIteration >= maxIterations) {
-              if (intervalRef.current) clearInterval(intervalRef.current);
-              setIsAnimating(false);
-              setDisplayText(text);
-              setIsDecrypted(true);
-            }
-            return prevRevealed;
-          }
+      setScrambledWords((prev) => {
+        const next = [...prev];
 
-          if (direction === 'reverse') {
-            let currentSet = prevRevealed;
-            if (currentSet.size === 0) {
-              currentSet = fillAllIndices();
-            }
-            const removeCount = Math.max(1, Math.ceil(text.length / Math.max(1, maxIterations)));
-            const nextSet = removeRandomIndices(currentSet, removeCount);
-            setDisplayText(shuffleText(text, nextSet));
-            currentIteration++;
-            if (nextSet.size === 0 || currentIteration >= maxIterations) {
-              if (intervalRef.current) clearInterval(intervalRef.current);
-              setIsAnimating(false);
-              setIsDecrypted(false);
-              setDisplayText(shuffleText(text, new Set()));
-              return new Set();
-            }
-            return nextSet;
+        for (let i = currentWordIdx; i < words.length; i++) {
+          next[i] = getRandomScramble(words[i].length);
+        }
+
+        wordIteration++;
+        if (wordIteration >= Math.max(1, Math.floor(maxIterations / 2))) {
+          wordIteration = 0;
+          currentWordIdx++;
+          setRevealedWordsCount(currentWordIdx);
+
+          if (currentWordIdx >= words.length) {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            setIsAnimating(false);
+            setIsDecrypted(true);
+            setRevealedWordsCount(words.length);
           }
         }
-        return prevRevealed;
+
+        return next;
       });
     }, speed);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [
-    isAnimating,
-    text,
-    speed,
-    maxIterations,
-    sequential,
-    revealDirection,
-    shuffleText,
-    direction,
-    fillAllIndices,
-    removeRandomIndices,
-    characters,
-    useOriginalCharsOnly
-  ]);
+  }, [isAnimating, words, speed, maxIterations, getRandomScramble]);
 
   const handleClick = () => {
     if (animateOn !== 'click') return;
-
-    if (clickMode === 'once') {
-      if (isDecrypted) return;
-      setDirection('forward');
-      triggerDecrypt();
-    }
-
-    if (clickMode === 'toggle') {
-      if (isDecrypted) {
-        triggerReverse();
-      } else {
-        setDirection('forward');
-        triggerDecrypt();
-      }
-    }
+    if (isDecrypted && clickMode === 'once') return;
+    triggerDecrypt();
   };
-
-  const triggerHoverDecrypt = useCallback(() => {
-    if (isAnimating) return;
-
-    setRevealedIndices(new Set());
-    setIsDecrypted(false);
-    setDisplayText(text);
-    setDirection('forward');
-    setIsAnimating(true);
-  }, [isAnimating, text]);
-
-  const resetToPlainText = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setIsAnimating(false);
-    setRevealedIndices(new Set());
-    setDisplayText(text);
-    setIsDecrypted(true);
-    setDirection('forward');
-  }, [text]);
 
   useEffect(() => {
     if (animateOn !== 'view' && animateOn !== 'inViewHover') return;
 
-    const observerCallback: IntersectionObserverCallback = entries => {
-      entries.forEach(entry => {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting && !hasAnimated) {
           triggerDecrypt();
           setHasAnimated(true);
@@ -331,40 +155,19 @@ export default function DecryptedText({
       });
     };
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(observerCallback, { threshold: 0.1 });
     const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, [animateOn, hasAnimated, triggerDecrypt]);
-
-  useEffect(() => {
-    if (animateOn === 'click') {
-      encryptInstantly();
-    } else {
-      setDisplayText(text);
-      setIsDecrypted(true);
-    }
-    setRevealedIndices(new Set());
-    setDirection('forward');
-  }, [animateOn, text, encryptInstantly]);
 
   const animateProps =
     animateOn === 'hover' || animateOn === 'inViewHover'
       ? {
-          onMouseEnter: triggerHoverDecrypt,
+          onMouseEnter: triggerDecrypt,
           onMouseLeave: resetToPlainText
         }
       : animateOn === 'click'
@@ -375,15 +178,18 @@ export default function DecryptedText({
 
   return (
     <motion.span className={parentClassName} ref={containerRef} style={styles.wrapper} {...animateProps} {...props}>
-      <span style={styles.srOnly}>{displayText}</span>
+      <span style={styles.srOnly}>{text}</span>
 
       <span aria-hidden="true">
-        {displayText.split('').map((char, index) => {
-          const isRevealedOrDone = revealedIndices.has(index) || (!isAnimating && isDecrypted);
+        {words.map((word, wordIdx) => {
+          const isRevealed = wordIdx < revealedWordsCount || (!isAnimating && isDecrypted);
+          const displayWord = isRevealed ? word : scrambledWords[wordIdx] || getRandomScramble(word.length);
 
           return (
-            <span key={index} className={isRevealedOrDone ? className : encryptedClassName}>
-              {char}
+            <span key={wordIdx} className="inline-block whitespace-nowrap mr-[0.25em]">
+              <span className={isRevealed ? className : encryptedClassName}>
+                {displayWord}
+              </span>
             </span>
           );
         })}

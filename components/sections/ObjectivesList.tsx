@@ -147,8 +147,8 @@ export default function ObjectivesPage() {
                     <DecryptedText
                       text={obj.title}
                       animateOn="hover"
-                      speed={75}
-                      maxIterations={12}
+                      speed={50}
+                      maxIterations={4}
                       className="text-white"
                       encryptedClassName="text-purple-300 font-mono opacity-85"
                     />
@@ -182,8 +182,8 @@ export default function ObjectivesPage() {
                         <DecryptedText
                           text={obj.detail}
                           animateOn="view"
-                          speed={85}
-                          maxIterations={16}
+                          speed={45}
+                          maxIterations={4}
                           className="text-slate-200"
                           encryptedClassName="text-indigo-300 font-mono opacity-75"
                         />

@@ -544,8 +544,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                     <DecryptedText
                       text={card.title}
                       animateOn="hover"
-                      speed={75}
-                      maxIterations={12}
+                      speed={50}
+                      maxIterations={4}
                       className="text-slate-100"
                       encryptedClassName="text-purple-300 font-mono opacity-80"
                     />
@@ -554,8 +554,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                     <DecryptedText
                       text={card.description}
                       animateOn="hover"
-                      speed={85}
-                      maxIterations={14}
+                      speed={45}
+                      maxIterations={4}
                       className="text-slate-300"
                       encryptedClassName="text-indigo-400 font-mono opacity-75"
                     />
@@ -585,8 +585,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                   <DecryptedText
                     text={card.title}
                     animateOn="hover"
-                    speed={75}
-                    maxIterations={12}
+                    speed={50}
+                    maxIterations={4}
                     className="text-slate-100"
                     encryptedClassName="text-purple-300 font-mono opacity-80"
                   />
@@ -595,8 +595,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                   <DecryptedText
                     text={card.description}
                     animateOn="hover"
-                    speed={85}
-                    maxIterations={14}
+                    speed={45}
+                    maxIterations={4}
                     className="text-slate-300"
                     encryptedClassName="text-indigo-400 font-mono opacity-75"
                   />
