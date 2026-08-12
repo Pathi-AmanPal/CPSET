@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
+import DecryptedText from "@/components/ui/DecryptedText";
 import MagicBento, { BentoCardItem } from "@/components/ui/MagicBento";
 import {
   Search,
@@ -79,11 +80,16 @@ export default function VisionMissionPage() {
             Our Vision
           </motion.p>
 
-          <AnimatedText
-            text="To be a globally recognized Cybersecurity Centre of Excellence — promoting education, research, innovation, and skill development in privacy, security, and emerging technologies."
-            as="h1"
-            className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-royal leading-snug max-w-4xl mx-auto"
-          />
+          <div className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-royal leading-snug max-w-4xl mx-auto">
+            <DecryptedText
+              text="To be a globally recognized Cybersecurity Centre of Excellence — promoting education, research, innovation, and skill development in privacy, security, and emerging technologies."
+              animateOn="view"
+              speed={35}
+              maxIterations={12}
+              className="text-royal"
+              encryptedClassName="text-purple-400 opacity-75 font-mono"
+            />
+          </div>
         </section>
 
         {/* Mission — MagicBento Grid */}
@@ -99,7 +105,14 @@ export default function VisionMissionPage() {
               Our Mission
             </p>
             <h2 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-royal">
-              What Drives Us Forward
+              <DecryptedText
+                text="What Drives Us Forward"
+                animateOn="view"
+                speed={40}
+                maxIterations={10}
+                className="text-royal"
+                encryptedClassName="text-cyan-400 opacity-80 font-mono"
+              />
             </h2>
           </motion.div>
 

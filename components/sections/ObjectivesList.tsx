@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInUp, staggerContainer, staggerItem } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
+import DecryptedText from "@/components/ui/DecryptedText";
 import {
   ChevronDown,
   Brain,
@@ -93,12 +94,16 @@ export default function ObjectivesPage() {
           <p className="text-cobalt font-heading text-sm uppercase tracking-[0.3em] font-semibold mb-4">
             Our Objectives
           </p>
-          <AnimatedText
-            text="What We Aim To Achieve"
-            as="h1"
-            className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-royal"
-            gradient
-          />
+          <div className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-royal">
+            <DecryptedText
+              text="What We Aim To Achieve"
+              animateOn="view"
+              speed={45}
+              maxIterations={12}
+              className="text-royal gradient-text"
+              encryptedClassName="text-indigo-400 opacity-80 font-mono"
+            />
+          </div>
         </motion.div>
 
         {/* Expandable objectives list */}

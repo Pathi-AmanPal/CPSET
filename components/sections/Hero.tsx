@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import TextType from "@/components/ui/TextType";
 import WireframeGlobe from "@/components/3d/WireframeGlobe";
 import {
   ArrowDown,
@@ -196,24 +197,31 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Headline — white to lavender gradient */}
-        <motion.h1
-          className="font-heading font-extrabold leading-tight mb-5 max-w-[560px]"
-          style={{
-            fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-            background: "linear-gradient(160deg, #FFFFFF 0%, #E0E8FF 45%, #C4BBFF 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+        {/* Headline — dynamic typing effect */}
+        <motion.div
+          className="font-heading font-extrabold leading-tight mb-5 max-w-[650px] min-h-[140px] flex items-center justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
-          Centre for Privacy and<br />
-          Security in Emerging<br />
-          Technologies
-        </motion.h1>
+          <TextType
+            as="h1"
+            text={[
+              "Centre for Privacy and Security in Emerging Technologies",
+              "Securing Privacy. Empowering Innovation. Protecting Future.",
+              "Chandigarh University Cybersecurity Center of Excellence",
+            ]}
+            typingSpeed={55}
+            pauseDuration={2200}
+            deletingSpeed={25}
+            loop={true}
+            showCursor={true}
+            cursorCharacter="|"
+            className="gradient-text font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight"
+            cursorClassName="text-indigo-400 text-3xl md:text-5xl font-mono"
+            textColors={["#FFFFFF", "#E0E8FF", "#C4BBFF"]}
+          />
+        </motion.div>
 
         {/* Subtext */}
         <motion.p
