@@ -467,60 +467,105 @@ export default function TeamGrid() {
   const [resetKey, setResetKey] = useState(0);
 
   return (
-    <section id="team" className="pt-24 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-4"
-          style={{ background: "rgba(124,58,237,0.08)", borderColor: "rgba(124,58,237,0.3)", color: "#a78bfa" }}>
-          <Sparkles className="w-3.5 h-3.5" />
-          CPSET // TEAM BOARD
-        </div>
-        <h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight mb-3" style={{ color: "#e8ecff" }}>
-          Meet the Team
-        </h1>
-        <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: "rgba(184,189,214,0.7)" }}>
-          Drag the polaroids anywhere on the board.{" "}
-          <span className="font-semibold" style={{ color: "#c4b5fd" }}>Click</span> any card to open their dossier.
-        </p>
-      </div>
+    <section id="team" className="relative pt-24 md:pt-32 pb-24 overflow-hidden">
+      {/* ── Investigation Room Background Environment ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Room Base Surface */}
+        <div className="absolute inset-0 bg-[#050713]" />
 
-      {/* Controls */}
-      <div className="flex items-center justify-between mb-3 px-1">
-        <span className="flex items-center gap-1.5 text-xs font-mono" style={{ color: "rgba(184,189,214,0.45)" }}>
-          <Move className="w-3.5 h-3.5" style={{ color: "#a78bfa" }} />
-          Drag photos around the board
-        </span>
-        <button
-          onClick={() => { setResetKey((k) => k + 1); setSelected(null); }}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs transition-all cursor-pointer active:scale-95"
-          style={{ border: "1px solid rgba(124,58,237,0.3)", color: "#c4b5fd", background: "rgba(124,58,237,0.08)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(124,58,237,0.18)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(124,58,237,0.08)")}
-        >
-          <RotateCcw className="w-3.5 h-3.5" />
-          Reset
-        </button>
-      </div>
-
-      {/* Board */}
-      <div
-        className="relative overflow-hidden rounded-2xl"
-        style={{
-          border: "1px solid rgba(124,58,237,0.25)",
-          boxShadow: "0 0 80px rgba(124,58,237,0.12), 0 2px 4px rgba(0,0,0,0.5)",
-        }}
-      >
-        {/* Custom BG image */}
-        <div className="absolute inset-0 z-0">
-          <Image src="/images/case-board-bg.png" alt="" fill className="object-cover object-center" priority unoptimized />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.10) 40%, rgba(0,0,0,0.28) 100%)" }} />
-        </div>
-
-        {/* Canvas — NO SVG connectors */}
+        {/* Ambient Spotlights: Purple Flash from Right + Cobalt Glow from Left */}
         <div
-          className="relative z-10"
-          style={{ minHeight: "780px", touchAction: "none" }}
+          className="absolute -top-20 -right-20 w-[800px] h-[800px] rounded-full blur-[160px] opacity-70"
+          style={{ background: "radial-gradient(circle, rgba(192,38,211,0.28) 0%, rgba(147,51,234,0.15) 50%, transparent 80%)" }}
+        />
+        <div
+          className="absolute top-1/4 -left-32 w-[700px] h-[700px] rounded-full blur-[150px] opacity-60"
+          style={{ background: "radial-gradient(circle, rgba(59,130,246,0.22) 0%, rgba(37,99,235,0.10) 50%, transparent 80%)" }}
+        />
+
+        {/* Cyber Digital Wall Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-15"
+          style={{
+            backgroundImage: "linear-gradient(rgba(147,51,234,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.12) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        {/* Dark Room Edge Vignette */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,7,19,0.92) 100%)" }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-4"
+            style={{ background: "rgba(192,38,211,0.10)", borderColor: "rgba(192,38,211,0.35)", color: "#e879f9" }}>
+            <Sparkles className="w-3.5 h-3.5" />
+            CPSET // INVESTIGATION ROOM
+          </div>
+          <h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight mb-3" style={{ color: "#e8ecff" }}>
+            Meet the Team
+          </h1>
+          <p className="text-sm md:text-base max-w-xl mx-auto leading-relaxed" style={{ color: "rgba(184,189,214,0.7)" }}>
+            Drag the polaroids anywhere on the investigation board.{" "}
+            <span className="font-semibold" style={{ color: "#e879f9" }}>Click</span> any card to open their dossier.
+          </p>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center justify-between mb-3 px-1">
+          <span className="flex items-center gap-1.5 text-xs font-mono" style={{ color: "rgba(184,189,214,0.45)" }}>
+            <Move className="w-3.5 h-3.5" style={{ color: "#c084fc" }} />
+            Drag photos around the board
+          </span>
+          <button
+            onClick={() => { setResetKey((k) => k + 1); setSelected(null); }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs transition-all cursor-pointer active:scale-95"
+            style={{ border: "1px solid rgba(192,38,211,0.3)", color: "#f0abfc", background: "rgba(192,38,211,0.1)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(192,38,211,0.22)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(192,38,211,0.1)")}
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            Reset
+          </button>
+        </div>
+
+        {/* ── Investigation Board (Blended with room) ── */}
+        <div
+          className="relative overflow-hidden rounded-2xl transition-all duration-300"
+          style={{
+            border: "1px solid rgba(168,85,247,0.30)",
+            boxShadow: "0 25px 70px rgba(0,0,0,0.85), 0 0 50px rgba(192,38,211,0.18), inset 0 0 0 1px rgba(255,255,255,0.06)",
+          }}
         >
+          {/* Corkboard Base Image */}
+          <div className="absolute inset-0 z-0">
+            <Image src="/images/case-board-bg.png" alt="Investigation Board" fill className="object-cover object-center" priority unoptimized />
+            
+            {/* Purple Flashlight Overlay from Right Side */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse 75% 100% at 100% 45%, rgba(192, 38, 211, 0.40) 0%, rgba(147, 51, 234, 0.22) 35%, rgba(99, 102, 241, 0.08) 65%, transparent 100%)",
+              }}
+            />
+
+            {/* Inner Edge Blending Vignette */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(5,7,19,0.88) 100%), linear-gradient(to bottom, rgba(5,7,19,0.4) 0%, transparent 20%, transparent 80%, rgba(5,7,19,0.5) 100%)" }}
+            />
+          </div>
+
+          {/* Canvas */}
+          <div
+            className="relative z-10"
+            style={{ minHeight: "780px", touchAction: "none" }}
+          >
           {/* Mentor card */}
           <PolaroidCard
             key={`mentor-${resetKey}`}
