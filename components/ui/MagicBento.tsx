@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useCallback, useState, ReactNode } from 'react';
 import { gsap } from 'gsap';
+import DecryptedText from '@/components/ui/DecryptedText';
 import './MagicBento.css';
 
 const DEFAULT_PARTICLE_COUNT = 12;
@@ -539,8 +540,26 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                   {card.label && <div className="magic-bento-card__label">{card.label}</div>}
                 </div>
                 <div className="magic-bento-card__content">
-                  <h2 className="magic-bento-card__title">{card.title}</h2>
-                  <p className="magic-bento-card__description">{card.description}</p>
+                  <h2 className="magic-bento-card__title">
+                    <DecryptedText
+                      text={card.title}
+                      animateOn="hover"
+                      speed={75}
+                      maxIterations={12}
+                      className="text-slate-100"
+                      encryptedClassName="text-purple-300 font-mono opacity-80"
+                    />
+                  </h2>
+                  <p className="magic-bento-card__description">
+                    <DecryptedText
+                      text={card.description}
+                      animateOn="hover"
+                      speed={85}
+                      maxIterations={14}
+                      className="text-slate-300"
+                      encryptedClassName="text-indigo-400 font-mono opacity-75"
+                    />
+                  </p>
                 </div>
               </ParticleCard>
             );
@@ -562,8 +581,26 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                 {card.label && <div className="magic-bento-card__label">{card.label}</div>}
               </div>
               <div className="magic-bento-card__content">
-                <h2 className="magic-bento-card__title">{card.title}</h2>
-                <p className="magic-bento-card__description">{card.description}</p>
+                <h2 className="magic-bento-card__title">
+                  <DecryptedText
+                    text={card.title}
+                    animateOn="hover"
+                    speed={75}
+                    maxIterations={12}
+                    className="text-slate-100"
+                    encryptedClassName="text-purple-300 font-mono opacity-80"
+                  />
+                </h2>
+                <p className="magic-bento-card__description">
+                  <DecryptedText
+                    text={card.description}
+                    animateOn="hover"
+                    speed={85}
+                    maxIterations={14}
+                    className="text-slate-300"
+                    encryptedClassName="text-indigo-400 font-mono opacity-75"
+                  />
+                </p>
               </div>
             </div>
           );

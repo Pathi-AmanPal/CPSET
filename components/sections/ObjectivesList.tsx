@@ -94,16 +94,12 @@ export default function ObjectivesPage() {
           <p className="text-cobalt font-heading text-sm uppercase tracking-[0.3em] font-semibold mb-4">
             Our Objectives
           </p>
-          <div className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-royal">
-            <DecryptedText
-              text="What We Aim To Achieve"
-              animateOn="view"
-              speed={45}
-              maxIterations={12}
-              className="text-royal gradient-text"
-              encryptedClassName="text-indigo-400 opacity-80 font-mono"
-            />
-          </div>
+          <AnimatedText
+            text="What We Aim To Achieve"
+            as="h1"
+            className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-royal"
+            gradient
+          />
         </motion.div>
 
         {/* Expandable objectives list */}
@@ -148,7 +144,14 @@ export default function ObjectivesPage() {
                   </div>
 
                   <span className="font-heading font-bold text-white text-base md:text-lg flex-1">
-                    {obj.title}
+                    <DecryptedText
+                      text={obj.title}
+                      animateOn="hover"
+                      speed={75}
+                      maxIterations={12}
+                      className="text-white"
+                      encryptedClassName="text-purple-300 font-mono opacity-85"
+                    />
                   </span>
 
                   <motion.div
@@ -176,7 +179,14 @@ export default function ObjectivesPage() {
                           borderTop: "none",
                         }}
                       >
-                        {obj.detail}
+                        <DecryptedText
+                          text={obj.detail}
+                          animateOn="view"
+                          speed={85}
+                          maxIterations={16}
+                          className="text-slate-200"
+                          encryptedClassName="text-indigo-300 font-mono opacity-75"
+                        />
                       </div>
                     </motion.div>
                   )}
