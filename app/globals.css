@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -237,3 +239,66 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ─── Case Board Custom Styles ─── */
+.font-handwriting {
+  font-family: 'Caveat', cursive, sans-serif;
+}
+.font-typewriter {
+  font-family: 'Courier Prime', monospace;
+}
+
+/* Corkboard texture generator */
+.corkboard-texture {
+  background-color: #2b1c13;
+  background-image: 
+    radial-gradient(rgba(210, 160, 110, 0.12) 1px, transparent 0),
+    radial-gradient(rgba(0, 0, 0, 0.4) 1px, transparent 0),
+    linear-gradient(135deg, rgba(45, 28, 19, 0.95) 0%, rgba(30, 18, 12, 0.98) 100%);
+  background-size: 16px 16px, 24px 24px, 100% 100%;
+  background-position: 0 0, 8px 8px, 0 0;
+}
+
+/* Photorealistic Wooden Frame */
+.wood-frame-outer {
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.wood-frame-border {
+  border: 16px solid #3d2314;
+  border-image: linear-gradient(135deg, #57331d 0%, #2b170c 35%, #4a2a16 70%, #1f0f07 100%) 1;
+}
+
+/* Purple Flash Light from Right Side */
+.purple-flash-overlay {
+  background: 
+    radial-gradient(ellipse 75% 100% at 100% 45%, rgba(192, 38, 211, 0.45) 0%, rgba(147, 51, 234, 0.3) 30%, rgba(99, 102, 241, 0.12) 65%, transparent 100%),
+    linear-gradient(245deg, rgba(168, 85, 247, 0.3) 0%, rgba(124, 58, 237, 0.15) 35%, transparent 75%);
+  pointer-events: none;
+}
+
+.purple-right-edge-glow {
+  box-shadow: 
+    inset -30px 0 80px -10px rgba(192, 38, 211, 0.55),
+    inset -4px 0 20px 0 rgba(236, 72, 153, 0.4);
+  pointer-events: none;
+}
+
+/* Polaroid Card Shadow & Texture */
+.polaroid-card-shadow {
+  box-shadow: 
+    0 12px 28px -5px rgba(0, 0, 0, 0.65),
+    0 4px 10px -2px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.polaroid-card-shadow-lifted {
+  box-shadow: 
+    0 25px 45px -8px rgba(0, 0, 0, 0.8),
+    0 12px 20px -4px rgba(168, 85, 247, 0.35),
+    0 0 0 1.5px rgba(236, 72, 153, 0.5);
+}
+
