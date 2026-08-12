@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
+import FuzzyText from "@/components/ui/FuzzyText";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { fetchAchievements } from "@/lib/fetchers";
 import { formatDate } from "@/lib/utils";
@@ -50,22 +51,40 @@ export default function AchievementsCarousel() {
             <div className="w-8 h-8 border-2 border-cobalt/30 border-t-cobalt rounded-full animate-spin" />
           </div>
         ) : achievements.length === 0 ? (
-          /* Empty state */
+          /* Empty state with FuzzyText */
           <motion.div
-            className="text-center py-24"
+            className="text-center py-12 flex flex-col items-center justify-center"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
           >
-            <div className="w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mx-auto mb-6">
-              <Trophy className="w-8 h-8 text-violet/50" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-6"
+              style={{ background: "rgba(250,204,21,0.1)", borderColor: "rgba(250,204,21,0.35)", color: "#fde047" }}>
+              <Trophy className="w-4 h-4" />
+              MILESTONES // UNLOCKING SOON
             </div>
-            <h3 className="font-heading text-xl font-semibold text-royal mb-2">
-              Achievements unlocking soon
+
+            <div className="my-2 cursor-pointer">
+              <FuzzyText
+                baseIntensity={0.2}
+                hoverIntensity={0.6}
+                enableHover={true}
+                clickEffect={true}
+                color="#e2e8f0"
+                gradient={["#facc15", "#f97316", "#a855f7"]}
+                fontSize="clamp(2.2rem, 7vw, 5.5rem)"
+                fontWeight={900}
+                fuzzRange={26}
+              >
+                ACHIEVEMENTS
+              </FuzzyText>
+            </div>
+
+            <h3 className="font-heading text-xl font-semibold text-royal mb-2 mt-4">
+              Milestones Unlocking Soon
             </h3>
-            <p className="text-body/70 max-w-md mx-auto text-sm">
-              Great things are in the works. Our first milestones are just
-              around the corner.
+            <p className="text-slate-400 max-w-md mx-auto text-sm leading-relaxed font-mono">
+              Great things are in the works. Our research publications, awards, and national CTF recognitions will be published here.
             </p>
           </motion.div>
         ) : (

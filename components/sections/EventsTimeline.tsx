@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
+import FuzzyText from "@/components/ui/FuzzyText";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { fetchEvents } from "@/lib/fetchers";
 import { formatDate, isUpcoming } from "@/lib/utils";
@@ -52,25 +53,40 @@ export default function EventsTimeline() {
             <div className="w-8 h-8 border-2 border-cobalt/30 border-t-cobalt rounded-full animate-spin" />
           </div>
         ) : events.length === 0 ? (
-          /* Empty state */
+          /* Empty state with FuzzyText */
           <motion.div
-            className="text-center py-24"
+            className="text-center py-12 flex flex-col items-center justify-center"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
           >
-            <div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
-              style={{ background: "rgba(13,18,48,0.80)", border: "1px solid rgba(100,130,255,0.20)" }}
-            >
-              <Sparkles className="w-8 h-8 text-cobalt" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-6"
+              style={{ background: "rgba(56,189,248,0.1)", borderColor: "rgba(56,189,248,0.35)", color: "#7dd3fc" }}>
+              <Sparkles className="w-4 h-4" />
+              EVENTS // COMING SOON
             </div>
-            <h3 className="font-heading text-xl font-semibold text-royal mb-2">
-              First event drops soon
+
+            <div className="my-2 cursor-pointer">
+              <FuzzyText
+                baseIntensity={0.2}
+                hoverIntensity={0.6}
+                enableHover={true}
+                clickEffect={true}
+                color="#e2e8f0"
+                gradient={["#38bdf8", "#818cf8", "#c084fc"]}
+                fontSize="clamp(3rem, 10vw, 7rem)"
+                fontWeight={900}
+                fuzzRange={26}
+              >
+                EVENTS
+              </FuzzyText>
+            </div>
+
+            <h3 className="font-heading text-xl font-semibold text-royal mb-2 mt-4">
+              First Event Dropping Soon
             </h3>
-            <p className="text-body/70 max-w-md mx-auto text-sm">
-              We&apos;re planning something exciting. Stay tuned for
-              workshops, CTFs, and more.
+            <p className="text-slate-400 max-w-md mx-auto text-sm leading-relaxed font-mono">
+              We&apos;re planning something exciting. Stay tuned for workshops, CTFs, and live security hackathons.
             </p>
           </motion.div>
         ) : (
