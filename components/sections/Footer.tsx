@@ -27,8 +27,9 @@ export default function Footer() {
               <span className="font-heading font-bold text-royal text-lg">CPSET</span>
             </Link>
             <p className="text-body/70 text-sm leading-relaxed max-w-xs">
-              Centre for Privacy and Security in Emerging Technologies.
-              Chandigarh University.
+              A specialized Cybersecurity Centre of Excellence at Chandigarh
+              University — promoting education, research, innovation, and
+              skill development in cybersecurity and emerging technologies.
             </p>
           </div>
 
@@ -57,7 +58,7 @@ export default function Footer() {
               Our Pillars
             </h4>
             <div className="flex flex-wrap gap-2">
-              {["Privacy", "Security", "Innovation", "Trust", "Excellence"].map(
+              {["Privacy", "Security", "Innovation", "Excellence", "Research"].map(
                 (word) => (
                   <span
                     key={word}

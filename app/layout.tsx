@@ -18,19 +18,32 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "CPSET — Centre for Privacy and Security in Emerging Technologies",
   description:
-    "CPSET is Chandigarh University's cybersecurity club dedicated to privacy, security research, and fostering talent in emerging technologies.",
+    "A specialized Cybersecurity Centre of Excellence at Chandigarh University promoting education, research, innovation, industry collaboration, and skill development in cybersecurity, privacy, digital forensics, AI security, cloud security, IoT security, and emerging technologies.",
   keywords: [
     "CPSET",
     "cybersecurity",
     "Chandigarh University",
-    "privacy",
-    "security",
+    "privacy engineering",
+    "digital forensics",
+    "AI security",
+    "cloud security",
+    "IoT security",
+    "network security",
+    "ethical hacking",
+    "penetration testing",
+    "threat intelligence",
+    "malware analysis",
+    "blockchain security",
+    "GRC",
+    "CTF",
+    "cybersecurity research",
     "emerging technologies",
+    "Centre of Excellence",
   ],
   openGraph: {
     title: "CPSET — Centre for Privacy and Security in Emerging Technologies",
     description:
-      "Chandigarh University's cybersecurity club. Privacy · Security · Innovation · Trust · Excellence.",
+      "Securing Privacy. Empowering Innovation. Protecting the Future. — Chandigarh University's Cybersecurity Centre of Excellence.",
     type: "website",
   },
 };

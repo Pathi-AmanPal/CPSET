@@ -6,7 +6,7 @@ export default function WordStrip() {
   return (
     <div className="py-1 border-y border-slate-200/80 bg-slate-50/70 overflow-hidden">
       <TextLoop
-        text="PRIVACY ✦ SECURITY ✦ INNOVATION ✦ TRUST ✦ EXCELLENCE"
+        text="PRIVACY ✦ SECURITY ✦ INNOVATION ✦ RESEARCH ✦ EXCELLENCE ✦ DIGITAL FORENSICS ✦ AI SECURITY ✦ CLOUD SECURITY ✦ IOT SECURITY ✦ ETHICAL HACKING ✦ THREAT INTELLIGENCE ✦ BLOCKCHAIN SECURITY"
         shape="line"
         speed={75}
         direction="forward"
@@ -15,9 +15,9 @@ export default function WordStrip() {
         fontWeight={700}
         letterSpacing={3}
         uppercase
-        color="#0047AB"
+        color="#5A8AFF"
         ribbon={true}
-        ribbonColor="rgba(0, 71, 171, 0.05)"
+        ribbonColor="rgba(90, 138, 255, 0.05)"
         ribbonWidth={36}
         pauseOnHover={true}
       />

@@ -22,17 +22,17 @@ const leftCards = [
   {
     icon: Lock,
     title: "Privacy First",
-    desc: "Advancing privacy-preserving technologies and research.",
+    desc: "Advancing privacy engineering and privacy-preserving technologies.",
   },
   {
     icon: Shield,
     title: "Cyber Security",
-    desc: "Securing systems, networks and digital infrastructures.",
+    desc: "Network, cloud, IoT, and secure software development.",
   },
   {
     icon: Cpu,
     title: "Emerging Tech",
-    desc: "Exploring AI, IoT, Blockchain and beyond.",
+    desc: "AI security, blockchain, and digital forensics research.",
   },
 ];
 
@@ -40,24 +40,24 @@ const rightCards = [
   {
     icon: Network,
     title: "Expert Network",
-    desc: "Collaborating with experts and industry leaders.",
+    desc: "Industry collaborations, internships, and global partnerships.",
   },
   {
     icon: Lightbulb,
     title: "Innovation",
-    desc: "Driving innovation for a safer digital future.",
+    desc: "Driving startups, research publications, and patents.",
   },
   {
     icon: Star,
     title: "Excellence",
-    desc: "Building a culture of excellence in cybersecurity.",
+    desc: "Globally recognized certifications and cyber competitions.",
   },
 ];
 
 const stats = [
   { icon: Users,    value: "500+", label: "Active Members"    },
   { icon: Shield,   value: "20+",  label: "Research Projects" },
-  { icon: Calendar, value: "15+",  label: "Events Every Year" },
+  { icon: Calendar, value: "50+",  label: "Events Conducted"  },
   { icon: Trophy,   value: "10+",  label: "Achievements"      },
 ];
 
@@ -226,7 +226,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
         >
-          Empowering the next generation of<br />cybersecurity professionals
+          Securing Privacy. Empowering Innovation.<br />Protecting the Future.
         </motion.p>
 
         {/* Buttons */}

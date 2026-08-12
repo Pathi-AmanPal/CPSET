@@ -21,39 +21,39 @@ import {
 const objectives = [
   {
     icon: Brain,
-    title: "Advance Cybersecurity Knowledge",
+    title: "Develop Cybersecurity Talent Through Practical Learning",
     detail:
-      "Push the boundaries of cybersecurity education through research-driven curricula, workshops, and hands-on training modules that prepare students for real-world security challenges.",
+      "Build industry-ready cybersecurity professionals through research-driven curricula, advanced laboratories, workshops, hands-on training modules, and real-world security challenges that prepare students for the demands of the field.",
   },
   {
     icon: Code,
-    title: "Develop Security Tools & Frameworks",
+    title: "Conduct Cutting-Edge Research in Emerging Technologies",
     detail:
-      "Design, build, and open-source innovative security tools, vulnerability scanners, and privacy-preserving frameworks that contribute to the broader cybersecurity ecosystem.",
+      "Drive pioneering research across network security, cloud security, AI for cybersecurity, privacy engineering, digital forensics, malware analysis, threat intelligence, and blockchain security — resulting in publications and patents.",
   },
   {
     icon: Lock,
-    title: "Promote Privacy-First Design",
+    title: "Establish Advanced Cybersecurity Laboratories",
     detail:
-      "Champion privacy-by-design principles in emerging technologies including IoT, AI/ML systems, and blockchain platforms through research papers and practical implementations.",
+      "Build and maintain specialized labs for ethical hacking, penetration testing, digital forensics, cyber drills, and cyber ranges — providing students and researchers access to professional-grade tools and environments.",
   },
   {
     icon: Globe,
-    title: "Build Industry Partnerships",
+    title: "Facilitate Globally Recognized Certification Programs",
     detail:
-      "Establish strategic collaborations with leading cybersecurity firms, government agencies, and international research organizations to create internship and mentorship pathways.",
+      "Partner with leading certification bodies including Cisco, Microsoft, and EC-Council to offer internationally recognized programs that enhance student employability and align academic training with industry standards.",
   },
   {
     icon: Layers,
-    title: "Conduct Capture-The-Flag Competitions",
+    title: "Organize Seminars, Workshops, Hackathons & CTF Competitions",
     detail:
-      "Organize and participate in CTF competitions, bug bounty programs, and cybersecurity hackathons that sharpen offensive and defensive security skills.",
+      "Host and participate in national and international conferences, CTF competitions, bug bounty programs, cybersecurity hackathons, Faculty Development Programs (FDPs), and awareness campaigns to sharpen skills and build community.",
   },
   {
     icon: Target,
-    title: "Drive Responsible Disclosure",
+    title: "Promote Awareness & Foster Global Collaborations",
     detail:
-      "Establish a culture of ethical hacking and responsible vulnerability disclosure, training members in proper disclosure protocols and coordination with affected parties.",
+      "Promote cybersecurity awareness among students, faculty, industry, and the community. Support startups and innovative cybersecurity solutions. Foster interdisciplinary research and international academic–industry partnerships.",
   },
 ];
 

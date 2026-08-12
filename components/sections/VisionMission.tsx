@@ -16,45 +16,45 @@ import {
 const missionCards: BentoCardItem[] = [
   {
     icon: Search,
-    title: "Cutting-Edge Research",
+    title: "Research & Innovation",
     description:
-      "Conduct pioneering research in privacy-preserving technologies, cryptography, and cybersecurity protocols for emerging platforms.",
+      "Conduct cutting-edge research in cybersecurity, privacy engineering, cryptography, AI security, and emerging technology threats. Publish research and file patents.",
     label: "Research",
   },
   {
     icon: Zap,
-    title: "Real-World Challenges",
+    title: "Hands-On Learning",
     description:
-      "Bridge the gap between academic knowledge and practical cybersecurity challenges through hands-on projects and industry collaborations.",
+      "Develop talent through advanced cybersecurity laboratories, cyber drills, cyber ranges, CTF competitions, hackathons, and real-world security challenges.",
     label: "Practice",
   },
   {
     icon: Users,
     title: "Collaborative Learning",
     description:
-      "Foster a culture of peer-to-peer learning, mentorship, and cross-disciplinary collaboration among students and faculty.",
+      "Foster peer-to-peer learning, mentorship, faculty development programs (FDPs), and cross-disciplinary collaboration among students, faculty, and industry experts.",
     label: "Teamwork",
   },
   {
     icon: GraduationCap,
-    title: "Nurturing Talent",
+    title: "Certifications & Talent",
     description:
-      "Develop the next generation of cybersecurity professionals through workshops, certifications, and competitive training.",
+      "Facilitate globally recognized certification programs (Cisco, Microsoft, EC-Council) and develop the next generation of industry-ready cybersecurity professionals.",
     label: "Growth",
   },
   {
     icon: Eye,
-    title: "Security Awareness",
+    title: "Awareness & Outreach",
     description:
-      "Promote cybersecurity awareness across the university community and beyond through outreach programs and seminars.",
+      "Promote cybersecurity awareness through seminars, workshops, awareness campaigns, national and international conferences across university and community.",
     label: "Outreach",
   },
   {
     icon: ShieldCheck,
-    title: "National Security",
+    title: "Industry & Global Ties",
     description:
-      "Contribute to India's digital sovereignty by developing solutions that strengthen national cybersecurity infrastructure.",
-    label: "Sovereignty",
+      "Foster interdisciplinary research, support cybersecurity startups, and build strong academia–industry partnerships and international collaborations.",
+    label: "Partnership",
   },
 ];
 
@@ -80,7 +80,7 @@ export default function VisionMissionPage() {
           </motion.p>
 
           <AnimatedText
-            text="To be a globally recognized centre of excellence in privacy and security research, empowering innovation and trust in emerging technologies."
+            text="To be a globally recognized Cybersecurity Centre of Excellence — promoting education, research, innovation, and skill development in privacy, security, and emerging technologies."
             as="h1"
             className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-royal leading-snug max-w-4xl mx-auto"
           />

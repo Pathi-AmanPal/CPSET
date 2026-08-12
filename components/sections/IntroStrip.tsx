@@ -28,10 +28,11 @@ export default function IntroStrip() {
               <span className="gradient-text">Digital Landscape</span>
             </h2>
             <p className="text-body/80 leading-relaxed text-lg">
-              CPSET is a premier cybersecurity research club at Chandigarh
-              University, focused on cutting-edge privacy and security research
-              in emerging technologies. We bridge the gap between academic
-              knowledge and real-world cybersecurity challenges.
+              CPSET is a specialized Cybersecurity Centre of Excellence at
+              Chandigarh University, established to promote education, research,
+              innovation, industry collaboration, and skill development in
+              cybersecurity, privacy, digital forensics, AI security, cloud
+              security, IoT security, and other emerging technologies.
             </p>
           </motion.div>
 
