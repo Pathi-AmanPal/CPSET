@@ -47,13 +47,25 @@ const objectives = [
     icon: Layers,
     title: "Organize Seminars, Workshops, Hackathons & CTF Competitions",
     detail:
-      "Host and participate in national and international conferences, CTF competitions, bug bounty programs, cybersecurity hackathons, Faculty Development Programs (FDPs), and awareness campaigns to sharpen skills and build community.",
+      "Host and participate in national and international conferences, Capture the Flag (CTF) competitions, bug bounty programs, cybersecurity hackathons, Faculty Development Programs (FDPs), and awareness campaigns.",
   },
   {
-    icon: Target,
-    title: "Promote Awareness & Foster Global Collaborations",
+    icon: Shield,
+    title: "Promote Cybersecurity Awareness Across Communities",
     detail:
-      "Promote cybersecurity awareness among students, faculty, industry, and the community. Support startups and innovative cybersecurity solutions. Foster interdisciplinary research and international academic–industry partnerships.",
+      "Promote cybersecurity awareness among students, faculty, industry, and the community to build digital resilience and foster a culture of privacy and security.",
+  },
+  {
+    icon: Rocket,
+    title: "Support Startups & Innovative Cybersecurity Solutions",
+    detail:
+      "Nurture student innovation projects, support cybersecurity product development, provide mentorship, and incubate cutting-edge security startups.",
+  },
+  {
+    icon: Handshake,
+    title: "Foster Interdisciplinary Research & Global Collaborations",
+    detail:
+      "Build strong academia–industry partnerships, foster cross-disciplinary research initiatives, and establish international academic and research collaborations.",
   },
 ];
 
@@ -68,7 +80,7 @@ export default function ObjectivesPage() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <main className="pt-24 md:pt-32 pb-16">
+    <main className="pt-16 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -105,30 +117,32 @@ export default function ObjectivesPage() {
                   onClick={() =>
                     setExpandedIndex(isExpanded ? null : index)
                   }
-                  className={`w-full glass rounded-xl px-6 py-5 flex items-center gap-4 text-left transition-all duration-300 group ${
+                  className={`w-full rounded-xl px-6 py-5 flex items-center gap-4 text-left transition-all duration-300 group ${
                     isExpanded
-                      ? "glow-violet"
-                      : ""
+                      ? "shadow-[0_0_25px_rgba(155,127,255,0.30)]"
+                      : "hover:border-cobalt/40"
                   }`}
                   style={{
-                    border: isExpanded ? "1px solid rgba(155,127,255,0.35)" : "1px solid rgba(100,130,255,0.18)",
+                    background: "rgba(13, 18, 48, 0.90)",
+                    border: isExpanded ? "1px solid rgba(155,127,255,0.50)" : "1px solid rgba(100,130,255,0.22)",
+                    backdropFilter: "blur(12px)",
                   }}
                 >
                   <div
                     className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                       isExpanded
-                        ? "bg-violet/10"
-                        : "bg-cobalt/10 group-hover:bg-cobalt/20"
+                        ? "bg-purple-500/20 border border-purple-400/50"
+                        : "bg-blue-500/15 border border-blue-400/30 group-hover:bg-blue-500/25"
                     }`}
                   >
                     <obj.icon
                       className={`w-5 h-5 transition-colors ${
-                        isExpanded ? "text-violet" : "text-cobalt"
+                        isExpanded ? "text-purple-300" : "text-blue-400"
                       }`}
                     />
                   </div>
 
-                  <span className="font-heading font-semibold text-royal flex-1">
+                  <span className="font-heading font-bold text-white text-base md:text-lg flex-1">
                     {obj.title}
                   </span>
 
@@ -136,7 +150,7 @@ export default function ObjectivesPage() {
                     animate={{ rotate: isExpanded ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-5 h-5 text-body/60" />
+                    <ChevronDown className="w-5 h-5 text-blue-300" />
                   </motion.div>
                 </button>
 
@@ -150,11 +164,11 @@ export default function ObjectivesPage() {
                       className="overflow-hidden"
                     >
                       <div
-                        className="px-6 py-4 pl-20 text-body/80 leading-relaxed rounded-b-xl text-sm md:text-base"
+                        className="px-6 py-5 pl-20 text-slate-200 leading-relaxed rounded-b-xl text-sm md:text-base font-normal"
                         style={{
-                          background: "rgba(8, 12, 40, 0.60)",
-                          border: "0 solid rgba(100,130,255,0.15)",
-                          borderWidth: "0 1px 1px 1px",
+                          background: "rgba(8, 12, 35, 0.85)",
+                          border: "1px solid rgba(100,130,255,0.25)",
+                          borderTop: "none",
                         }}
                       >
                         {obj.detail}

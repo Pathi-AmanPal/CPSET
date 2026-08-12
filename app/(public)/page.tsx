@@ -18,27 +18,27 @@ export default function HomePage() {
       <IntroStrip />
       <WordStrip />
 
-      <section id="vision-mission" className="py-16 md:py-24 border-t border-slate-200/60">
+      <section id="vision-mission" className="py-16 md:py-24 border-t border-blue-500/15">
         <VisionMission />
       </section>
 
-      <section id="objectives" className="py-16 md:py-24 bg-slate-50/50 border-t border-slate-200/60">
+      <section id="objectives" className="py-16 md:py-24 border-t border-blue-500/15">
         <ObjectivesList />
       </section>
 
-      <section id="team" className="py-16 md:py-24 border-t border-slate-200/60">
+      <section id="team" className="py-16 md:py-24 border-t border-blue-500/15">
         <TeamGrid />
       </section>
 
-      <section id="events" className="py-16 md:py-24 bg-slate-50/50 border-t border-slate-200/60">
+      <section id="events" className="py-16 md:py-24 border-t border-blue-500/15">
         <EventsTimeline />
       </section>
 
-      <section id="achievements" className="py-16 md:py-24 border-t border-slate-200/60">
+      <section id="achievements" className="py-16 md:py-24 border-t border-blue-500/15">
         <AchievementsCarousel />
       </section>
 
-      <section id="connect" className="py-16 md:py-24 bg-slate-50/50 border-t border-slate-200/60">
+      <section id="connect" className="py-16 md:py-24 border-t border-blue-500/15">
         <ConnectTiles />
       </section>
     </main>

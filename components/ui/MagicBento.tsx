@@ -509,7 +509,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
           const cardProps = {
             className: baseClassName,
             style: {
-              backgroundColor: card.color || '#FFFFFF',
+              backgroundColor: card.color || undefined,
               '--glow-color': glowColor
             } as React.CSSProperties
           };
@@ -531,8 +531,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                 <div className="magic-bento-card__header">
                   <div className="flex items-center gap-3">
                     {IconComponent && (
-                      <div className="w-10 h-10 rounded-xl bg-cobalt/10 border border-cobalt/20 flex items-center justify-center">
-                        <IconComponent className="w-5 h-5 text-cobalt" />
+                      <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.35)]">
+                        <IconComponent className="w-5 h-5 text-purple-300" />
                       </div>
                     )}
                   </div>
@@ -554,8 +554,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
               <div className="magic-bento-card__header">
                 <div className="flex items-center gap-3">
                   {IconComponent && (
-                    <div className="w-10 h-10 rounded-xl bg-cobalt/10 border border-cobalt/20 flex items-center justify-center">
-                      <IconComponent className="w-5 h-5 text-cobalt" />
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.35)]">
+                      <IconComponent className="w-5 h-5 text-purple-300" />
                     </div>
                   )}
                 </div>
