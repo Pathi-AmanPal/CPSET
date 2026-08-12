@@ -223,17 +223,6 @@ export default function Hero() {
           />
         </motion.div>
 
-        {/* Subtext */}
-        <motion.p
-          className="text-base max-w-xs mb-9 leading-relaxed"
-          style={{ color: "rgba(220, 225, 240, 0.75)" }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-        >
-          Securing Privacy. Empowering Innovation.<br />Protecting the Future.
-        </motion.p>
-
         {/* Buttons */}
         <motion.div
           className="flex flex-col sm:flex-row items-center gap-3"
