@@ -1,4 +1,5 @@
 import TeamGrid from "@/components/sections/TeamGrid";
+import TeamHighlightSection from "@/components/sections/TeamHighlightSection";
 
 export const metadata = {
   title: "Team — CPSET",
@@ -6,5 +7,10 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <TeamGrid />;
+  return (
+    <main className="pt-8">
+      <TeamHighlightSection />
+      <TeamGrid />
+    </main>
+  );
 }

@@ -4,6 +4,7 @@ import WordStrip from "@/components/sections/WordStrip";
 import VisionMission from "@/components/sections/VisionMission";
 import ObjectivesList from "@/components/sections/ObjectivesList";
 import TeamGrid from "@/components/sections/TeamGrid";
+import TeamHighlightSection from "@/components/sections/TeamHighlightSection";
 import EventsTimeline from "@/components/sections/EventsTimeline";
 import AchievementsCarousel from "@/components/sections/AchievementsCarousel";
 import ConnectTiles from "@/components/sections/ConnectTiles";
@@ -28,6 +29,7 @@ export default function HomePage() {
 
       <section id="team" className="py-16 md:py-24 border-t border-blue-500/15">
         <TeamGrid />
+        <TeamHighlightSection />
       </section>
 
       <section id="events" className="py-16 md:py-24 border-t border-blue-500/15">
