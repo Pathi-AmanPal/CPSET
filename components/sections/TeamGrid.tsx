@@ -233,9 +233,9 @@ function PolaroidCard({
     if (!hasMovedRef.current) onClick(config);
   };
 
-  const w = isMentor ? 155 : 120;
+  const w = isMentor ? 185 : 145;
   const marginL = -(w / 2);
-  const marginT = isMentor ? -88 : -68;
+  const marginT = isMentor ? -104 : -82;
 
   return (
     <div
@@ -273,7 +273,7 @@ function PolaroidCard({
       <div
         style={{
           background: "#F9F7F4",
-          padding: isMentor ? "7px 7px 12px" : "6px 6px 10px",
+          padding: isMentor ? "8px 8px 15px" : "7px 7px 12px",
           borderRadius: "2px",
           border: "1px solid rgba(0,0,0,0.08)",
           position: "relative",
@@ -284,15 +284,15 @@ function PolaroidCard({
         <div
           style={{
             position: "absolute",
-            top: "-8px",
+            top: "-9px",
             left: "50%",
             transform: "translateX(-50%)",
-            width: isMentor ? "42px" : "36px",
-            height: "16px",
-            borderRadius: "8px",
+            width: isMentor ? "48px" : "40px",
+            height: "18px",
+            borderRadius: "9px",
             background: "linear-gradient(180deg, rgba(17, 78, 96, 0.95) 0%, rgba(60, 160, 181, 0.9) 55%, rgba(139, 216, 232, 0.95) 100%)",
             border: "1px solid rgba(255, 255, 255, 0.45)",
-            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
+            boxShadow: "0 3px 10px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.65)",
             backdropFilter: "blur(6px)",
             WebkitBackdropFilter: "blur(6px)",
             zIndex: 15,
