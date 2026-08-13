@@ -75,7 +75,7 @@ export default function TeamHighlightSection() {
           {/* Image Container with scanner effect */}
           <div className="relative aspect-[16/9] w-full bg-slate-900 overflow-hidden">
             <Image
-              src="/images/team/cpset-team-highlight.png"
+              src="/images/team/cpset-team-highlight.jpeg"
               alt="CPSET Team and Dr Syed Irfan at Chandigarh University"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
@@ -176,7 +176,7 @@ export default function TeamHighlightSection() {
 
               <div className="relative aspect-[16/9] w-full">
                 <Image
-                  src="/images/team/cpset-team-highlight.png"
+                  src="/images/team/cpset-team-highlight.jpeg"
                   alt="CPSET Group Photo Full View"
                   fill
                   className="object-contain"
