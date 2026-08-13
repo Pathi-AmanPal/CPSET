@@ -168,6 +168,19 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     initialPos: { x: 120, y: 240 },
     teamMembers: ["Sumit Chauhan", "Ansh Rana", "Yamiki Chaturvedi"],
   },
+  {
+    id: "m-joint-secretary",
+    name: "Avneet Kaur",
+    role: "Joint Secretary",
+    photo: "/images/team/Avneet_kaur.png",
+    bio: "Supporting strategic operations, coordinating between departments, and ensuring seamless communication across all CPSET activities and initiatives.",
+    quote: "Collaboration and clarity are the backbone of every strong organization.",
+    tapeColor: "#BE185D",
+    rotation: -3,
+    badge: "JOINT SEC",
+    dossierNo: "CPSET-DOSSIER-10",
+    initialPos: { x: 360, y: 230 },
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
