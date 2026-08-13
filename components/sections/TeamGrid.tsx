@@ -66,7 +66,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     id: "m-webmaster",
     name: "Pathi Aman Pal",
     role: "Web Master Lead",
-    photo: "",
+    photo: "/images/team/Pathi_Aman_Pal.png",
     bio: "Leading full-stack web architecture, system infrastructure, and interactive digital interfaces for CPSET platforms.",
     tapeColor: "#3B82F6",
     rotation: 5,
