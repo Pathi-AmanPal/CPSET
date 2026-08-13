@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import TargetCursor from "@/components/ui/TargetCursor";
+import SiteGuard from "@/components/ui/SiteGuard";
 import "./globals.css";
 
 const inter = Inter({
@@ -61,6 +62,9 @@ export default function RootLayout({
     >
       <body className="circuit-bg min-h-screen relative overflow-x-hidden"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+
+        {/* Site-wide content protection — right-click block, shortcut block, devtools blur */}
+        <SiteGuard />
 
         {/* Target locking cursor: steady shape when unhovered, locks onto buttons on hover */}
         <TargetCursor

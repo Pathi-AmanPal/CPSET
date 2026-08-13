@@ -1,0 +1,19 @@
+# CPSET — robots.txt
+# Protect all paths from archiving and crawling
+
+User-agent: *
+Disallow: /images/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Block web archivers (Wayback Machine, etc.)
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: Googlebot
+Disallow: /images/
+Allow: /
+
+# No caching of pages in Google
+X-Robots-Tag: noarchive, nosnippet
