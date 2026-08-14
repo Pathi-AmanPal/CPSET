@@ -1,7 +1,12 @@
 import { useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import TextType from "@/components/ui/TextType";
-import RotatingEarth, { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
+import type { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
+
+const RotatingEarth = dynamic(() => import("@/components/ui/wireframe-dotted-globe"), {
+  ssr: false,
+});
 import {
   ArrowDown,
   ExternalLink,
