@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
+import {
+  geoOrthographic,
+  geoPath,
+  geoBounds,
+  geoGraticule,
+  geoDistance,
+  timer,
+} from "d3";
 
 export interface GlobeAnchor {
   id: string;
@@ -65,13 +72,12 @@ export default function RotatingEarth({
     canvas.style.height = `${containerHeight}px`;
     context.scale(dpr, dpr);
 
-    const projection = d3
-      .geoOrthographic()
+    const projection = geoOrthographic()
       .scale(radius)
       .translate([containerWidth / 2, containerHeight / 2])
       .clipAngle(90);
 
-    const path = d3.geoPath().projection(projection).context(context);
+    const path = geoPath().projection(projection).context(context);
 
     const pointInPolygon = (point: [number, number], polygon: number[][]): boolean => {
       const [x, y] = point;
@@ -120,7 +126,7 @@ export default function RotatingEarth({
 
     const generateDotsInPolygon = (feature: any, dotSpacing = 16) => {
       const dots: [number, number][] = [];
-      const bounds = d3.geoBounds(feature);
+      const bounds = geoBounds(feature);
       const [[minLng, minLat], [maxLng, maxLat]] = bounds;
 
       const stepSize = dotSpacing * 0.08;
@@ -167,7 +173,7 @@ export default function RotatingEarth({
 
       if (landFeatures) {
         // Draw graticule
-        const graticule = d3.geoGraticule();
+        const graticule = geoGraticule();
         context.beginPath();
         path(graticule());
         context.strokeStyle = "rgba(120, 150, 255, 0.25)";
@@ -185,7 +191,7 @@ export default function RotatingEarth({
 
         // Draw halftone dots
         allDots.forEach((dot) => {
-          const dist = d3.geoDistance([dot.lng, dot.lat], [centerLng, centerLat]);
+          const dist = geoDistance([dot.lng, dot.lat], [centerLng, centerLat]);
           if (dist < Math.PI / 2) {
             const projected = projection([dot.lng, dot.lat]);
             if (
@@ -208,7 +214,7 @@ export default function RotatingEarth({
       // Calculate anchor node positions for side cards tracking
       if (anchorsRef.current.length > 0) {
         const positions: GlobeAnchorPosition[] = anchorsRef.current.map((anchor) => {
-          const dist = d3.geoDistance([anchor.lng, anchor.lat], [centerLng, centerLat]);
+          const dist = geoDistance([anchor.lng, anchor.lat], [centerLng, centerLat]);
           const isFront = dist < Math.PI / 2 - 0.05; // front hemisphere check
           const projected = projection([anchor.lng, anchor.lat]);
 
@@ -290,7 +296,7 @@ export default function RotatingEarth({
       }
     };
 
-    const rotationTimer = d3.timer(rotate);
+    const rotationTimer = timer(rotate);
 
     let handleMouseDown: ((e: MouseEvent) => void) | null = null;
     let handleWheel: ((e: WheelEvent) => void) | null = null;
