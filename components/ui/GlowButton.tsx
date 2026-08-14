@@ -12,6 +12,8 @@ interface GlowButtonProps {
   className?: string;
   type?: "button" | "submit";
   disabled?: boolean;
+  target?: string;
+  rel?: string;
 }
 
 export default function GlowButton({
@@ -23,6 +25,8 @@ export default function GlowButton({
   className,
   type = "button",
   disabled = false,
+  target,
+  rel,
 }: GlowButtonProps) {
   const base =
     "relative inline-flex items-center justify-center font-heading font-semibold rounded-xl transition-all duration-300 overflow-hidden shadow-sm";
@@ -55,8 +59,8 @@ export default function GlowButton({
       <motion.a
         href={href}
         className={classes}
-        target={href.startsWith("http") ? "_blank" : undefined}
-        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+        target={target ?? (href.startsWith("http") ? "_blank" : undefined)}
+        rel={rel ?? (href.startsWith("http") ? "noopener noreferrer" : undefined)}
         {...motionProps}
       >
         {children}
