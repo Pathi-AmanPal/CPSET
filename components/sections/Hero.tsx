@@ -1,8 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import TextType from "@/components/ui/TextType";
-import WireframeGlobe from "@/components/3d/WireframeGlobe";
+import RotatingEarth, { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
 import {
   ArrowDown,
   ExternalLink,
@@ -21,38 +20,61 @@ import Image from "next/image";
 
 const leftCards = [
   {
+    id: "left-0",
     icon: Lock,
     title: "Privacy First",
     desc: "Advancing privacy engineering and privacy-preserving technologies.",
+    lng: -80,
+    lat: 35,
   },
   {
+    id: "left-1",
     icon: Shield,
     title: "Cyber Security",
     desc: "Network, cloud, IoT, and secure software development.",
+    lng: -50,
+    lat: -15,
   },
   {
+    id: "left-2",
     icon: Cpu,
     title: "Emerging Tech",
     desc: "AI security, blockchain, and digital forensics research.",
+    lng: -15,
+    lat: 12,
   },
 ];
 
 const rightCards = [
   {
+    id: "right-0",
     icon: Network,
     title: "Expert Network",
     desc: "Industry collaborations, internships, and global partnerships.",
+    lng: 25,
+    lat: 48,
   },
   {
+    id: "right-1",
     icon: Lightbulb,
     title: "Innovation",
     desc: "Driving startups, research publications, and patents.",
+    lng: 78,
+    lat: 22,
   },
   {
+    id: "right-2",
     icon: Star,
     title: "Excellence",
     desc: "Globally recognized certifications and cyber competitions.",
+    lng: 135,
+    lat: -25,
   },
+];
+
+const globeAnchors: GlobeAnchor[] = [
+  ...leftCards.map((c) => ({ id: c.id, lng: c.lng, lat: c.lat })),
+  ...rightCards.map((c) => ({ id: c.id, lng: c.lng, lat: c.lat })),
 ];
 
 const stats = [
@@ -63,6 +85,16 @@ const stats = [
 ];
 
 export default function Hero() {
+  const [anchorMap, setAnchorMap] = useState<Record<string, GlobeAnchorPosition>>({});
+
+  const handleAnchorPositionsChange = useCallback((positions: GlobeAnchorPosition[]) => {
+    const map: Record<string, GlobeAnchorPosition> = {};
+    positions.forEach((p) => {
+      map[p.id] = p;
+    });
+    setAnchorMap(map);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -77,98 +109,125 @@ export default function Hero() {
         }}
       />
 
-      {/* ── Full-bleed globe background ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-        <WireframeGlobe
-          diameter={680}
-          speed={0.0018}
-          maxTilt={0.28}
-          className="w-full h-full"
+      {/* ── Rotating Dotted Globe Canvas background ── */}
+      <div className="absolute inset-0 z-0 pointer-events-auto flex items-center justify-center">
+        <RotatingEarth
+          width={760}
+          height={680}
+          anchors={globeAnchors}
+          onAnchorPositionsChange={handleAnchorPositionsChange}
+          className="w-full max-w-4xl"
         />
       </div>
 
       {/* ── Left floating cards ── */}
       <div className="absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-5">
-        {leftCards.map((card, i) => (
-          <motion.div
-            key={card.title}
-            className="flex items-center gap-1"
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
-          >
-            {/* Card */}
-            <div
-              className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52"
-              style={{
-                background: "rgba(15, 20, 50, 0.75)",
-                border: "1px solid rgba(120, 140, 255, 0.25)",
-                boxShadow: "0 0 20px rgba(80, 100, 255, 0.10), 0 4px 20px rgba(0,0,0,0.4)",
+        {leftCards.map((card, i) => {
+          const anchor = anchorMap[card.id];
+          const isVisible = anchor ? anchor.visible : true;
+
+          return (
+            <motion.div
+              key={card.title}
+              className="flex items-center gap-1 transition-all duration-500"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{
+                opacity: isVisible ? 1 : 0.15,
+                scale: isVisible ? 1 : 0.9,
+                x: 0,
               }}
+              style={{
+                pointerEvents: isVisible ? "auto" : "none",
+                filter: isVisible ? "none" : "blur(2px)",
+              }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
+              {/* Card */}
               <div
-                className="mt-0.5 p-2 rounded-xl shrink-0"
+                className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52 transition-all duration-300 hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.25)]"
                 style={{
-                  background: "rgba(100, 120, 255, 0.12)",
-                  border: "1px solid rgba(100, 130, 255, 0.25)",
+                  background: "rgba(15, 20, 50, 0.85)",
+                  border: "1px solid rgba(120, 140, 255, 0.3)",
+                  boxShadow: "0 0 20px rgba(80, 100, 255, 0.12), 0 4px 20px rgba(0,0,0,0.4)",
                 }}
               >
-                <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                <div
+                  className="mt-0.5 p-2 rounded-xl shrink-0"
+                  style={{
+                    background: "rgba(100, 120, 255, 0.12)",
+                    border: "1px solid rgba(100, 130, 255, 0.25)",
+                  }}
+                >
+                  <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
+                  <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
-                <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
+              {/* Connector line + dot */}
+              <div className="flex items-center gap-1">
+                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#8B9FFF" : "#4A5A88", boxShadow: isVisible ? "0 0 12px rgba(139,159,255,0.9), 0 0 4px rgba(139,159,255,1)" : "none" }} />
               </div>
-            </div>
-            {/* Connector line + dot */}
-            <div className="flex items-center gap-1">
-              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
-              <div className="w-2 h-2 rounded-full" style={{ background: "#7A9AFF", boxShadow: "0 0 10px rgba(120,155,255,0.85), 0 0 4px rgba(120,155,255,1)" }} />
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* ── Right floating cards ── */}
       <div className="absolute right-4 xl:right-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-5">
-        {rightCards.map((card, i) => (
-          <motion.div
-            key={card.title}
-            className="flex items-center gap-1"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
-          >
-            {/* Connector dot + line */}
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full" style={{ background: "#7A9AFF", boxShadow: "0 0 10px rgba(120,155,255,0.85), 0 0 4px rgba(120,155,255,1)" }} />
-              <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
-            </div>
-            {/* Card */}
-            <div
-              className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52"
-              style={{
-                background: "rgba(15, 20, 50, 0.75)",
-                border: "1px solid rgba(120, 140, 255, 0.25)",
-                boxShadow: "0 0 20px rgba(80, 100, 255, 0.10), 0 4px 20px rgba(0,0,0,0.4)",
+        {rightCards.map((card, i) => {
+          const anchor = anchorMap[card.id];
+          const isVisible = anchor ? anchor.visible : true;
+
+          return (
+            <motion.div
+              key={card.title}
+              className="flex items-center gap-1 transition-all duration-500"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{
+                opacity: isVisible ? 1 : 0.15,
+                scale: isVisible ? 1 : 0.9,
+                x: 0,
               }}
+              style={{
+                pointerEvents: isVisible ? "auto" : "none",
+                filter: isVisible ? "none" : "blur(2px)",
+              }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
+              {/* Connector dot + line */}
+              <div className="flex items-center gap-1">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#8B9FFF" : "#4A5A88", boxShadow: isVisible ? "0 0 12px rgba(139,159,255,0.9), 0 0 4px rgba(139,159,255,1)" : "none" }} />
+                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
+              </div>
+              {/* Card */}
               <div
-                className="mt-0.5 p-2 rounded-xl shrink-0"
+                className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52 transition-all duration-300 hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.25)]"
                 style={{
-                  background: "rgba(100, 120, 255, 0.12)",
-                  border: "1px solid rgba(100, 130, 255, 0.25)",
+                  background: "rgba(15, 20, 50, 0.85)",
+                  border: "1px solid rgba(120, 140, 255, 0.3)",
+                  boxShadow: "0 0 20px rgba(80, 100, 255, 0.12), 0 4px 20px rgba(0,0,0,0.4)",
                 }}
               >
-                <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                <div
+                  className="mt-0.5 p-2 rounded-xl shrink-0"
+                  style={{
+                    background: "rgba(100, 120, 255, 0.12)",
+                    border: "1px solid rgba(100, 130, 255, 0.25)",
+                  }}
+                >
+                  <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
+                  <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
-                <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* ── Center overlay content (on top of globe) ── */}
