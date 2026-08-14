@@ -46,7 +46,6 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
-  transpilePackages: ["d3"],
   images: {
     remotePatterns: [
       {
