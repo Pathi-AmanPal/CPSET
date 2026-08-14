@@ -1,12 +1,8 @@
 import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
-import TextType from "@/components/ui/TextType";
-import type { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
-
-const RotatingEarth = dynamic(() => import("@/components/ui/wireframe-dotted-globe"), {
-  ssr: false,
-});
+import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowDown,
   ExternalLink,
@@ -20,8 +16,12 @@ import {
   Calendar,
   Trophy,
 } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import TextType from "@/components/ui/TextType";
+import type { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
+
+const RotatingEarth = dynamic(() => import("@/components/ui/wireframe-dotted-globe"), {
+  ssr: false,
+});
 
 const leftCards = [
   {
