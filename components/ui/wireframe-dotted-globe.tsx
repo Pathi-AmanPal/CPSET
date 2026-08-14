@@ -35,7 +35,6 @@ export default function RotatingEarth({
   interactive = true,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const onAnchorPositionsChangeRef = useRef(onAnchorPositionsChange);
@@ -258,8 +257,6 @@ export default function RotatingEarth({
 
     const loadWorldData = async () => {
       try {
-        setIsLoading(true);
-
         const response = await fetch(
           "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json"
         );
@@ -275,10 +272,8 @@ export default function RotatingEarth({
         });
 
         render();
-        setIsLoading(false);
       } catch (err) {
         setError("Failed to load land map data");
-        setIsLoading(false);
       }
     };
 
