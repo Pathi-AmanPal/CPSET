@@ -261,6 +261,54 @@ export default function RotatingEarth({
       }
     };
 
+const FALLBACK_LAND = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[-168, 70], [-145, 72], [-125, 56], [-104, 50], [-88, 48], [-78, 28], [-95, 14], [-117, 20], [-135, 34], [-154, 51], [-168, 70]]],
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[-82, 12], [-58, 9], [-48, -7], [-55, -27], [-68, -55], [-79, -29], [-82, 12]]],
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[-12, 59], [9, 70], [36, 64], [43, 51], [27, 37], [4, 38], [-12, 45], [-12, 59]]],
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[-17, 35], [35, 36], [50, 10], [38, -35], [10, -35], [-15, 0], [-17, 35]]],
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[35, 70], [80, 78], [150, 60], [178, 40], [135, 18], [95, 5], [55, 20], [35, 42], [35, 70]]],
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[112, -11], [153, -10], [155, -39], [120, -42], [108, -25], [112, -11]]],
+      },
+    },
+  ],
+};
+
     const loadWorldData = async () => {
       try {
         const response = await fetch(
@@ -269,18 +317,20 @@ export default function RotatingEarth({
         if (!response.ok) throw new Error("Failed to load land data");
 
         landFeatures = await response.json();
+      } catch (err) {
+        landFeatures = FALLBACK_LAND;
+      }
 
+      if (landFeatures && landFeatures.features) {
         landFeatures.features.forEach((feature: any) => {
           const dots = generateDotsInPolygon(feature, 16);
           dots.forEach(([lng, lat]) => {
             allDots.push({ lng, lat });
           });
         });
-
-        render();
-      } catch (err) {
-        setError("Failed to load land map data");
       }
+
+      render();
     };
 
     // Rotation & interaction physics
