@@ -31,8 +31,8 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com data:",
       // Images: self + blob (Next.js image optimization) + vercel storage
       "img-src 'self' blob: data: https://*.public.blob.vercel-storage.com",
-      // Connections: self + vercel analytics
-      "connect-src 'self' https://vercel.live https://*.vercel-insights.com",
+      // Connections: self + vercel analytics + raw github for geojson map data
+      "connect-src 'self' https://vercel.live https://*.vercel-insights.com https://raw.githubusercontent.com",
       // No plugins/embeds
       "object-src 'none'",
       // Base URL locked to self
@@ -46,6 +46,7 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  transpilePackages: ["d3"],
   images: {
     remotePatterns: [
       {
