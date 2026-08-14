@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
-import DecryptedText from "@/components/ui/DecryptedText";
-import MagicBento, { BentoCardItem } from "@/components/ui/MagicBento";
+import CircularCarousel, { CarouselItem } from "@/components/ui/circular-carousel";
 import {
   Search,
   Zap,
@@ -14,48 +13,54 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const missionCards: BentoCardItem[] = [
+const missionItems: CarouselItem[] = [
   {
-    icon: Search,
+    id: "1",
     title: "Research & Innovation",
     description:
       "Conduct cutting-edge research in cybersecurity, privacy engineering, cryptography, AI security, and emerging technology threats. Publish research and file patents.",
-    label: "Research",
+    tag: "Research",
+    icon: Search,
   },
   {
-    icon: Zap,
+    id: "2",
     title: "Hands-On Learning",
     description:
       "Develop talent through advanced cybersecurity laboratories, cyber drills, cyber ranges, CTF competitions, hackathons, and real-world security challenges.",
-    label: "Practice",
+    tag: "Practice",
+    icon: Zap,
   },
   {
-    icon: Users,
+    id: "3",
     title: "Collaborative Learning",
     description:
       "Foster peer-to-peer learning, mentorship, faculty development programs (FDPs), and cross-disciplinary collaboration among students, faculty, and industry experts.",
-    label: "Teamwork",
+    tag: "Teamwork",
+    icon: Users,
   },
   {
-    icon: GraduationCap,
+    id: "4",
     title: "Certifications & Talent",
     description:
       "Facilitate globally recognized certification programs (Cisco, Microsoft, EC-Council) and develop the next generation of industry-ready cybersecurity professionals.",
-    label: "Growth",
+    tag: "Growth",
+    icon: GraduationCap,
   },
   {
-    icon: Eye,
+    id: "5",
     title: "Awareness & Outreach",
     description:
       "Promote cybersecurity awareness through seminars, workshops, awareness campaigns, national and international conferences across university and community.",
-    label: "Outreach",
+    tag: "Outreach",
+    icon: Eye,
   },
   {
-    icon: ShieldCheck,
+    id: "6",
     title: "Industry & Global Ties",
     description:
       "Foster interdisciplinary research, support cybersecurity startups, and build strong academia–industry partnerships and international collaborations.",
-    label: "Partnership",
+    tag: "Partnership",
+    icon: ShieldCheck,
   },
 ];
 
@@ -87,7 +92,7 @@ export default function VisionMissionPage() {
           />
         </section>
 
-        {/* Mission — MagicBento Grid */}
+        {/* Mission — Circular Carousel */}
         <section className="py-12 md:py-16">
           <motion.div
             className="text-center mb-12"
@@ -104,20 +109,7 @@ export default function VisionMissionPage() {
             </h2>
           </motion.div>
 
-          <MagicBento
-            cardData={missionCards}
-            textAutoHide={false}
-            enableStars={true}
-            enableSpotlight={true}
-            enableBorderGlow={true}
-            enableTilt={true}
-            clickEffect={true}
-            enableMagnetism={false}
-            disableAnimations={false}
-            spotlightRadius={400}
-            particleCount={12}
-            glowColor="132, 0, 255"
-          />
+          <CircularCarousel items={missionItems} autoPlay={true} autoPlayInterval={4000} />
         </section>
       </div>
     </main>
