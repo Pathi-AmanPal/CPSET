@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ElementType } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "gsap";
@@ -12,7 +12,7 @@ export interface CarouselItem {
   title: string;
   description: string;
   tag?: string;
-  icon?: React.ElementType;
+  icon?: ElementType;
 }
 
 export interface CircularCarouselProps {
