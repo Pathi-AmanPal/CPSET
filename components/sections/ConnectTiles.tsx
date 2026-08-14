@@ -129,7 +129,7 @@ export default function ConnectTiles() {
                 Become a member of CPSET through the Chandigarh University
                 intranet and start your cybersecurity journey.
               </p>
-              <GlowButton href="#" variant="primary" size="lg">
+              <GlowButton href="https://docs.google.com/forms/d/e/1FAIpQLSckwxVufiIBCV6XN49KGx4swbWrI-8dnzZ4y04c-1ifAReD2w/viewform" variant="primary" size="lg" target="_blank" rel="noopener noreferrer">
                 Become a Member
                 <ExternalLink className="w-4 h-4" />
               </GlowButton>

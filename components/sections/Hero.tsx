@@ -230,8 +230,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35 }}
         >
-          <Link
-            href="#connect"
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSckwxVufiIBCV6XN49KGx4swbWrI-8dnzZ4y04c-1ifAReD2w/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
             style={{
               background: "linear-gradient(135deg, #7c3aed, #5A6FE8)",
@@ -240,7 +242,7 @@ export default function Hero() {
           >
             Become a Member
             <ExternalLink className="w-4 h-4" />
-          </Link>
+          </a>
 
           <Link
             href="#vision-mission"
