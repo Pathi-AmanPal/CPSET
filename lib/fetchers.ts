@@ -24,6 +24,10 @@ async function api<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
+  if (typeof window === "undefined") {
+    return [] as unknown as T;
+  }
+
   const headers: Record<string, string> = {
     "X-Requested-With": "XMLHttpRequest",
     ...(options.headers as Record<string, string>),
