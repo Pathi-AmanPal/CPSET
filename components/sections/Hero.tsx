@@ -83,10 +83,10 @@ const globeAnchors: GlobeAnchor[] = [
 ];
 
 const stats = [
-  { icon: Users,    value: "500+", label: "Active Members"    },
+  { icon: Users,    value: "50+",  label: "Active Members"    },
   { icon: Shield,   value: "20+",  label: "Research Projects" },
-  { icon: Calendar, value: "50+",  label: "Events Conducted"  },
-  { icon: Trophy,   value: "10+",  label: "Achievements"      },
+  { icon: Calendar, value: "3",    label: "Events Conducted"  },
+  { icon: Trophy,   value: "5+",   label: "Achievements"      },
 ];
 
 export default function Hero() {
