@@ -30,11 +30,9 @@ const FLAGSHIP_EVENT: Event = {
   title: "Steganography & Network Forensics",
   description:
     "Live hands-on cybersecurity workshop exploring digital steganography, LSB data hiding, Wireshark packet capture, covert channel analysis, and payload extraction. Organized by AIT CSE, S.E.C.U.R.E Cybersecurity Club, CySecSphere Club, and CPSET in academic partnership with EC-Council.",
-  eventDate: new Date("2026-08-03T14:00:00.000Z"),
+  eventDate: "2026-08-03T14:00:00.000Z",
   location: "Chandigarh University, Mohali",
   imageUrl: "/images/events/cpset-team-highlight.jpeg",
-  createdAt: new Date("2026-08-01"),
-  updatedAt: new Date("2026-08-01"),
 };
 
 const DEFAULT_EVENTS: Event[] = [
@@ -44,22 +42,18 @@ const DEFAULT_EVENTS: Event[] = [
     title: "CPSET Cyber Drill & CTF Championship",
     description:
       "Flagship Jeopardy-style Capture The Flag competition covering cryptography, reverse engineering, web security, binary exploitation, and incident response.",
-    eventDate: new Date("2026-09-18T09:00:00.000Z"),
+    eventDate: "2026-09-18T09:00:00.000Z",
     location: "Cybersecurity CoE Lab, CU Mohali",
     imageUrl: "/images/case-board-bg.png",
-    createdAt: new Date("2026-08-05"),
-    updatedAt: new Date("2026-08-05"),
   },
   {
     id: "privacy-ai-safety-2026",
     title: "Privacy Engineering & AI Safety Seminar",
     description:
       "Expert-led symposium on differential privacy, federated learning security, LLM vulnerability assessment, and privacy-preserving AI frameworks.",
-    eventDate: new Date("2026-10-12T10:00:00.000Z"),
+    eventDate: "2026-10-12T10:00:00.000Z",
     location: "Main Auditorium, Chandigarh University",
     imageUrl: "/images/team/cpset-team-highlight.jpeg",
-    createdAt: new Date("2026-08-10"),
-    updatedAt: new Date("2026-08-10"),
   },
 ];
 

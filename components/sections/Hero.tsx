@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
