@@ -9,3 +9,6 @@ coverage
 *.HEIC
 *.heic
 *.mp4
+
+# local screenshots
+WhatsApp Image*.jpeg
