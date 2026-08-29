@@ -60,7 +60,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -6,
     badge: "SECRETARY",
     dossierNo: "CPSET-DOSSIER-01",
-    initialPos: { x: -360, y: -230 },
+    initialPos: { x: -210, y: -10 },
   },
   {
     id: "m-webmaster",
@@ -72,7 +72,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 5,
     badge: "WEB MASTER",
     dossierNo: "CPSET-DOSSIER-02",
-    initialPos: { x: -120, y: -240 },
+    initialPos: { x: -360, y: -240 },
     teamMembers: ["Pullagura Mahan Shashank Yadav", "Rahul Jaluthria", "Pankaj Saini"],
   },
   {
@@ -85,7 +85,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -4,
     badge: "TECHNICAL",
     dossierNo: "CPSET-DOSSIER-03",
-    initialPos: { x: 120, y: -240 },
+    initialPos: { x: -120, y: -240 },
     teamMembers: ["Pankaj Saini", "Nayan Jain"],
   },
   {
@@ -99,22 +99,8 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 7,
     badge: "SOCIAL MEDIA",
     dossierNo: "CPSET-DOSSIER-04",
-    initialPos: { x: 360, y: -230 },
+    initialPos: { x: 120, y: -240 },
     teamMembers: ["Shaan", "Rahul Jaluthria"],
-  },
-  {
-    id: "m-graphics",
-    name: "Harshit Narang",
-    role: "Graphics Lead",
-    photo: "/images/team/Harshit_Narang.png",
-    bio: "Directing visual design, creative identity, brand assets, and digital media graphics for CPSET projects and events.",
-    quote: "Translating complex cybersecurity concepts into compelling visual experiences.",
-    tapeColor: "#F43F5E",
-    rotation: -5,
-    badge: "GRAPHICS",
-    dossierNo: "CPSET-DOSSIER-11",
-    initialPos: { x: -190, y: 0 },
-    teamMembers: ["Avneet Singh"],
   },
   {
     id: "m-discipline",
@@ -126,7 +112,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -7,
     badge: "DISCIPLINE",
     dossierNo: "CPSET-DOSSIER-05",
-    initialPos: { x: -380, y: 0 },
+    initialPos: { x: -390, y: 0 },
     teamMembers: ["Arshdeep Singh", "Yamiki Chaturvedi", "Aditya Jha"],
   },
   {
@@ -139,7 +125,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 6,
     badge: "MANAGEMENT",
     dossierNo: "CPSET-DOSSIER-06",
-    initialPos: { x: 380, y: 0 },
+    initialPos: { x: 390, y: 0 },
     teamMembers: ["Jeavi", "Pranav Chauhan", "Jashanpreet Kaur"],
   },
   {
@@ -153,7 +139,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -5,
     badge: "CONTENT",
     dossierNo: "CPSET-DOSSIER-07",
-    initialPos: { x: -360, y: 230 },
+    initialPos: { x: -360, y: 240 },
     teamMembers: ["Shaan"],
   },
   {
@@ -166,7 +152,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 4,
     badge: "SPONSORSHIP",
     dossierNo: "CPSET-DOSSIER-08",
-    initialPos: { x: -120, y: 240 },
+    initialPos: { x: 360, y: -240 },
     teamMembers: ["Sukhwinder Singh", "Gagandeep Kaur"],
   },
   {
@@ -179,7 +165,7 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: 6,
     badge: "ANCHORING",
     dossierNo: "CPSET-DOSSIER-09",
-    initialPos: { x: 120, y: 240 },
+    initialPos: { x: -120, y: 240 },
     teamMembers: ["Sumit Chauhan", "Ansh Rana", "Yamiki Chaturvedi"],
   },
   {
@@ -193,7 +179,21 @@ const TEAM_MEMBERS: PolaroidConfig[] = [
     rotation: -3,
     badge: "JOINT SEC",
     dossierNo: "CPSET-DOSSIER-10",
-    initialPos: { x: 360, y: 230 },
+    initialPos: { x: 210, y: -10 },
+  },
+  {
+    id: "m-graphics",
+    name: "Harshit Narang",
+    role: "Graphics Lead",
+    photo: "/images/team/Harshit_Narang.png",
+    bio: "Directing visual design, creative identity, brand assets, and digital media graphics for CPSET projects and events.",
+    quote: "Translating complex cybersecurity concepts into compelling visual experiences.",
+    tapeColor: "#F43F5E",
+    rotation: -5,
+    badge: "GRAPHICS",
+    dossierNo: "CPSET-DOSSIER-11",
+    initialPos: { x: 380, y: 240 },
+    teamMembers: ["Avneet Singh"],
   },
 ];
 
