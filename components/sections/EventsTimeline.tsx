@@ -211,15 +211,15 @@ export default function EventsTimeline() {
                 <div className="flex flex-col items-center text-center mb-6">
                   <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] mb-4">
                     <Image
-                      src="/images/team/syed.jpeg"
-                      alt="Mr. Talha Jawad"
+                      src="/images/team/Talha_Jawed.jpeg"
+                      alt="Mr. Talha Jawed"
                       fill
                       className="object-cover"
                     />
                   </div>
 
                   <h4 className="font-heading font-bold text-lg text-white">
-                    Mr. Talha Jawad
+                    Mr. Talha Jawed
                   </h4>
                   <p className="text-xs font-mono text-purple-300 mt-1">
                     Assistant Director Academia
