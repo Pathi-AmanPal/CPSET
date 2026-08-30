@@ -8,10 +8,11 @@ import TeamHighlightSection from "@/components/sections/TeamHighlightSection";
 import EventsTimeline from "@/components/sections/EventsTimeline";
 import AchievementsCarousel from "@/components/sections/AchievementsCarousel";
 import ConnectTiles from "@/components/sections/ConnectTiles";
+import Scroll3DSection from "@/components/ui/Scroll3DSection";
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="overflow-x-hidden">
       <section id="hero">
         <Hero />
       </section>
@@ -19,30 +20,43 @@ export default function HomePage() {
       <IntroStrip />
       <WordStrip />
 
-      <section id="vision-mission" className="py-16 md:py-24 border-t border-blue-500/15">
-        <VisionMission />
-      </section>
+      {/* 3D Perspective Scroll fold-in sections */}
+      <Scroll3DSection maxRotateX={16} depth={100}>
+        <section id="vision-mission" className="py-16 md:py-24 border-t border-blue-500/15">
+          <VisionMission />
+        </section>
+      </Scroll3DSection>
 
-      <section id="objectives" className="py-16 md:py-24 border-t border-blue-500/15">
-        <ObjectivesList />
-      </section>
+      <Scroll3DSection maxRotateX={18} depth={120}>
+        <section id="objectives" className="py-16 md:py-24 border-t border-blue-500/15">
+          <ObjectivesList />
+        </section>
+      </Scroll3DSection>
 
-      <section id="team" className="py-16 md:py-24 border-t border-blue-500/15">
-        <TeamGrid />
-        <TeamHighlightSection />
-      </section>
+      <Scroll3DSection maxRotateX={14} depth={90}>
+        <section id="team" className="py-16 md:py-24 border-t border-blue-500/15">
+          <TeamGrid />
+          <TeamHighlightSection />
+        </section>
+      </Scroll3DSection>
 
-      <section id="events" className="py-16 md:py-24 border-t border-blue-500/15">
-        <EventsTimeline />
-      </section>
+      <Scroll3DSection maxRotateX={18} depth={140}>
+        <section id="events" className="py-16 md:py-24 border-t border-blue-500/15">
+          <EventsTimeline />
+        </section>
+      </Scroll3DSection>
 
-      <section id="achievements" className="py-16 md:py-24 border-t border-blue-500/15">
-        <AchievementsCarousel />
-      </section>
+      <Scroll3DSection maxRotateX={15} depth={100}>
+        <section id="achievements" className="py-16 md:py-24 border-t border-blue-500/15">
+          <AchievementsCarousel />
+        </section>
+      </Scroll3DSection>
 
-      <section id="connect" className="py-16 md:py-24 border-t border-blue-500/15">
-        <ConnectTiles />
-      </section>
+      <Scroll3DSection maxRotateX={12} depth={80}>
+        <section id="connect" className="py-16 md:py-24 border-t border-blue-500/15">
+          <ConnectTiles />
+        </section>
+      </Scroll3DSection>
     </main>
   );
 }

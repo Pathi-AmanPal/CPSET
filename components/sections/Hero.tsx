@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -28,54 +28,54 @@ const RotatingEarth = dynamic(() => import("@/components/ui/wireframe-dotted-glo
 const leftCards = [
   {
     id: "left-0",
-    icon: Lock,
-    title: "Privacy First",
-    desc: "Advancing privacy engineering and privacy-preserving technologies.",
-    lng: -80,
-    lat: 35,
+    title: "AI Security & Forensics",
+    desc: "Empowering Next-Gen Security Engineers",
+    icon: Shield,
+    lng: -74.006,
+    lat: 40.7128,
   },
   {
     id: "left-1",
-    icon: Shield,
-    title: "Cyber Security",
-    desc: "Network, cloud, IoT, and secure software development.",
-    lng: -50,
-    lat: -15,
+    title: "Chandigarh University",
+    desc: "AIT CSE Centre of Excellence",
+    icon: Cpu,
+    lng: 76.5746,
+    lat: 30.7688,
   },
   {
     id: "left-2",
-    icon: Cpu,
-    title: "Emerging Tech",
-    desc: "AI security, blockchain, and digital forensics research.",
-    lng: -15,
-    lat: 12,
+    title: "Privacy Engineering",
+    desc: "Zero-Knowledge & Data Sovereignty",
+    icon: Lock,
+    lng: 2.3522,
+    lat: 48.8566,
   },
 ];
 
 const rightCards = [
   {
     id: "right-0",
+    title: "Global Cyber Research",
+    desc: "IoT, Cloud & Distributed Systems",
     icon: Network,
-    title: "Expert Network",
-    desc: "Industry collaborations, internships, and global partnerships.",
-    lng: 25,
-    lat: 48,
+    lng: 139.6917,
+    lat: 35.6895,
   },
   {
     id: "right-1",
+    title: "Innovation Hub",
+    desc: "Skill Development & Mentorship",
     icon: Lightbulb,
-    title: "Innovation",
-    desc: "Driving startups, research publications, and patents.",
-    lng: 78,
-    lat: 22,
+    lng: 103.8198,
+    lat: 1.3521,
   },
   {
     id: "right-2",
+    title: "CTF & Cyber Drills",
+    desc: "Competitive Ethical Hacking",
     icon: Star,
-    title: "Excellence",
-    desc: "Globally recognized certifications and cyber competitions.",
-    lng: 135,
-    lat: -25,
+    lng: -0.1276,
+    lat: 51.5074,
   },
 ];
 
@@ -93,6 +93,23 @@ const stats = [
 
 export default function Hero() {
   const [anchorMap, setAnchorMap] = useState<Record<string, GlobeAnchorPosition>>({});
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 25,
+    stiffness: 120,
+    mass: 0.4,
+  });
+
+  const globeScale = useTransform(smoothProgress, [0, 1], [1, 0.75]);
+  const globeRotateX = useTransform(smoothProgress, [0, 1], [0, 32]);
+  const globeZ = useTransform(smoothProgress, [0, 1], [0, -280]);
+  const globeOpacity = useTransform(smoothProgress, [0, 0.8, 1], [1, 0.6, 0.1]);
 
   const handleAnchorPositionsChange = useCallback((positions: GlobeAnchorPosition[]) => {
     const map: Record<string, GlobeAnchorPosition> = {};
@@ -104,9 +121,13 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-screen overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #050914 0%, #070B1A 60%, #080D20 100%)" }}
+      style={{
+        background: "linear-gradient(160deg, #050914 0%, #070B1A 60%, #080D20 100%)",
+        perspective: "1200px",
+      }}
     >
       {/* ── Central ambient glow ── */}
       <div
@@ -116,8 +137,17 @@ export default function Hero() {
         }}
       />
 
-      {/* ── Rotating Dotted Globe Canvas background ── */}
-      <div className="absolute inset-0 z-0 pointer-events-auto flex items-center justify-center">
+      {/* ── Rotating Dotted Globe Canvas background with 3D Scroll transform ── */}
+      <motion.div
+        style={{
+          scale: globeScale,
+          rotateX: globeRotateX,
+          z: globeZ,
+          opacity: globeOpacity,
+          transformStyle: "preserve-3d",
+        }}
+        className="absolute inset-0 z-0 pointer-events-auto flex items-center justify-center"
+      >
         <RotatingEarth
           width={760}
           height={680}
@@ -125,7 +155,7 @@ export default function Hero() {
           onAnchorPositionsChange={handleAnchorPositionsChange}
           className="w-full max-w-4xl"
         />
-      </div>
+      </motion.div>
 
       {/* ── Left floating cards ── */}
       <div className="absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-5">
