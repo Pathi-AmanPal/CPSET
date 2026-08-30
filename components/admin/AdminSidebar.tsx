@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Shield, LayoutDashboard, Users, Calendar, Trophy, LogOut } from "lucide-react";
+import { Shield, LayoutDashboard, Users, Calendar, Trophy, LogOut, Settings } from "lucide-react";
 import { logout } from "@/lib/fetchers";
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { href: "/admin/team", icon: Users, label: "Team" },
   { href: "/admin/events", icon: Calendar, label: "Events" },
   { href: "/admin/achievements", icon: Trophy, label: "Achievements" },
+  { href: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
 export default function AdminSidebar({ adminEmail }: { adminEmail?: string }) {

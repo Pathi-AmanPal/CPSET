@@ -129,6 +129,24 @@ export const login = (data: LoginInput) =>
 export const logout = () =>
   api<{ ok: boolean }>("/api/auth/logout", { method: "POST" });
 
+// ── TOTP / 2FA ─────────────────────────────────────────
+
+/** Step 1 — generate a TOTP secret + otpauth:// URL for the QR code. */
+export const generateTotp = () =>
+  api<{ secret: string; otpauthUrl: string }>("/api/auth/totp");
+
+/** Step 2 — confirm a 6-digit code to activate TOTP on the account. */
+export const enableTotp = (token: string) =>
+  api<{ ok: boolean }>("/api/auth/totp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token }),
+  });
+
+/** Disable TOTP and clear the secret (invalidates all sessions). */
+export const disableTotp = () =>
+  api<void>("/api/auth/totp", { method: "DELETE" });
+
 // ── Image Upload ──────────────────────────────────────
 
 export const uploadImage = async (file: File): Promise<string> => {

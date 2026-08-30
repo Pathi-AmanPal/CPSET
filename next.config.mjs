@@ -5,8 +5,6 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   // Prevent embedding in iframes (clickjacking)
   { key: "X-Frame-Options", value: "DENY" },
-  // Legacy XSS filter for older browsers
-  { key: "X-XSS-Protection", value: "1; mode=block" },
   // Don't send Referer header when navigating away
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   // Force HTTPS for 2 years
@@ -18,31 +16,10 @@ const securityHeaders = [
   },
   // Prevent search-engine caching / archiving of private pages
   { key: "X-Robots-Tag", value: "noarchive, nosnippet" },
-  // Content Security Policy — restrict sources
-  {
-    key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      // Scripts: self + inline (needed for Next.js hydration) + vercel analytics
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-insights.com",
-      // Styles: self + inline (needed for Tailwind/CSS-in-JS)
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      // Fonts
-      "font-src 'self' https://fonts.gstatic.com data:",
-      // Images: self + blob (Next.js image optimization) + vercel storage
-      "img-src 'self' blob: data: https://*.public.blob.vercel-storage.com",
-      // Connections: self + vercel analytics + raw github for geojson map data
-      "connect-src 'self' https://vercel.live https://*.vercel-insights.com https://raw.githubusercontent.com",
-      // No plugins/embeds
-      "object-src 'none'",
-      // Base URL locked to self
-      "base-uri 'self'",
-      // Forms only post to self
-      "form-action 'self'",
-      // Prevent loading site in frames
-      "frame-ancestors 'none'",
-    ].join("; "),
-  },
+  // NOTE: Content-Security-Policy is set authoritatively in middleware.ts
+  // to avoid conflicts with next.config.mjs headers. Do not add it here.
+  // NOTE: X-XSS-Protection is intentionally omitted — it is deprecated and
+  // can introduce XSS vulnerabilities in older IE. A strong CSP replaces it.
 ];
 
 const nextConfig = {
@@ -51,6 +28,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
+      },
+      {
+        // Google Charts API — used to render TOTP QR codes in the admin settings page
+        protocol: "https",
+        hostname: "chart.googleapis.com",
       },
     ],
   },
