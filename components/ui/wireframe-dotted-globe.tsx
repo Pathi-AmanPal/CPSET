@@ -75,8 +75,101 @@ const LAT_LINES = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75];
 const LON_LINES = [-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150, 180];
 const GRAT_SAMPLES = 72;
 
-// ── 3D Orthographic Projection with yaw + pitch ───────────────────────────────
-// Returns [screenX, screenY, depth(z)] or null if back-facing
+// ── 3D Network Arc Definitions (Connecting dots across global hubs) ──────────
+interface ConnectionArc {
+  from: [number, number]; // [lng, lat]
+  to: [number, number];   // [lng, lat]
+  colorRgb: string;       // "130, 180, 255" or "168, 85, 247"
+  speed: number;
+  height: number;         // Max elevation multiplier (0.15 .. 0.30)
+  phase: number;
+}
+
+const ARC_CONNECTIONS: ConnectionArc[] = [
+  // New York <-> London
+  { from: [-74.006, 40.7128], to: [-0.1276, 51.5074], colorRgb: "140, 190, 255", speed: 0.75, height: 0.22, phase: 0.0 },
+  // London <-> Paris
+  { from: [-0.1276, 51.5074], to: [2.3522, 48.8566], colorRgb: "180, 110, 255", speed: 1.10, height: 0.15, phase: 0.25 },
+  // Chandigarh <-> London
+  { from: [76.5746, 30.7688], to: [-0.1276, 51.5074], colorRgb: "120, 160, 255", speed: 0.65, height: 0.28, phase: 0.50 },
+  // Chandigarh <-> Singapore
+  { from: [76.5746, 30.7688], to: [103.8198, 1.3521], colorRgb: "160, 130, 255", speed: 0.85, height: 0.20, phase: 0.15 },
+  // Singapore <-> Tokyo
+  { from: [103.8198, 1.3521], to: [139.6917, 35.6895], colorRgb: "140, 200, 255", speed: 0.95, height: 0.24, phase: 0.40 },
+  // Tokyo <-> San Francisco
+  { from: [139.6917, 35.6895], to: [-122.4194, 37.7749], colorRgb: "180, 120, 255", speed: 0.60, height: 0.32, phase: 0.70 },
+  // San Francisco <-> New York
+  { from: [-122.4194, 37.7749], to: [-74.006, 40.7128], colorRgb: "130, 180, 255", speed: 1.15, height: 0.18, phase: 0.30 },
+  // Buenos Aires <-> Cape Town
+  { from: [-58.3816, -34.6037], to: [18.4241, -33.9249], colorRgb: "170, 100, 255", speed: 0.70, height: 0.26, phase: 0.85 },
+  // Cape Town <-> Chandigarh
+  { from: [18.4241, -33.9249], to: [76.5746, 30.7688], colorRgb: "120, 170, 255", speed: 0.80, height: 0.27, phase: 0.60 },
+  // Sydney <-> Tokyo
+  { from: [151.2093, -33.8688], to: [139.6917, 35.6895], colorRgb: "160, 140, 255", speed: 0.90, height: 0.22, phase: 0.10 },
+  // Paris <-> Chandigarh
+  { from: [2.3522, 48.8566], to: [76.5746, 30.7688], colorRgb: "140, 180, 255", speed: 0.72, height: 0.25, phase: 0.45 },
+];
+
+// ── 3D Math Helper Functions ──────────────────────────────────────────────────
+
+// Convert [lng, lat] to unit 3D Cartesian vector with yaw rotation
+function get3DVector(lngDeg: number, latDeg: number, yaw: number): [number, number, number] {
+  const lng = (lngDeg * Math.PI) / 180 + yaw;
+  const lat = (latDeg * Math.PI) / 180;
+  const cosLat = Math.cos(lat);
+  const sinLat = Math.sin(lat);
+  return [cosLat * Math.sin(lng), -sinLat, cosLat * Math.cos(lng)];
+}
+
+// Project 3D vector to canvas 2D screen coordinates with radius height multiplier & pitch
+function projectVector(
+  v: [number, number, number],
+  heightMult: number,
+  pitch: number,
+  cx: number,
+  cy: number,
+  radius: number
+): [number, number, number] {
+  const r = radius * heightMult;
+  const x0 = v[0];
+  const y0 = v[1];
+  const z0 = v[2];
+
+  const cosP = Math.cos(pitch);
+  const sinP = Math.sin(pitch);
+
+  const y1 = y0 * cosP - z0 * sinP;
+  const z1 = y0 * sinP + z0 * cosP;
+
+  return [cx + x0 * r, cy + y1 * r, z1];
+}
+
+// Spherical Linear Interpolation (SLERP) between two 3D vectors
+function slerp(v1: [number, number, number], v2: [number, number, number], t: number): [number, number, number] {
+  let dot = v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+  dot = Math.max(-1, Math.min(1, dot));
+
+  const theta = Math.acos(dot);
+  if (Math.abs(theta) < 0.001) {
+    return [
+      v1[0] + t * (v2[0] - v1[0]),
+      v1[1] + t * (v2[1] - v1[1]),
+      v1[2] + t * (v2[2] - v1[2]),
+    ];
+  }
+
+  const sinTheta = Math.sin(theta);
+  const w1 = Math.sin((1 - t) * theta) / sinTheta;
+  const w2 = Math.sin(t * theta) / sinTheta;
+
+  return [
+    w1 * v1[0] + w2 * v2[0],
+    w1 * v1[1] + w2 * v2[1],
+    w1 * v1[2] + w2 * v2[2],
+  ];
+}
+
+// Standard 3D Orthographic Projection for surface points
 function project3D(
   lngDeg: number,
   latDeg: number,
@@ -86,28 +179,10 @@ function project3D(
   cy: number,
   radius: number
 ): [number, number, number] | null {
-  const lng = (lngDeg * Math.PI) / 180 + yaw;
-  const lat = (latDeg * Math.PI) / 180;
-
-  const cosLat = Math.cos(lat);
-  const sinLat = Math.sin(lat);
-  const cosLng = Math.cos(lng);
-  const sinLng = Math.sin(lng);
-
-  // Unit 3D point
-  const x0 = cosLat * sinLng;
-  const y0 = -sinLat;
-  const z0 = cosLat * cosLng;
-
-  // Rotate around X axis by pitch
-  const cosP = Math.cos(pitch);
-  const sinP = Math.sin(pitch);
-  const y1 = y0 * cosP - z0 * sinP;
-  const z1 = y0 * sinP + z0 * cosP;
-
-  if (z1 < -0.1) return null; // hard backface cull
-
-  return [cx + x0 * radius, cy + y1 * radius, z1];
+  const v = get3DVector(lngDeg, latDeg, yaw);
+  const pt = projectVector(v, 1.0, pitch, cx, cy, radius);
+  if (pt[2] < -0.1) return null; // backface cull
+  return pt;
 }
 
 export default function RotatingEarth({
@@ -156,9 +231,11 @@ export default function RotatingEarth({
     let velYaw = 0;
     let velPitch = 0;
     let rafId = 0;
+    let animTime = 0;
 
     function draw() {
       ctx!.clearRect(0, 0, cw, ch);
+      animTime += 16; // ~60fps time step in ms
 
       // ── 1. Ambient page background glow behind globe ──
       const pageGlow = ctx!.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.9);
@@ -257,6 +334,9 @@ export default function RotatingEarth({
         }
       }
 
+      // Store hub node projected 2D coordinates for inter-hub constellation mesh
+      const visibleHubs: { x: number; y: number; z: number }[] = [];
+
       // ── 8. Land dots — depth-based luminance with hub glow nodes ──
       for (const { lngDeg, latDeg, isHub } of LAND_DOTS) {
         const pt = project3D(lngDeg, latDeg, yaw, pitch, cx, cy, radius);
@@ -268,6 +348,10 @@ export default function RotatingEarth({
         const dotSize = 1.3 * (0.88 + depth * 0.30);
 
         if (isHub) {
+          if (depth > 0.25) {
+            visibleHubs.push({ x: sx, y: sy, z: depth });
+          }
+
           // Hub glow node — larger, radial glow aura
           const hubGlow = ctx!.createRadialGradient(sx, sy, 0, sx, sy, dotSize * 5);
           hubGlow.addColorStop(0, `rgba(205, 235, 255, ${Math.min(opacity * 1.05, 1.0)})`);
@@ -288,6 +372,125 @@ export default function RotatingEarth({
           ctx!.beginPath();
           ctx!.arc(sx, sy, dotSize, 0, Math.PI * 2);
           ctx!.fill();
+        }
+      }
+
+      // ── 8B. Inter-Hub Network Mesh Constellation (Connecting nearby dots) ─────
+      const maxMeshDist = radius * 0.28;
+      for (let i = 0; i < visibleHubs.length; i++) {
+        for (let j = i + 1; j < visibleHubs.length; j++) {
+          const h1 = visibleHubs[i];
+          const h2 = visibleHubs[j];
+          const dx = h2.x - h1.x;
+          const dy = h2.y - h1.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < maxMeshDist) {
+            const meshAlpha = (1 - dist / maxMeshDist) * 0.28 * Math.min(h1.z, h2.z);
+            ctx!.strokeStyle = `rgba(120, 175, 255, ${meshAlpha})`;
+            ctx!.lineWidth = 0.8;
+            ctx!.beginPath();
+            ctx!.moveTo(h1.x, h1.y);
+            ctx!.lineTo(h2.x, h2.y);
+            ctx!.stroke();
+          }
+        }
+      }
+
+      // ── 8C. 3D Elevated Great-Circle Network Arcs + Travelling Dots ───────────
+      const ARC_SAMPLES = 36;
+      for (const arc of ARC_CONNECTIONS) {
+        const v1 = get3DVector(arc.from[0], arc.from[1], yaw);
+        const v2 = get3DVector(arc.to[0], arc.to[1], yaw);
+
+        // Project sample points along arc
+        const points: { x: number; y: number; z: number }[] = [];
+        let anyVisible = false;
+
+        for (let s = 0; s <= ARC_SAMPLES; s++) {
+          const t = s / ARC_SAMPLES;
+          const vt = slerp(v1, v2, t);
+          const heightMult = 1.0 + arc.height * Math.sin(Math.PI * t);
+          const pt = projectVector(vt, heightMult, pitch, cx, cy, radius);
+          points.push({ x: pt[0], y: pt[1], z: pt[2] });
+          if (pt[2] > -0.05) anyVisible = true;
+        }
+
+        if (!anyVisible) continue; // skip if entire arc is hidden at the back
+
+        // Draw curved 3D Arc line
+        for (let s = 0; s < ARC_SAMPLES; s++) {
+          const pA = points[s];
+          const pB = points[s + 1];
+          const avgZ = (pA.z + pB.z) / 2;
+          if (avgZ < -0.1) continue;
+
+          const arcAlpha = Math.max(0.05, Math.min(0.75, (avgZ + 0.1) * 0.65));
+          ctx!.strokeStyle = `rgba(${arc.colorRgb}, ${arcAlpha})`;
+          ctx!.lineWidth = 1.25;
+          ctx!.beginPath();
+          ctx!.moveTo(pA.x, pA.y);
+          ctx!.lineTo(pB.x, pB.y);
+          ctx!.stroke();
+        }
+
+        // Animate travelling particle dot along arc
+        const dotT = ((animTime * 0.0003 * arc.speed + arc.phase) % 1.0 + 1.0) % 1.0;
+        const vtDot = slerp(v1, v2, dotT);
+        const heightMultDot = 1.0 + arc.height * Math.sin(Math.PI * dotT);
+        const ptDot = projectVector(vtDot, heightMultDot, pitch, cx, cy, radius);
+
+        if (ptDot[2] > -0.05) {
+          const dotAlpha = Math.min(1.0, (ptDot[2] + 0.1) * 1.2);
+
+          // 1. Draw glowing tail behind travelling particle dot
+          const TAIL_STEPS = 6;
+          for (let k = 1; k <= TAIL_STEPS; k++) {
+            const tailT = Math.max(0, dotT - k * 0.02);
+            const vtTail = slerp(v1, v2, tailT);
+            const hTail = 1.0 + arc.height * Math.sin(Math.PI * tailT);
+            const ptTail = projectVector(vtTail, hTail, pitch, cx, cy, radius);
+            if (ptTail[2] > -0.05) {
+              const tailAlpha = dotAlpha * (1 - k / TAIL_STEPS) * 0.55;
+              ctx!.fillStyle = `rgba(${arc.colorRgb}, ${tailAlpha})`;
+              ctx!.beginPath();
+              ctx!.arc(ptTail[0], ptTail[1], 1.8 * (1 - k / (TAIL_STEPS * 1.5)), 0, Math.PI * 2);
+              ctx!.fill();
+            }
+          }
+
+          // 2. Travelling particle dot — outer bright glow
+          const particleGlow = ctx!.createRadialGradient(ptDot[0], ptDot[1], 0, ptDot[0], ptDot[1], 14);
+          particleGlow.addColorStop(0, `rgba(240, 248, 255, ${dotAlpha})`);
+          particleGlow.addColorStop(0.35, `rgba(${arc.colorRgb}, ${dotAlpha * 0.85})`);
+          particleGlow.addColorStop(1, `rgba(${arc.colorRgb}, 0)`);
+          ctx!.fillStyle = particleGlow;
+          ctx!.beginPath();
+          ctx!.arc(ptDot[0], ptDot[1], 14, 0, Math.PI * 2);
+          ctx!.fill();
+
+          // 3. Travelling particle core dot
+          ctx!.fillStyle = `rgba(255, 255, 255, ${dotAlpha})`;
+          ctx!.beginPath();
+          ctx!.arc(ptDot[0], ptDot[1], 3.2, 0, Math.PI * 2);
+          ctx!.fill();
+
+          // 4. Ripple effect at endpoints (origin & destination nodes)
+          if (dotT < 0.12 || dotT > 0.88) {
+            const isNearDest = dotT > 0.88;
+            const targetV = isNearDest ? v2 : v1;
+            const targetPt = projectVector(targetV, 1.0, pitch, cx, cy, radius);
+            if (targetPt[2] > 0.0) {
+              const pulsePhase = isNearDest ? (dotT - 0.88) / 0.12 : (0.12 - dotT) / 0.12;
+              const pulseRadius = 5 + pulsePhase * 16;
+              const pulseAlpha = (1 - pulsePhase) * 0.70;
+
+              ctx!.strokeStyle = `rgba(${arc.colorRgb}, ${pulseAlpha})`;
+              ctx!.lineWidth = 1.5;
+              ctx!.beginPath();
+              ctx!.arc(targetPt[0], targetPt[1], pulseRadius, 0, Math.PI * 2);
+              ctx!.stroke();
+            }
+          }
         }
       }
 
