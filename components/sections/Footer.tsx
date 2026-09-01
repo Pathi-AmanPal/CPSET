@@ -12,11 +12,11 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24" style={{ borderTop: "1px solid rgba(100, 130, 255, 0.18)", background: "rgba(5, 9, 20, 0.95)" }}>
+    <footer className="relative mt-10" style={{ borderTop: "1px solid rgba(100, 130, 255, 0.18)", background: "rgba(5, 9, 20, 0.95)" }}>
       {/* Subtle top wash */}
       <div className="absolute inset-0 bg-gradient-to-t from-cobalt/5 to-transparent pointer-events-none" style={{ background: "linear-gradient(to top, rgba(30,60,180,0.06), transparent)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>

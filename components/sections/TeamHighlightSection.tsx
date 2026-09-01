@@ -10,7 +10,7 @@ export default function TeamHighlightSection() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   return (
-    <section className="relative py-12 md:py-16 overflow-hidden">
+    <section className="relative py-6 md:py-8 overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
         <div

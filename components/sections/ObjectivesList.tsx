@@ -198,7 +198,7 @@ export default function ObjectivesPage() {
 
         {/* Pillars strip */}
         <motion.div
-          className="mt-24 py-12"
+          className="mt-10 py-6"
           style={{ borderTop: "1px solid rgba(100, 130, 255, 0.18)" }}
           variants={fadeInUp}
           initial="hidden"

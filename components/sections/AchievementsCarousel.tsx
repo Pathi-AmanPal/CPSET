@@ -47,13 +47,13 @@ export default function AchievementsCarousel() {
         </motion.div>
 
         {loading ? (
-          <div className="flex items-center justify-center py-24">
+          <div className="flex items-center justify-center py-10">
             <div className="w-8 h-8 border-2 border-cobalt/30 border-t-cobalt rounded-full animate-spin" />
           </div>
         ) : achievements.length === 0 ? (
           /* Empty state with FuzzyText */
           <motion.div
-            className="text-center py-12 flex flex-col items-center justify-center"
+            className="text-center py-6 flex flex-col items-center justify-center"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"

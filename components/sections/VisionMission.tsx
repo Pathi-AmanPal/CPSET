@@ -66,10 +66,10 @@ const missionItems: CarouselItem[] = [
 
 export default function VisionMissionPage() {
   return (
-    <main className="pt-16 pb-16">
+    <main className="py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Vision */}
-        <section className="relative py-16 md:py-24 text-center">
+        <section className="relative py-8 md:py-12 text-center">
           {/* Ambient gradient wash */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-[600px] h-[300px] blur-[120px] rounded-full" style={{ background: "radial-gradient(ellipse, rgba(60,100,255,0.15) 0%, rgba(100,60,200,0.10) 50%, transparent 100%)" }} />
@@ -93,7 +93,7 @@ export default function VisionMissionPage() {
         </section>
 
         {/* Mission — Circular Carousel */}
-        <section className="py-12 md:py-16">
+        <section className="py-6 md:py-8">
           <motion.div
             className="text-center mb-12"
             variants={fadeInUp}
