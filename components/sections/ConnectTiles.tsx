@@ -35,11 +35,11 @@ const socials = [
 
 export default function ConnectTiles() {
   return (
-    <main className="pt-16 pb-16">
+    <div className="py-6 md:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-8"
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -103,7 +103,7 @@ export default function ConnectTiles() {
 
         {/* Become a Member CTA */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-8 text-center"
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -137,6 +137,6 @@ export default function ConnectTiles() {
           </div>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }
