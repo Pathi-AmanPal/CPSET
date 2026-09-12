@@ -2,13 +2,14 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Shield, LayoutDashboard, Users, Calendar, Trophy, LogOut } from "lucide-react";
+import Image from "next/image";
+import { LayoutDashboard, Users, Calendar, Trophy, LogOut, Terminal } from "lucide-react";
 import { logout } from "@/lib/fetchers";
 
 const navItems = [
   { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/admin/team", icon: Users, label: "Team" },
-  { href: "/admin/events", icon: Calendar, label: "Events" },
+  { href: "/admin/team", icon: Users, label: "Team Members" },
+  { href: "/admin/events", icon: Calendar, label: "Events & Labs" },
   { href: "/admin/achievements", icon: Trophy, label: "Achievements" },
 ];
 
@@ -27,51 +28,63 @@ export default function AdminSidebar({ adminEmail }: { adminEmail?: string }) {
   }
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 shadow-sm">
+    <aside className="w-64 bg-[#080C22] border-r border-[#5A8AFF]/20 flex flex-col shrink-0 font-mono shadow-2xl">
       {/* Logo */}
-      <div className="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cobalt to-violet flex items-center justify-center">
-          <Shield className="w-4 h-4 text-white" />
+      <div className="h-20 flex items-center gap-3 px-5 border-b border-[#5A8AFF]/15">
+        <div className="relative w-9 h-9 rounded-full bg-[#5A8AFF]/15 border border-[#5A8AFF]/30 p-1 flex items-center justify-center shrink-0">
+          <Image
+            src="/logo.png"
+            alt="CPSET Logo"
+            width={28}
+            height={28}
+            className="object-contain"
+          />
         </div>
-        <span className="font-heading font-bold text-royal text-sm">
-          CPSET Admin
-        </span>
+        <div>
+          <span className="font-heading font-extrabold text-white text-base tracking-tight block">
+            CPSET Admin
+          </span>
+          <span className="text-[9px] text-cyan-400 font-mono tracking-widest">
+            CORE COMMAND
+          </span>
+        </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-3 space-y-1">
+      <nav className="flex-1 p-4 space-y-1.5">
         {navItems.map((item) => {
           const active = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-mono transition-all ${
                 active
-                  ? "bg-cobalt/10 text-cobalt font-semibold"
-                  : "text-slate-600 hover:text-royal hover:bg-slate-100"
+                  ? "bg-[#5A8AFF]/20 text-white font-bold border border-[#5A8AFF]/40 shadow-[0_0_15px_rgba(90,138,255,0.2)]"
+                  : "text-slate-400 hover:text-white hover:bg-white/5 border border-transparent"
               }`}
             >
-              <item.icon className="w-4 h-4" />
-              {item.label}
+              <item.icon className={`w-4 h-4 ${active ? "text-cyan-400" : "text-slate-500"}`} />
+              <span>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* Admin details & Logout */}
-      <div className="p-3 border-t border-slate-200 space-y-2">
+      <div className="p-4 border-t border-[#5A8AFF]/15 space-y-3 bg-black/40">
         {adminEmail && (
-          <p className="text-[11px] text-slate-400 px-3.5 truncate">
-            Signed in as <span className="font-semibold text-slate-700">{adminEmail}</span>
-          </p>
+          <div className="text-[10px] text-slate-400 px-1 truncate">
+            <span className="text-cyan-400 block font-semibold mb-0.5">ADMIN OPERATOR:</span>
+            <span className="text-slate-200 truncate block">{adminEmail}</span>
+          </div>
         )}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-alert hover:bg-red-50 transition-all cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-rose-400 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 transition-all cursor-pointer"
         >
           <LogOut className="w-4 h-4" />
-          Logout
+          <span>TERMINATE SESSION</span>
         </button>
       </div>
     </aside>

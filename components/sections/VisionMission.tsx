@@ -11,6 +11,8 @@ import {
   GraduationCap,
   Eye,
   ShieldCheck,
+  Compass,
+  Target
 } from "lucide-react";
 
 const missionItems: CarouselItem[] = [
@@ -64,54 +66,58 @@ const missionItems: CarouselItem[] = [
   },
 ];
 
-export default function VisionMissionPage() {
+export default function VisionMission() {
   return (
-    <main className="pt-16 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Vision */}
-        <section className="relative py-16 md:py-24 text-center">
-          {/* Ambient gradient wash */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[600px] h-[300px] blur-[120px] rounded-full" style={{ background: "radial-gradient(ellipse, rgba(60,100,255,0.15) 0%, rgba(100,60,200,0.10) 50%, transparent 100%)" }} />
-          </div>
+    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background ambient radial light */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#5A8AFF]/15 via-[#9B7FFF]/15 to-transparent blur-[140px] pointer-events-none" />
 
-          <motion.p
-            className="text-cobalt font-heading text-sm uppercase tracking-[0.3em] font-semibold mb-6"
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            Our Vision
-          </motion.p>
+      {/* Vision Container */}
+      <section className="relative mb-20 text-center">
+        <motion.div
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5A8AFF]/10 border border-[#5A8AFF]/30 text-cyan-300 text-xs font-mono mb-6"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <Compass className="w-3.5 h-3.5 text-cyan-400" />
+          <span>OUR VISION // CPSET CORE STRATEGY</span>
+        </motion.div>
+
+        <div className="p-8 sm:p-12 md:p-16 rounded-3xl bg-[#090D24]/80 border border-[#5A8AFF]/20 backdrop-blur-2xl shadow-[0_12px_50px_rgba(0,5,30,0.6)] relative overflow-hidden group">
+          {/* Subtle glowing rim border */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
           <AnimatedText
             text="To be a globally recognized Cybersecurity Centre of Excellence — promoting education, research, innovation, and skill development in privacy, security, and emerging technologies."
-            as="h1"
-            className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-royal leading-snug max-w-4xl mx-auto"
+            as="h2"
+            className="font-heading font-extrabold text-2xl sm:text-3xl md:text-4xl text-white leading-relaxed max-w-4xl mx-auto tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
           />
-        </section>
+        </div>
+      </section>
 
-        {/* Mission — Circular Carousel */}
-        <section className="py-12 md:py-16">
-          <motion.div
-            className="text-center mb-12"
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <p className="text-cobalt font-heading text-sm uppercase tracking-[0.3em] font-semibold mb-4">
-              Our Mission
-            </p>
-            <h2 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-royal">
-              What Drives Us Forward
-            </h2>
-          </motion.div>
+      {/* Mission Section with Circular Carousel */}
+      <section className="relative">
+        <motion.div
+          className="text-center mb-12"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9B7FFF]/10 border border-[#9B7FFF]/30 text-violet-300 text-xs font-mono mb-4">
+            <Target className="w-3.5 h-3.5 text-violet-400" />
+            <span>OUR MISSION PILLARS</span>
+          </div>
+          <h3 className="font-heading font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
+            What Drives Us Forward
+          </h3>
+        </motion.div>
 
-          <CircularCarousel items={missionItems} autoPlay={true} autoPlayInterval={4000} />
-        </section>
-      </div>
-    </main>
+        <CircularCarousel items={missionItems} autoPlay={true} autoPlayInterval={4000} />
+      </section>
+    </div>
   );
 }
+

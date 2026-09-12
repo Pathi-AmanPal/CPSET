@@ -15,14 +15,13 @@ export default async function ProtectedAdminLayout({
     redirect("/admin/login");
   }
 
-  // After redirect() above, admin is guaranteed non-null here
   const { email } = admin!;
 
   return (
-    <div className="min-h-screen flex bg-slate-50 text-slate-800">
+    <div className="min-h-screen flex bg-[#050814] text-slate-200 font-mono">
       <AdminSidebar adminEmail={email} />
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-6xl mx-auto p-6 md:p-8">{children}</div>
+      <main className="flex-1 overflow-y-auto bg-[#070A1A]">
+        <div className="max-w-7xl mx-auto p-6 md:p-10">{children}</div>
       </main>
       <ToastContainer />
     </div>

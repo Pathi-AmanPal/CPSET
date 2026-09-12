@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -17,6 +17,8 @@ import {
   Users,
   Calendar,
   Trophy,
+  Activity,
+  Terminal
 } from "lucide-react";
 import TextType from "@/components/ui/TextType";
 import type { GlobeAnchor, GlobeAnchorPosition } from "@/components/ui/wireframe-dotted-globe";
@@ -29,7 +31,7 @@ const leftCards = [
   {
     id: "left-0",
     title: "AI Security & Forensics",
-    desc: "Empowering Next-Gen Security Engineers",
+    desc: "Next-Gen Security Engineering",
     icon: Shield,
     lng: -74.006,
     lat: 40.7128,
@@ -45,7 +47,7 @@ const leftCards = [
   {
     id: "left-2",
     title: "Privacy Engineering",
-    desc: "Zero-Knowledge & Data Sovereignty",
+    desc: "Zero-Knowledge & Sovereignty",
     icon: Lock,
     lng: 2.3522,
     lat: 48.8566,
@@ -56,7 +58,7 @@ const rightCards = [
   {
     id: "right-0",
     title: "Global Cyber Research",
-    desc: "IoT, Cloud & Distributed Systems",
+    desc: "IoT, Cloud & Cryptography",
     icon: Network,
     lng: 139.6917,
     lat: 35.6895,
@@ -64,7 +66,7 @@ const rightCards = [
   {
     id: "right-1",
     title: "Innovation Hub",
-    desc: "Skill Development & Mentorship",
+    desc: "Mentorship & Hands-on Labs",
     icon: Lightbulb,
     lng: 103.8198,
     lat: 1.3521,
@@ -123,17 +125,17 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-screen overflow-hidden flex flex-col justify-between"
       style={{
-        background: "linear-gradient(160deg, #050914 0%, #070B1A 60%, #080D20 100%)",
+        background: "linear-gradient(160deg, #050814 0%, #080D22 50%, #050814 100%)",
         perspective: "1200px",
       }}
     >
-      {/* ── Central ambient glow ── */}
+      {/* ── Central ambient radial glows ── */}
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 70% 60% at 50% 48%, rgba(30,60,200,0.18) 0%, rgba(15,30,100,0.08) 50%, transparent 80%)",
+          background: "radial-gradient(ellipse 70% 60% at 50% 48%, rgba(90,138,255,0.22) 0%, rgba(155,127,255,0.12) 45%, transparent 75%)",
         }}
       />
 
@@ -149,8 +151,8 @@ export default function Hero() {
         className="absolute inset-0 z-0 pointer-events-auto flex items-center justify-center"
       >
         <RotatingEarth
-          width={760}
-          height={680}
+          width={780}
+          height={700}
           anchors={globeAnchors}
           onAnchorPositionsChange={handleAnchorPositionsChange}
           className="w-full max-w-4xl"
@@ -166,10 +168,10 @@ export default function Hero() {
           return (
             <motion.div
               key={card.title}
-              className="flex items-center gap-1 transition-all duration-500"
+              className="flex items-center gap-2 transition-all duration-500"
               initial={{ opacity: 0, x: -40 }}
               animate={{
-                opacity: isVisible ? 1 : 0.15,
+                opacity: isVisible ? 1 : 0.18,
                 scale: isVisible ? 1 : 0.9,
                 x: 0,
               }}
@@ -181,31 +183,32 @@ export default function Hero() {
             >
               {/* Card */}
               <div
-                className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52 transition-all duration-300 hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.25)]"
+                className="backdrop-blur-xl rounded-2xl p-3.5 flex items-start gap-3 w-56 transition-all duration-300 hover:border-cyan-400/60 hover:shadow-[0_0_25px_rgba(90,138,255,0.3)] group"
                 style={{
-                  background: "rgba(15, 20, 50, 0.85)",
-                  border: "1px solid rgba(120, 140, 255, 0.3)",
-                  boxShadow: "0 0 20px rgba(80, 100, 255, 0.12), 0 4px 20px rgba(0,0,0,0.4)",
+                  background: "rgba(10, 14, 34, 0.82)",
+                  border: "1px solid rgba(90, 138, 255, 0.22)",
+                  boxShadow: "0 8px 32px rgba(0, 5, 30, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
                 }}
               >
                 <div
-                  className="mt-0.5 p-2 rounded-xl shrink-0"
+                  className="p-2.5 rounded-xl shrink-0 transition-transform group-hover:scale-110"
                   style={{
-                    background: "rgba(100, 120, 255, 0.12)",
-                    border: "1px solid rgba(100, 130, 255, 0.25)",
+                    background: "rgba(90, 138, 255, 0.15)",
+                    border: "1px solid rgba(90, 138, 255, 0.3)",
                   }}
                 >
-                  <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                  <card.icon className="w-4 h-4 text-cyan-300" strokeWidth={1.75} />
                 </div>
                 <div>
-                  <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
-                  <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
+                  <p className="font-bold text-[13px] text-white leading-tight mb-1 font-sans">{card.title}</p>
+                  <p className="text-[11px] text-slate-400 leading-snug font-mono">{card.desc}</p>
                 </div>
               </div>
+
               {/* Connector line + dot */}
               <div className="flex items-center gap-1">
-                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#8B9FFF" : "#4A5A88", boxShadow: isVisible ? "0 0 12px rgba(139,159,255,0.9), 0 0 4px rgba(139,159,255,1)" : "none" }} />
+                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(90,138,255,0.6) 0px, rgba(90,138,255,0.6) 4px, transparent 4px, transparent 8px)" }} />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#5A8AFF" : "#334155", boxShadow: isVisible ? "0 0 12px rgba(90,138,255,1)" : "none" }} />
               </div>
             </motion.div>
           );
@@ -221,10 +224,10 @@ export default function Hero() {
           return (
             <motion.div
               key={card.title}
-              className="flex items-center gap-1 transition-all duration-500"
+              className="flex items-center gap-2 transition-all duration-500"
               initial={{ opacity: 0, x: 40 }}
               animate={{
-                opacity: isVisible ? 1 : 0.15,
+                opacity: isVisible ? 1 : 0.18,
                 scale: isVisible ? 1 : 0.9,
                 x: 0,
               }}
@@ -236,30 +239,31 @@ export default function Hero() {
             >
               {/* Connector dot + line */}
               <div className="flex items-center gap-1">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#8B9FFF" : "#4A5A88", boxShadow: isVisible ? "0 0 12px rgba(139,159,255,0.9), 0 0 4px rgba(139,159,255,1)" : "none" }} />
-                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(120,150,255,0.5) 0px, rgba(120,150,255,0.5) 4px, transparent 4px, transparent 8px)" }} />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: isVisible ? "#9B7FFF" : "#334155", boxShadow: isVisible ? "0 0 12px rgba(155,127,255,1)" : "none" }} />
+                <div className="h-px w-6" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(155,127,255,0.6) 0px, rgba(155,127,255,0.6) 4px, transparent 4px, transparent 8px)" }} />
               </div>
+
               {/* Card */}
               <div
-                className="backdrop-blur-md rounded-2xl px-4 py-3 flex items-start gap-3 w-52 transition-all duration-300 hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.25)]"
+                className="backdrop-blur-xl rounded-2xl p-3.5 flex items-start gap-3 w-56 transition-all duration-300 hover:border-violet-400/60 hover:shadow-[0_0_25px_rgba(155,127,255,0.3)] group"
                 style={{
-                  background: "rgba(15, 20, 50, 0.85)",
-                  border: "1px solid rgba(120, 140, 255, 0.3)",
-                  boxShadow: "0 0 20px rgba(80, 100, 255, 0.12), 0 4px 20px rgba(0,0,0,0.4)",
+                  background: "rgba(10, 14, 34, 0.82)",
+                  border: "1px solid rgba(155, 127, 255, 0.22)",
+                  boxShadow: "0 8px 32px rgba(0, 5, 30, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
                 }}
               >
                 <div
-                  className="mt-0.5 p-2 rounded-xl shrink-0"
+                  className="p-2.5 rounded-xl shrink-0 transition-transform group-hover:scale-110"
                   style={{
-                    background: "rgba(100, 120, 255, 0.12)",
-                    border: "1px solid rgba(100, 130, 255, 0.25)",
+                    background: "rgba(155, 127, 255, 0.15)",
+                    border: "1px solid rgba(155, 127, 255, 0.3)",
                   }}
                 >
-                  <card.icon className="w-4 h-4" style={{ color: "#8B9FFF" }} strokeWidth={1.5} />
+                  <card.icon className="w-4 h-4 text-violet-300" strokeWidth={1.75} />
                 </div>
                 <div>
-                  <p className="font-bold text-[13px] leading-tight mb-1" style={{ color: "#F0F4FF" }}>{card.title}</p>
-                  <p className="text-[11px] leading-snug" style={{ color: "rgba(200, 205, 225, 0.70)" }}>{card.desc}</p>
+                  <p className="font-bold text-[13px] text-white leading-tight mb-1 font-sans">{card.title}</p>
+                  <p className="text-[11px] text-slate-400 leading-snug font-mono">{card.desc}</p>
                 </div>
               </div>
             </motion.div>
@@ -267,38 +271,51 @@ export default function Hero() {
         })}
       </div>
 
-      {/* ── Center overlay content (on top of globe) ── */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-20 pb-24">
+      {/* ── Center Hero Main Content ── */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-24 pb-28">
 
-        {/* CPSET Logo above headline */}
+        {/* Operational Status Pill Badge */}
         <motion.div
-          className="mb-5 relative"
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 border border-[#5A8AFF]/30 text-xs font-mono text-cyan-300 shadow-[0_0_20px_rgba(90,138,255,0.2)] backdrop-blur-md"
+        >
+          <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <span>LIVE // CPSET CORE NODE — CHANDIGARH UNIVERSITY</span>
+        </motion.div>
+
+        {/* CPSET Glowing Logo Emblem */}
+        <motion.div
+          className="mb-6 relative"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
           <div
-            className="relative w-24 h-24 mx-auto"
+            className="relative w-28 h-28 mx-auto rounded-full p-1 transition-transform hover:scale-105 duration-300"
             style={{
-              filter: "drop-shadow(0 0 18px rgba(90,138,255,0.50)) drop-shadow(0 0 8px rgba(130,80,255,0.35))",
+              background: "radial-gradient(circle, rgba(90,138,255,0.4) 0%, rgba(155,127,255,0.25) 70%, transparent 100%)",
+              boxShadow: "0 0 40px rgba(90,138,255,0.45), 0 0 15px rgba(155,127,255,0.3)",
+              border: "1px solid rgba(140,180,255,0.4)",
             }}
           >
             <Image
               src="/logo.png"
               alt="CPSET Logo"
               fill
-              className="object-contain"
+              className="object-contain p-1.5"
               priority
             />
           </div>
         </motion.div>
 
-        {/* Headline — dynamic typing effect */}
+        {/* Dynamic Typing Headline */}
         <motion.div
-          className="font-heading font-extrabold leading-tight mb-5 max-w-[650px] min-h-[140px] flex items-center justify-center"
+          className="font-heading font-extrabold leading-tight mb-6 max-w-3xl min-h-[130px] flex items-center justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
         >
           <TextType
             as="h1"
@@ -307,80 +324,80 @@ export default function Hero() {
               "Securing Privacy. Empowering Innovation. Protecting Future.",
               "Chandigarh University Cybersecurity Center of Excellence",
             ]}
-            typingSpeed={55}
+            typingSpeed={50}
             pauseDuration={2200}
             deletingSpeed={25}
             loop={true}
             showCursor={true}
             cursorCharacter="|"
-            className="gradient-text font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight"
-            cursorClassName="text-indigo-400 text-3xl md:text-5xl font-mono"
+            className="gradient-text font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight"
+            cursorClassName="text-cyan-400 text-3xl md:text-5xl font-mono"
             textColors={["#FFFFFF", "#E0E8FF", "#C4BBFF"]}
           />
         </motion.div>
 
-        {/* Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center gap-3"
+        {/* Subtitle tag */}
+        <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="max-w-xl text-slate-300 font-sans text-sm sm:text-base mb-8 leading-relaxed"
+        >
+          Advancing cyber research, zero-knowledge proofs, network forensics, steganography, and privacy-preserving emerging technologies.
+        </motion.p>
+
+        {/* Action Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSckwxVufiIBCV6XN49KGx4swbWrI-8dnzZ4y04c-1ifAReD2w/viewform"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
+            className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-white font-mono text-sm font-semibold tracking-wide transition-all duration-300 hover:-translate-y-0.5 shadow-[0_0_30px_rgba(90,138,255,0.45)]"
             style={{
-              background: "linear-gradient(135deg, #7c3aed, #5A6FE8)",
-              boxShadow: "0 4px 24px rgba(120, 80, 240, 0.45), 0 0 0 1px rgba(140,100,255,0.2)",
+              background: "linear-gradient(135deg, #3B6ADB 0%, #7C5FE0 100%)",
+              border: "1px solid rgba(255,255,255,0.2)",
             }}
           >
-            Become a Member
-            <ExternalLink className="w-4 h-4" />
+            <span>./join --cpset</span>
+            <ExternalLink className="w-4 h-4 text-cyan-200" />
           </a>
 
           <Link
             href="#vision-mission"
-            className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              color: "#E8ECFF",
-              backdropFilter: "blur(8px)",
-            }}
+            className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-mono text-sm font-medium text-slate-200 bg-white/5 border border-white/15 hover:bg-white/10 hover:border-white/30 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5"
           >
-            Explore
-            <ArrowDown className="w-4 h-4" />
+            <Terminal className="w-4 h-4 text-cyan-400" />
+            <span>Explore Matrix</span>
+            <ArrowDown className="w-4 h-4 text-slate-400" />
           </Link>
         </motion.div>
       </div>
 
-      {/* ── Stats strip pinned to bottom ── */}
+      {/* ── Stats Strip Pinned to Bottom ── */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-20 py-6 px-4"
-        style={{
-          background: "linear-gradient(to top, rgba(5,9,20,0.90) 0%, rgba(5,9,20,0.40) 100%)",
-          borderTop: "1px solid rgba(100, 130, 255, 0.12)",
-        }}
+        className="relative z-20 py-5 px-4 bg-black/60 border-t border-[#5A8AFF]/20 backdrop-blur-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.5 }}
       >
-        <div className="max-w-3xl mx-auto flex items-center justify-center" style={{ borderColor: "rgba(100, 130, 255, 0.20)" }}>
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center font-mono">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center px-6 sm:px-12"
-              style={{
-                borderRight: i < stats.length - 1 ? "1px solid rgba(100, 130, 255, 0.22)" : "none",
-              }}
+              className={`flex flex-col items-center justify-center p-2 ${
+                i < stats.length - 1 ? "md:border-r md:border-white/10" : ""
+              }`}
             >
-              <div className="flex items-center gap-2 mb-0.5">
-                <stat.icon className="w-4 h-4" style={{ color: "#7A9AFF" }} strokeWidth={1.5} />
-                <span className="font-extrabold text-xl" style={{ color: "#FFFFFF" }}>{stat.value}</span>
+              <div className="flex items-center gap-2 mb-1">
+                <stat.icon className="w-4 h-4 text-cyan-400" strokeWidth={1.75} />
+                <span className="font-extrabold text-2xl text-white tracking-tight">{stat.value}</span>
               </div>
-              <span className="text-[11px] font-medium tracking-wide" style={{ color: "#7A8BAA" }}>{stat.label}</span>
+              <span className="text-xs text-slate-400">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -388,3 +405,4 @@ export default function Hero() {
     </section>
   );
 }
+
