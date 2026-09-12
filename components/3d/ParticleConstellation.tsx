@@ -95,25 +95,55 @@ export default function ParticleConstellation() {
 
     function createParticles() {
       particles = [];
+      const MAX_ATTEMPTS = 60;
+
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const z = Math.random();
+        const maxStarRadius = (1.2 + z * 2.2) * 2.35;
 
-        // Distributed stationary stars
-        let x = Math.random() * w;
-        let y = Math.random() * h;
-        if (i % 3 !== 0) {
-          x = w * 0.10 + Math.random() * (w * 0.80);
-          y = h * 0.08 + Math.random() * (h * 0.84);
+        let x = 0;
+        let y = 0;
+        let valid = false;
+
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+          if (i % 3 !== 0) {
+            x = w * 0.08 + Math.random() * (w * 0.84);
+            y = h * 0.06 + Math.random() * (h * 0.88);
+          } else {
+            x = Math.random() * w;
+            y = Math.random() * h;
+          }
+
+          valid = true;
+          for (let p = 0; p < particles.length; p++) {
+            const existing = particles[p];
+            const dx = x - existing.x;
+            const dy = y - existing.y;
+            const dist = Math.hypot(dx, dy);
+
+            const existingMaxRadius = existing.baseSize * 2.35;
+            // Ensure overlap is strictly less than 25% (dist >= r1 + r2 - 0.25 * min(r1, r2))
+            const minAllowedDist = (maxStarRadius + existingMaxRadius) - 0.25 * Math.min(maxStarRadius, existingMaxRadius);
+
+            if (dist < minAllowedDist + 6) {
+              valid = false;
+              break;
+            }
+          }
+
+          if (valid) break;
         }
 
-        particles.push({
-          x,
-          y,
-          z,
-          baseSize: 1.2 + z * 2.2,
-          color: pickColor(),
-          alpha: 0.2 + z * 0.4,
-        });
+        if (valid || particles.length === 0) {
+          particles.push({
+            x,
+            y,
+            z,
+            baseSize: 1.2 + z * 2.2,
+            color: pickColor(),
+            alpha: 0.2 + z * 0.4,
+          });
+        }
       }
     }
 
