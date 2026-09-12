@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, createElement, useMemo, useCallback, ElementType, ReactNode } from 'react';
+import { useEffect, useRef, useState, createElement, useMemo, ElementType, ReactNode } from 'react';
 import { gsap } from 'gsap';
 import './TextType.css';
 
@@ -26,6 +26,11 @@ export interface TextTypeProps {
   [key: string]: unknown;
 }
 
+/**
+ * Ref-driven typing animation that avoids React state-batching race conditions.
+ * All mutable animation state lives in a single ref object; only `rendered` (the
+ * displayed string) is kept in React state to trigger re-renders.
+ */
 const TextType: React.FC<TextTypeProps> = ({
   text,
   as: Component = 'div',
@@ -47,45 +52,39 @@ const TextType: React.FC<TextTypeProps> = ({
   reverseMode = false,
   ...props
 }) => {
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
+
+  // ── Mutable animation state (not subject to React batching) ──
+  const anim = useRef({
+    charIdx: 0,
+    textIdx: 0,
+    deleting: false,
+    displayed: '',
+  });
+
+  const [rendered, setRendered] = useState('');
+  const [isTypingActive, setIsTypingActive] = useState(false);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
   const cursorRef = useRef<HTMLSpanElement | null>(null);
   const containerRef = useRef<HTMLElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
-
-  const getRandomSpeed = useCallback(() => {
-    if (!variableSpeed) return typingSpeed;
-    const { min, max } = variableSpeed;
-    return Math.random() * (max - min) + min;
-  }, [variableSpeed, typingSpeed]);
-
-  const getCurrentTextColor = () => {
-    if (textColors.length === 0) return 'inherit';
-    return textColors[currentTextIndex % textColors.length];
-  };
-
+  // ── Intersection Observer for startOnVisible ──
   useEffect(() => {
     if (!startOnVisible || !containerRef.current) return;
-
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
+          if (entry.isIntersecting) setIsVisible(true);
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
-
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [startOnVisible]);
 
+  // ── Cursor blink (GSAP) ──
   useEffect(() => {
     if (showCursor && cursorRef.current) {
       gsap.set(cursorRef.current, { opacity: 1 });
@@ -94,93 +93,99 @@ const TextType: React.FC<TextTypeProps> = ({
         duration: cursorBlinkDuration,
         repeat: -1,
         yoyo: true,
-        ease: 'power2.inOut'
+        ease: 'power2.inOut',
       });
     }
   }, [showCursor, cursorBlinkDuration]);
 
+  // ── Core animation loop ──
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout: NodeJS.Timeout;
-    const currentText = textArray[currentTextIndex];
-    const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
+    const getSpeed = () => {
+      if (!variableSpeed) return typingSpeed;
+      return Math.random() * (variableSpeed.max - variableSpeed.min) + variableSpeed.min;
+    };
 
-    const executeTypingAnimation = () => {
-      if (isDeleting) {
-        if (displayedText === '') {
-          setIsDeleting(false);
-          if (currentTextIndex === textArray.length - 1 && !loop) {
-            return;
-          }
+    const tick = () => {
+      const s = anim.current;
+      const rawText = textArray[s.textIdx];
+      const target = reverseMode ? rawText.split('').reverse().join('') : rawText;
+
+      if (s.deleting) {
+        // ── Deleting phase ──
+        if (s.displayed.length > 0) {
+          s.displayed = s.displayed.slice(0, -1);
+          setRendered(s.displayed);
+          setIsTypingActive(true);
+          timerRef.current = setTimeout(tick, deletingSpeed);
+        } else {
+          // Fully deleted → move to next sentence
+          s.deleting = false;
+          s.charIdx = 0;
 
           if (onSentenceComplete) {
-            onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
+            onSentenceComplete(textArray[s.textIdx], s.textIdx);
           }
 
-          setCurrentTextIndex(prev => (prev + 1) % textArray.length);
-          setCurrentCharIndex(0);
-          timeout = setTimeout(() => {}, pauseDuration);
-        } else {
-          timeout = setTimeout(() => {
-            setDisplayedText(prev => prev.slice(0, -1));
-          }, deletingSpeed);
+          if (s.textIdx === textArray.length - 1 && !loop) {
+            setIsTypingActive(false);
+            return; // done
+          }
+
+          s.textIdx = (s.textIdx + 1) % textArray.length;
+          setIsTypingActive(false);
+          // Pause before typing the next sentence
+          timerRef.current = setTimeout(tick, pauseDuration);
         }
       } else {
-        if (currentCharIndex < processedText.length) {
-          timeout = setTimeout(
-            () => {
-              setDisplayedText(prev => prev + processedText[currentCharIndex]);
-              setCurrentCharIndex(prev => prev + 1);
-            },
-            variableSpeed ? getRandomSpeed() : typingSpeed
-          );
-        } else if (textArray.length >= 1) {
-          if (!loop && currentTextIndex === textArray.length - 1) return;
-          timeout = setTimeout(() => {
-            setIsDeleting(true);
+        // ── Typing phase ──
+        if (s.charIdx < target.length) {
+          s.displayed += target[s.charIdx];
+          s.charIdx += 1;
+          setRendered(s.displayed);
+          setIsTypingActive(true);
+          timerRef.current = setTimeout(tick, getSpeed());
+        } else {
+          // Fully typed → pause then start deleting
+          setIsTypingActive(false);
+          if (!loop && s.textIdx === textArray.length - 1) return;
+          timerRef.current = setTimeout(() => {
+            s.deleting = true;
+            tick();
           }, pauseDuration);
         }
       }
     };
 
-    if (currentCharIndex === 0 && !isDeleting && displayedText === '') {
-      timeout = setTimeout(executeTypingAnimation, initialDelay);
-    } else {
-      executeTypingAnimation();
-    }
+    // Kick off the very first tick after initialDelay
+    anim.current = { charIdx: 0, textIdx: 0, deleting: false, displayed: '' };
+    setRendered('');
+    timerRef.current = setTimeout(tick, initialDelay);
 
-    return () => clearTimeout(timeout);
-  }, [
-    currentCharIndex,
-    displayedText,
-    isDeleting,
-    typingSpeed,
-    deletingSpeed,
-    pauseDuration,
-    textArray,
-    currentTextIndex,
-    loop,
-    initialDelay,
-    isVisible,
-    reverseMode,
-    variableSpeed,
-    onSentenceComplete,
-    getRandomSpeed
-  ]);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+    // Only re-initialise when the text array or core config changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible, textArray, typingSpeed, deletingSpeed, pauseDuration, initialDelay, loop, reverseMode]);
+
+  const currentTextIndex = anim.current.textIdx;
+  const currentColor =
+    textColors.length > 0 ? textColors[currentTextIndex % textColors.length] : 'inherit';
 
   const shouldHideCursor =
-    hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+    hideCursorWhileTyping && isTypingActive;
 
   return createElement(
     Component,
     {
       ref: containerRef,
       className: `text-type ${className}`,
-      ...props
+      ...props,
     },
-    <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
-      {displayedText}
+    <span className="text-type__content" style={{ color: currentColor || 'inherit' }}>
+      {rendered}
     </span>,
     showCursor && (
       <span
@@ -189,7 +194,7 @@ const TextType: React.FC<TextTypeProps> = ({
       >
         {cursorCharacter}
       </span>
-    )
+    ),
   );
 };
 

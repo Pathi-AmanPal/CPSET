@@ -98,10 +98,6 @@ export default function ObjectivesList() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5A8AFF]/10 border border-[#5A8AFF]/30 text-cyan-300 text-xs font-mono mb-4">
-          <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-          <span>RESEARCH & EDUCATION MATRIX</span>
-        </div>
         <AnimatedText
           text="Strategic Objectives & Pillars"
           as="h2"

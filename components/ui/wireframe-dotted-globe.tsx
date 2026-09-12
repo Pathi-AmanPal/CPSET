@@ -208,7 +208,7 @@ export default function RotatingEarth({
 
     const cw = Math.min(width, window.innerWidth - 40);
     const ch = Math.min(height, window.innerHeight - 100);
-    const radius = Math.min(cw, ch) / 2.5;
+    const radius = Math.min(cw, ch) / 2.25;
     const cx = cw / 2;
     const cy = ch / 2;
 
@@ -237,26 +237,8 @@ export default function RotatingEarth({
       ctx!.clearRect(0, 0, cw, ch);
       animTime += 16; // ~60fps time step in ms
 
-      // ── 1. Ambient page background glow behind globe ──
-      const pageGlow = ctx!.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.9);
-      pageGlow.addColorStop(0, "rgba(30, 60, 190, 0.20)");
-      pageGlow.addColorStop(0.5, "rgba(18, 35, 120, 0.09)");
-      pageGlow.addColorStop(1, "rgba(8, 16, 70, 0)");
-      ctx!.fillStyle = pageGlow;
-      ctx!.beginPath();
-      ctx!.arc(cx, cy, radius * 1.9, 0, Math.PI * 2);
-      ctx!.fill();
-
-      // ── 2. Atmospheric halo — vivid blue-purple outer ring ──
-      const halo = ctx!.createRadialGradient(cx, cy, radius * 0.80, cx, cy, radius * 1.48);
-      halo.addColorStop(0, "rgba(60, 120, 255, 0.0)");
-      halo.addColorStop(0.38, "rgba(80, 140, 255, 0.20)");
-      halo.addColorStop(0.72, "rgba(110, 80, 230, 0.12)");
-      halo.addColorStop(1, "rgba(60, 40, 185, 0)");
-      ctx!.fillStyle = halo;
-      ctx!.beginPath();
-      ctx!.arc(cx, cy, radius * 1.48, 0, Math.PI * 2);
-      ctx!.fill();
+      // ── 1. Clear background (ambient glows removed) ──
+      // (No outer background radial gradients or ambient halos around the globe)
 
       // ── 3. Clip to globe circle ──
       ctx!.save();

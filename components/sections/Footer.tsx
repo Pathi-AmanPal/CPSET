@@ -13,9 +13,8 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-20 border-t border-[#5A8AFF]/20 bg-[#060814]/95 text-slate-300 font-mono overflow-hidden">
-      {/* Background radial glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-gradient-to-tr from-[#5A8AFF]/10 via-[#9B7FFF]/10 to-transparent blur-[120px] pointer-events-none" />
+    <footer className="relative mt-20 border-t border-[#5A8AFF]/20 bg-black/40 backdrop-blur-md text-slate-300 font-mono overflow-hidden">
+
 
       {/* Operational Node Status Header Bar */}
       <div className="border-b border-[#5A8AFF]/15 bg-black/40 px-4 sm:px-8 py-2.5 text-[11px] flex flex-wrap items-center justify-between gap-4">

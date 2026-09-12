@@ -100,6 +100,13 @@ code, pre, kbd, samp, .mono {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--cobalt); }
 
+/* ── Hide default cursor globally on desktop pointer devices (custom TargetCursor replaces it) ── */
+@media (hover: hover) and (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* ── Selection ── */
 ::selection {
   background: rgba(90, 138, 255, 0.22);

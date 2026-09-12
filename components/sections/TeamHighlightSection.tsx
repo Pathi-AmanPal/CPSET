@@ -28,12 +28,6 @@ export default function TeamHighlightSection() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-4"
-            style={{ background: "rgba(90,138,255,0.1)", borderColor: "rgba(90,138,255,0.3)", color: "#93c5fd" }}>
-            <Users className="w-3.5 h-3.5 text-blue-400" />
-            CPSET TEAM HIGHLIGHT // AIT-CSE LABS
-          </div>
-
           <h2 className="font-heading font-extrabold text-2xl sm:text-3xl md:text-4xl text-royal mb-3">
             Inaugural Leadership & Threat Operations Group
           </h2>

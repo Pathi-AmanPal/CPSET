@@ -89,10 +89,6 @@ export default function EventsTimeline() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-cobalt text-xs font-mono tracking-widest uppercase mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-cobalt" />
-            CPSET CYBERSECURITY EVENTS
-          </div>
           <AnimatedText
             text="Workshops, Cyber Drills & Symposia"
             as="h1"

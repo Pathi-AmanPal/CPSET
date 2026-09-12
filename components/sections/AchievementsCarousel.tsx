@@ -58,11 +58,6 @@ export default function AchievementsCarousel() {
             initial="hidden"
             animate="visible"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-6"
-              style={{ background: "rgba(250,204,21,0.1)", borderColor: "rgba(250,204,21,0.35)", color: "#fde047" }}>
-              <Trophy className="w-4 h-4" />
-              MILESTONES // UNLOCKING SOON
-            </div>
 
             <div className="my-2 cursor-pointer">
               <FuzzyText

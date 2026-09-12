@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer, staggerItem } from "@/lib/motion";
+import TerminalCard from "@/components/ui/TerminalCard";
 import AnimatedText from "@/components/ui/AnimatedText";
 import { Instagram, Linkedin, MessageCircle, ExternalLink, Terminal as TerminalIcon, Send } from "lucide-react";
 
@@ -112,8 +113,6 @@ export default function ConnectTiles() {
 
   return (
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-[#5A8AFF]/15 via-[#9B7FFF]/15 to-transparent blur-[140px] pointer-events-none" />
 
       {/* Header */}
       <motion.div
@@ -123,10 +122,6 @@ export default function ConnectTiles() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5A8AFF]/10 border border-[#5A8AFF]/30 text-cyan-300 text-xs font-mono mb-4">
-          <TerminalIcon className="w-3.5 h-3.5 text-cyan-400" />
-          <span>CYBER COMMAND & CONNECT NODE</span>
-        </div>
         <AnimatedText
           text="Stay Connected With CPSET"
           as="h2"
@@ -153,24 +148,31 @@ export default function ConnectTiles() {
             target="_blank"
             rel="noopener noreferrer"
             variants={staggerItem}
-            whileHover={{ y: -6 }}
-            className="rounded-2xl p-8 flex flex-col items-center gap-4 text-center group transition-all duration-300 bg-[#090D24]/80 border border-white/10 hover:border-[#5A8AFF]/50 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,5,30,0.5)]"
+            className="block h-full"
           >
-            <div
-              className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${social.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}
+            <TerminalCard
+              tabTitle={`Administrator: PowerShell — ${social.name}`}
+              path={`PS D:\\CPSET\\Connect\\${social.name}>`}
+              showPrompt={true}
+              className="h-full"
+              bodyClassName="flex flex-col items-center gap-4 text-center justify-between"
             >
-              <social.icon className="w-7 h-7 text-white" />
-            </div>
-            <div>
-              <h3 className="font-heading font-extrabold text-white text-xl">
-                {social.name}
-              </h3>
-              <p className="text-cyan-300 text-xs font-mono mt-1">{social.handle}</p>
-            </div>
-            <div className="flex items-center gap-1 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">
-              <span>Open Link</span>
-              <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-            </div>
+              <div
+                className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${social.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}
+              >
+                <social.icon className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="font-heading font-extrabold text-white text-xl">
+                  {social.name}
+                </h3>
+                <p className="text-cyan-300 text-xs font-mono mt-1">{social.handle}</p>
+              </div>
+              <div className="flex items-center gap-1 text-xs font-mono text-slate-400 group-hover:text-white transition-colors mt-2">
+                <span>Open Channel</span>
+                <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+              </div>
+            </TerminalCard>
           </motion.a>
         ))}
       </motion.div>

@@ -16,12 +16,6 @@ export default function NotFound() {
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-widest uppercase mb-8"
-          style={{ background: "rgba(225,29,72,0.1)", borderColor: "rgba(225,29,72,0.35)", color: "#fda4af" }}>
-          <ShieldAlert className="w-4 h-4" />
-          ERROR // PAGE NOT FOUND
-        </div>
 
         {/* Fuzzy Text 404 Display */}
         <div className="my-2 cursor-pointer">

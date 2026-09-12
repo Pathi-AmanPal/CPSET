@@ -4,7 +4,7 @@ import TextLoop from "@/components/ui/TextLoop";
 
 export default function WordStrip() {
   return (
-    <div className="py-2 border-y border-blue-500/20 bg-slate-900/60 overflow-hidden backdrop-blur-md">
+    <div className="py-2 border-y border-blue-500/20 bg-black/30 overflow-hidden backdrop-blur-md">
       <TextLoop
         text="PRIVACY ✦ SECURITY ✦ INNOVATION ✦ RESEARCH ✦ EXCELLENCE ✦ DIGITAL FORENSICS ✦ AI SECURITY ✦ CLOUD SECURITY ✦ IOT SECURITY ✦ ETHICAL HACKING ✦ THREAT INTELLIGENCE ✦ BLOCKCHAIN SECURITY"
         shape="line"
