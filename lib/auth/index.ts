@@ -22,7 +22,7 @@ export async function createSession(adminId: string) {
 export async function destroySession() { const jar = await cookies(); const token = jar.get(COOKIE)?.value; if (token) await db.session.deleteMany({ where: { tokenHash: digest(token) } }); jar.delete(COOKIE); jar.delete(CSRF_COOKIE); }
 export async function requireAdmin() {
   const token = (await cookies()).get(COOKIE)?.value; if (!token) return null;
-  const session = await db.session.findUnique({ where: { tokenHash: digest(token) }, include: { admin: { select: { id: true, email: true } } } });
+  const session = await db.session.findUnique({ where: { tokenHash: digest(token) }, include: { admin: { select: { id: true, email: true, totpEnabled: true } } } });
   if (!session || session.expiresAt <= new Date()) { if (session) await db.session.delete({ where: { id: session.id } }); return null; }
   const hardExpiry = session.createdAt.getTime() + ABSOLUTE_LIFE_MS;
   if (hardExpiry <= Date.now()) { await db.session.delete({ where: { id: session.id } }); return null; }
@@ -30,3 +30,12 @@ export async function requireAdmin() {
   return { ...session.admin, csrfTokenHash: session.csrfTokenHash };
 }
 export function validTotp(secret: string, token?: string) { return !!token && authenticator.check(token, secret); }
+
+/**
+ * Invalidates ALL active sessions for the given admin.
+ * Call this whenever credentials (password or TOTP secret) are rotated so
+ * any attacker who holds an old session is forced to re-authenticate.
+ */
+export async function invalidateAllSessions(adminId: string) {
+  await db.session.deleteMany({ where: { adminId } });
+}

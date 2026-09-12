@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer, staggerItem } from "@/lib/motion";
 import AnimatedText from "@/components/ui/AnimatedText";
-import GlowButton from "@/components/ui/GlowButton";
 import { Instagram, Linkedin, MessageCircle, ExternalLink, Terminal as TerminalIcon, Send } from "lucide-react";
 
 const socials = [
@@ -112,7 +111,7 @@ export default function ConnectTiles() {
   };
 
   return (
-    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-[#5A8AFF]/15 via-[#9B7FFF]/15 to-transparent blur-[140px] pointer-events-none" />
 

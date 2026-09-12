@@ -587,7 +587,7 @@ export default function TeamGrid() {
   const [resetKey, setResetKey] = useState(0);
 
   return (
-    <section id="team" className="relative pt-24 md:pt-32 pb-24 overflow-hidden">
+    <section id="team" className="relative py-6 md:py-8 overflow-hidden">
       {/* ── Investigation Room Background Environment ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Room Base Surface */}

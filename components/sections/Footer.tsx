@@ -13,7 +13,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-28 border-t border-[#5A8AFF]/20 bg-[#060814]/95 text-slate-300 font-mono overflow-hidden">
+    <footer className="relative mt-20 border-t border-[#5A8AFF]/20 bg-[#060814]/95 text-slate-300 font-mono overflow-hidden">
       {/* Background radial glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-gradient-to-tr from-[#5A8AFF]/10 via-[#9B7FFF]/10 to-transparent blur-[120px] pointer-events-none" />
 
@@ -34,7 +34,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           
           {/* Brand Column (5 cols) */}
@@ -136,7 +136,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Bottom Line */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
           <p>
             © {new Date().getFullYear()} CPSET — Chandigarh University. All rights reserved.
           </p>
@@ -148,4 +148,3 @@ export default function Footer() {
     </footer>
   );
 }
-

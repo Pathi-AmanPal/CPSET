@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, Calendar, Trophy, LogOut, Terminal } from "lucide-react";
+import { LayoutDashboard, Users, Calendar, Trophy, Settings, LogOut } from "lucide-react";
 import { logout } from "@/lib/fetchers";
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/team", icon: Users, label: "Team Members" },
   { href: "/admin/events", icon: Calendar, label: "Events & Labs" },
   { href: "/admin/achievements", icon: Trophy, label: "Achievements" },
+  { href: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
 export default function AdminSidebar({ adminEmail }: { adminEmail?: string }) {

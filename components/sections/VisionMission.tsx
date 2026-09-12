@@ -68,12 +68,12 @@ const missionItems: CarouselItem[] = [
 
 export default function VisionMission() {
   return (
-    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Background ambient radial light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#5A8AFF]/15 via-[#9B7FFF]/15 to-transparent blur-[140px] pointer-events-none" />
 
       {/* Vision Container */}
-      <section className="relative mb-20 text-center">
+      <section className="relative mb-16 text-center">
         <motion.div
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5A8AFF]/10 border border-[#5A8AFF]/30 text-cyan-300 text-xs font-mono mb-6"
           variants={fadeInUp}
@@ -120,4 +120,3 @@ export default function VisionMission() {
     </div>
   );
 }
-

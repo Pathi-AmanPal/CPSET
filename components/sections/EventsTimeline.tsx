@@ -78,8 +78,8 @@ export default function EventsTimeline() {
   const past = events.filter((e) => !isUpcoming(e.eventDate));
 
   return (
-    <main className="pt-24 md:pt-32 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <div className="py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Header */}
         <motion.div
@@ -394,7 +394,7 @@ export default function EventsTimeline() {
         </section>
 
       </div>
-    </main>
+    </div>
   );
 }
 

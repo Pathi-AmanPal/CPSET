@@ -11,6 +11,7 @@ enum ContentKind {
   TEAM
   EVENT
   ACHIEVEMENT
+  AUTH
 }
 
 model Admin {
