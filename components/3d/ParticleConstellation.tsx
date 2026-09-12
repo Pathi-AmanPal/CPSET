@@ -3,11 +3,11 @@
 import { useEffect, useRef, useCallback } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Particle Constellation — Stationary Stars with Cursor Trail Glow
-   • Stars remain stationary in position
-   • Hovering cursor leaves a long trail (3x longer, 2500ms lifetime)
-   • Radius of glow is 2.5x larger than cursor (320px interaction radius)
-   • Stars glow radiant cyan/violet as cursor trail passes over them
+   Particle Constellation — Stationary Stars with Small Tight Glow
+   • Stars remain stationary in position (no ambient wash/aura)
+   • Hovering cursor leaves a long trail (2500ms lifetime)
+   • 2.5x interaction radius around cursor trail
+   • Small, tight, crisp glow directly surrounding glowing stars
    ───────────────────────────────────────────────────────────────────────────── */
 
 interface Particle {
@@ -76,10 +76,10 @@ export default function ParticleConstellation() {
     const PARTICLE_COUNT = isMobile ? 95 : 260;
     const CONNECTION_DIST = isMobile ? 130 : 180;
     
-    // Glow radius 2.5x bigger than standard cursor (~120px * 2.5 = 300px)
+    // Interaction radius (2.5x standard cursor)
     const GLOW_RADIUS = isMobile ? 220 : 320;
     
-    // Trail 3x longer (~2500ms lifetime)
+    // Trail lifetime (2500ms)
     const TRAIL_LIFETIME = 2500;
 
     function resize() {
@@ -145,7 +145,7 @@ export default function ParticleConstellation() {
       const scrollY = scrollRef.current;
       const time = frameRef.current++;
 
-      // Filter trail points by 2500ms lifetime (3x longer trail)
+      // Filter trail points by 2500ms lifetime
       const currentTrail = trailRef.current.filter(
         (tp) => now - tp.time < TRAIL_LIFETIME
       );
@@ -153,7 +153,7 @@ export default function ParticleConstellation() {
 
       if (time % 90 === 0) spawnPulse();
 
-      // ── Update & Draw Stationary Particles with Trail Glow ──
+      // ── Update & Draw Stationary Particles with Small Tight Glow ──
       for (const p of particles) {
         const drawY = p.y + scrollY * p.z * 0.05;
 
@@ -176,32 +176,22 @@ export default function ParticleConstellation() {
         }
 
         // Final star size and alpha based on trail glow
-        const alpha = Math.min(1, p.alpha * 0.35 + trailGlow * 0.85);
-        const size = p.baseSize * (1 + trailGlow * 1.8);
+        const alpha = Math.min(1, p.alpha * 0.35 + trailGlow * 0.65);
+        const size = p.baseSize * (1 + trailGlow * 1.2);
 
-        // Radiant Aura on Hover Trail
+        // Small tight glow (no large ambient aura)
         if (trailGlow > 0.02) {
-          const glowRadius = size * (3.5 + trailGlow * 4.0);
+          const glowRadius = size * 1.8;
           const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, glowRadius);
-          glow.addColorStop(0, `rgba(${p.color}, ${trailGlow * 0.65})`);
-          glow.addColorStop(0.5, `rgba(${p.color}, ${trailGlow * 0.25})`);
+          glow.addColorStop(0, `rgba(${p.color}, ${trailGlow * 0.50})`);
           glow.addColorStop(1, `rgba(${p.color}, 0)`);
           ctx!.fillStyle = glow;
           ctx!.beginPath();
           ctx!.arc(p.x, drawY, glowRadius, 0, Math.PI * 2);
           ctx!.fill();
-        } else {
-          // Subtle ambient glow
-          const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, size * 2.5);
-          glow.addColorStop(0, `rgba(${p.color}, ${alpha * 0.20})`);
-          glow.addColorStop(1, `rgba(${p.color}, 0)`);
-          ctx!.fillStyle = glow;
-          ctx!.beginPath();
-          ctx!.arc(p.x, drawY, size * 2.5, 0, Math.PI * 2);
-          ctx!.fill();
         }
 
-        // Core star dot
+        // Crisp Core star dot
         ctx!.fillStyle = `rgba(${p.color}, ${alpha})`;
         ctx!.beginPath();
         ctx!.arc(p.x, drawY, size, 0, Math.PI * 2);
