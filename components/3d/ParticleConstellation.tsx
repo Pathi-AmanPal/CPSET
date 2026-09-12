@@ -76,8 +76,8 @@ export default function ParticleConstellation() {
     const PARTICLE_COUNT = isMobile ? 95 : 260;
     const CONNECTION_DIST = isMobile ? 130 : 180;
     
-    // Interaction radius (2.5x standard cursor)
-    const GLOW_RADIUS = isMobile ? 220 : 320;
+    // Interaction radius (reduced by 25%)
+    const GLOW_RADIUS = isMobile ? 165 : 240;
     
     // Trail lifetime (2500ms)
     const TRAIL_LIFETIME = 2500;
@@ -175,15 +175,15 @@ export default function ParticleConstellation() {
           }
         }
 
-        // Final star size and alpha based on trail glow
-        const alpha = Math.min(1, p.alpha * 0.35 + trailGlow * 0.65);
-        const size = p.baseSize * (1 + trailGlow * 1.2);
+        // Final star size and alpha based on trail glow (brighter star core)
+        const alpha = Math.min(1, p.alpha * 0.35 + trailGlow * 0.95);
+        const size = p.baseSize * (1 + trailGlow * 1.35);
 
-        // Small tight glow (no large ambient aura)
+        // Small tight bright glow (no surrounding ambient background wash)
         if (trailGlow > 0.02) {
-          const glowRadius = size * 1.8;
+          const glowRadius = size * 1.35;
           const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, glowRadius);
-          glow.addColorStop(0, `rgba(${p.color}, ${trailGlow * 0.50})`);
+          glow.addColorStop(0, `rgba(${p.color}, ${trailGlow * 0.85})`);
           glow.addColorStop(1, `rgba(${p.color}, 0)`);
           ctx!.fillStyle = glow;
           ctx!.beginPath();
