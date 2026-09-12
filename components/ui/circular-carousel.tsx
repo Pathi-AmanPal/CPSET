@@ -92,27 +92,13 @@ function CarouselCard({
       aria-selected={isActive}
       role="option"
       className={cn(
-        "absolute left-1/2 top-1/2 flex h-64 w-72 sm:w-80 -translate-x-1/2 -translate-y-1/2 cursor-pointer flex-col items-start justify-between rounded-2xl border overflow-hidden backdrop-blur-xl transition-colors duration-300 select-none text-left group",
+        "absolute left-1/2 top-1/2 flex h-56 w-72 sm:w-80 -translate-x-1/2 -translate-y-1/2 cursor-pointer flex-col items-start justify-between rounded-2xl border p-6 backdrop-blur-xl transition-colors duration-300 select-none text-left group",
         isActive
           ? "border-purple-500/70 bg-[#0b0f28]/95 shadow-[0_0_40px_rgba(168,85,247,0.35),0_15px_40px_rgba(0,0,0,0.7)]"
           : "border-slate-800/80 bg-[#070a1a]/90 shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:border-purple-500/40 hover:shadow-[0_12px_32px_rgba(147,51,234,0.2)]"
       )}
       style={{ transformOrigin: "center center" }}
     >
-      {/* Top Terminal Strip */}
-      <div className="w-full h-8 bg-[#180c30]/90 border-b border-purple-500/20 px-3 flex items-center justify-between font-mono text-[10px] text-slate-400 shrink-0">
-        <div className="flex items-center gap-1.5 truncate">
-          <span className="text-lime-400 font-bold">&gt;_</span>
-          <span className="truncate">PS D:\CPSET\Mission</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-slate-600 inline-block" />
-          <span className="w-2 h-2 rounded-full bg-slate-600 inline-block" />
-          <span className="w-2 h-2 rounded-full bg-red-500/80 inline-block" />
-        </div>
-      </div>
-
-      <div className="p-5 flex-1 flex flex-col justify-between w-full">
       <div className="flex items-center justify-between w-full mb-3">
         <div className="flex items-center gap-2.5">
           {IconComponent && (
@@ -145,7 +131,6 @@ function CarouselCard({
         >
           {item.description}
         </p>
-      </div>
       </div>
     </motion.button>
   );
