@@ -3,40 +3,36 @@
 import { useEffect, useRef, useCallback } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Particle Constellation — Cybersecurity Network Background
-   • Tethered orbital motion around origin points (limited motion space)
-   • Smooth, medium-paced natural star floating
-   • Highly reactive mouse repulsion & spring restoration
-   • Dynamic constellation connections & data pulses
+   Particle Constellation — Stationary Stars with Cursor Trail Glow
+   • Stars remain stationary in position
+   • Hovering cursor leaves a long trail (3x longer, 2500ms lifetime)
+   • Radius of glow is 2.5x larger than cursor (320px interaction radius)
+   • Stars glow radiant cyan/violet as cursor trail passes over them
    ───────────────────────────────────────────────────────────────────────────── */
 
 interface Particle {
   x: number;
   y: number;
-  originX: number;
-  originY: number;
-  orbitRadiusX: number;
-  orbitRadiusY: number;
-  orbitSpeed: number;
   z: number;
-  pushX: number;
-  pushY: number;
   baseSize: number;
   color: string;
   alpha: number;
-  pulsePhase: number;
-  pulseSpeed: number;
 }
 
 interface Pulse {
   fromIdx: number;
   toIdx: number;
-  t: number; // 0→1 progress
+  t: number;
   speed: number;
   color: string;
 }
 
-// Colour palette
+interface TrailPoint {
+  x: number;
+  y: number;
+  time: number;
+}
+
 const COLORS = {
   cobalt: "90, 138, 255",
   violet: "155, 127, 255",
@@ -60,7 +56,7 @@ function pickColor(): string {
 
 export default function ParticleConstellation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -9999, y: -9999 });
+  const trailRef = useRef<TrailPoint[]>([]);
   const scrollRef = useRef(0);
   const frameRef = useRef(0);
 
@@ -77,9 +73,14 @@ export default function ParticleConstellation() {
     let pulses: Pulse[] = [];
 
     const isMobile = window.innerWidth < 768;
-    const PARTICLE_COUNT = isMobile ? 85 : 235;
+    const PARTICLE_COUNT = isMobile ? 95 : 260;
     const CONNECTION_DIST = isMobile ? 130 : 180;
-    const MOUSE_RADIUS = 220;
+    
+    // Glow radius 2.5x bigger than standard cursor (~120px * 2.5 = 300px)
+    const GLOW_RADIUS = isMobile ? 220 : 320;
+    
+    // Trail 3x longer (~2500ms lifetime)
+    const TRAIL_LIFETIME = 2500;
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -97,30 +98,21 @@ export default function ParticleConstellation() {
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const z = Math.random();
 
-        // 65% of stars anchored in central 70% zone so middle never empties out
-        let originX = Math.random() * w;
-        let originY = Math.random() * h;
+        // Distributed stationary stars
+        let x = Math.random() * w;
+        let y = Math.random() * h;
         if (i % 3 !== 0) {
-          originX = w * 0.15 + Math.random() * (w * 0.70);
-          originY = h * 0.12 + Math.random() * (h * 0.76);
+          x = w * 0.10 + Math.random() * (w * 0.80);
+          y = h * 0.08 + Math.random() * (h * 0.84);
         }
 
         particles.push({
-          x: originX,
-          y: originY,
-          originX,
-          originY,
-          orbitRadiusX: 18 + Math.random() * 32,
-          orbitRadiusY: 14 + Math.random() * 28,
-          orbitSpeed: 0.0033 + Math.random() * 0.0055, // 25% further slower movement speed
+          x,
+          y,
           z,
-          pushX: 0,
-          pushY: 0,
-          baseSize: 1.1 + z * 2.2,
+          baseSize: 1.2 + z * 2.2,
           color: pickColor(),
-          alpha: 0.25 + z * 0.45,
-          pulsePhase: Math.random() * Math.PI * 2,
-          pulseSpeed: 0.0055 + Math.random() * 0.008,
+          alpha: 0.2 + z * 0.4,
         });
       }
     }
@@ -149,67 +141,68 @@ export default function ParticleConstellation() {
 
     function draw() {
       ctx!.clearRect(0, 0, w, h);
-
-      const mx = mouseRef.current.x;
-      const my = mouseRef.current.y;
+      const now = performance.now();
       const scrollY = scrollRef.current;
       const time = frameRef.current++;
 
-      // Periodically spawn data-packet pulses along constellation lines
+      // Filter trail points by 2500ms lifetime (3x longer trail)
+      const currentTrail = trailRef.current.filter(
+        (tp) => now - tp.time < TRAIL_LIFETIME
+      );
+      trailRef.current = currentTrail;
+
       if (time % 90 === 0) spawnPulse();
 
-      // ── Update & Draw Particles ──
+      // ── Update & Draw Stationary Particles with Trail Glow ──
       for (const p of particles) {
-        // Balanced orbital trigonometric motion around (originX, originY)
-        const t = time * p.orbitSpeed;
-        const baseOffsetX = Math.sin(t + p.pulsePhase) * p.orbitRadiusX;
-        const baseOffsetY = Math.cos(t * 0.85 + p.pulsePhase) * p.orbitRadiusY;
+        const drawY = p.y + scrollY * p.z * 0.05;
 
-        let targetX = p.originX + baseOffsetX;
-        let targetY = p.originY + baseOffsetY;
+        // Calculate maximum trail glow for stationary star
+        let trailGlow = 0;
+        for (const tp of currentTrail) {
+          const dx = p.x - tp.x;
+          const dy = drawY - tp.y;
+          const dist = Math.hypot(dx, dy);
 
-        // Mouse repulsion calculation (highly reactive)
-        const dmx = targetX - mx;
-        const dmy = targetY - my;
-        const mouseDist = Math.hypot(dmx, dmy);
-
-        if (mouseDist < MOUSE_RADIUS && mouseDist > 0.1) {
-          const force = Math.pow(1 - mouseDist / MOUSE_RADIUS, 1.8) * 55;
-          const targetPushX = (dmx / mouseDist) * force;
-          const targetPushY = (dmy / mouseDist) * force;
-
-          p.pushX += (targetPushX - p.pushX) * 0.25;
-          p.pushY += (targetPushY - p.pushY) * 0.25;
-        } else {
-          // Smooth spring relaxation back to orbit
-          p.pushX *= 0.88;
-          p.pushY *= 0.88;
+          if (dist < GLOW_RADIUS) {
+            const age = (now - tp.time) / TRAIL_LIFETIME;
+            const distFactor = Math.pow(1 - dist / GLOW_RADIUS, 1.4);
+            const ageFactor = Math.pow(1 - age, 1.2);
+            const intensity = distFactor * ageFactor;
+            if (intensity > trailGlow) {
+              trailGlow = intensity;
+            }
+          }
         }
 
-        p.x = targetX + p.pushX;
-        p.y = targetY + p.pushY;
+        // Final star size and alpha based on trail glow
+        const alpha = Math.min(1, p.alpha * 0.35 + trailGlow * 0.85);
+        const size = p.baseSize * (1 + trailGlow * 1.8);
 
-        // Parallax offset
-        const parallaxOffset = scrollY * p.z * 0.05;
-
-        // Pulse glow animation
-        p.pulsePhase += p.pulseSpeed;
-        const pulse = 0.65 + Math.sin(p.pulsePhase) * 0.35;
-        const drawY = p.y + parallaxOffset;
-        const drawAlpha = Math.min(1, p.alpha * pulse);
-        const size = p.baseSize * (0.85 + pulse * 0.35);
-
-        // Softened outer radial aura (glow reduced)
-        const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, size * 3.2);
-        glow.addColorStop(0, `rgba(${p.color}, ${drawAlpha * 0.30})`);
-        glow.addColorStop(1, `rgba(${p.color}, 0)`);
-        ctx!.fillStyle = glow;
-        ctx!.beginPath();
-        ctx!.arc(p.x, drawY, size * 3.2, 0, Math.PI * 2);
-        ctx!.fill();
+        // Radiant Aura on Hover Trail
+        if (trailGlow > 0.02) {
+          const glowRadius = size * (3.5 + trailGlow * 4.0);
+          const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, glowRadius);
+          glow.addColorStop(0, `rgba(${p.color}, ${trailGlow * 0.65})`);
+          glow.addColorStop(0.5, `rgba(${p.color}, ${trailGlow * 0.25})`);
+          glow.addColorStop(1, `rgba(${p.color}, 0)`);
+          ctx!.fillStyle = glow;
+          ctx!.beginPath();
+          ctx!.arc(p.x, drawY, glowRadius, 0, Math.PI * 2);
+          ctx!.fill();
+        } else {
+          // Subtle ambient glow
+          const glow = ctx!.createRadialGradient(p.x, drawY, 0, p.x, drawY, size * 2.5);
+          glow.addColorStop(0, `rgba(${p.color}, ${alpha * 0.20})`);
+          glow.addColorStop(1, `rgba(${p.color}, 0)`);
+          ctx!.fillStyle = glow;
+          ctx!.beginPath();
+          ctx!.arc(p.x, drawY, size * 2.5, 0, Math.PI * 2);
+          ctx!.fill();
+        }
 
         // Core star dot
-        ctx!.fillStyle = `rgba(${p.color}, ${drawAlpha})`;
+        ctx!.fillStyle = `rgba(${p.color}, ${alpha})`;
         ctx!.beginPath();
         ctx!.arc(p.x, drawY, size, 0, Math.PI * 2);
         ctx!.fill();
@@ -226,24 +219,23 @@ export default function ParticleConstellation() {
         for (let j = i + 1; j < particles.length; j++) {
           const pB = particles[j];
           const dx = pA.x - pB.x;
-          const dy = pA.y - pB.y;
+          const dy = (pA.y + ayOffset) - (pB.y + scrollRef.current * pB.z * 0.05);
           const distSq = dx * dx + dy * dy;
 
           if (distSq < connDistSq) {
             const dist = Math.sqrt(distSq);
-            const lineAlpha = (1 - dist / CONNECTION_DIST) * 0.15 * Math.min(pA.alpha, pB.alpha);
-            const byOffset = scrollRef.current * pB.z * 0.05;
+            const lineAlpha = (1 - dist / CONNECTION_DIST) * 0.12 * Math.min(pA.alpha, pB.alpha);
 
             ctx!.strokeStyle = `rgba(${COLORS.cobalt}, ${lineAlpha})`;
             ctx!.beginPath();
             ctx!.moveTo(pA.x, pA.y + ayOffset);
-            ctx!.lineTo(pB.x, pB.y + byOffset);
+            ctx!.lineTo(pB.x, pB.y + scrollRef.current * pB.z * 0.05);
             ctx!.stroke();
           }
         }
       }
 
-      // ── Draw Travelling Pulses ──
+      // ── Draw Travelling Data Pulses ──
       const activePulses: Pulse[] = [];
       for (const pulse of pulses) {
         pulse.t += pulse.speed;
@@ -288,7 +280,11 @@ export default function ParticleConstellation() {
     }
 
     function handleMouseMove(e: MouseEvent) {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      trailRef.current.push({
+        x: e.clientX,
+        y: e.clientY,
+        time: performance.now(),
+      });
     }
 
     function handleScroll() {
