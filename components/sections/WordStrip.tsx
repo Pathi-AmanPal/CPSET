@@ -1,26 +1,29 @@
 "use client";
 
-import TextLoop from "@/components/ui/TextLoop";
+const WORDS = [
+  "PRIVACY",
+  "SECURITY",
+  "INNOVATION",
+  "RESEARCH",
+  "EXCELLENCE",
+  "DIGITAL FORENSICS",
+  "AI SECURITY",
+  "CLOUD SECURITY",
+  "IOT SECURITY",
+  "ETHICAL HACKING",
+  "THREAT INTELLIGENCE",
+  "BLOCKCHAIN SECURITY",
+];
 
 export default function WordStrip() {
+  const content = WORDS.join("  ✦  ") + "  ✦  ";
+
   return (
-    <div className="py-2 border-y border-blue-500/20 bg-black/30 overflow-hidden backdrop-blur-md">
-      <TextLoop
-        text="PRIVACY ✦ SECURITY ✦ INNOVATION ✦ RESEARCH ✦ EXCELLENCE ✦ DIGITAL FORENSICS ✦ AI SECURITY ✦ CLOUD SECURITY ✦ IOT SECURITY ✦ ETHICAL HACKING ✦ THREAT INTELLIGENCE ✦ BLOCKCHAIN SECURITY"
-        shape="line"
-        speed={75}
-        direction="forward"
-        separator="✦"
-        fontSize={15}
-        fontWeight={700}
-        letterSpacing={3}
-        uppercase
-        color="#5A8AFF"
-        ribbon={true}
-        ribbonColor="rgba(90, 138, 255, 0.05)"
-        ribbonWidth={36}
-        pauseOnHover={true}
-      />
+    <div className="py-3.5 border-y border-[#5A8AFF]/20 bg-black/50 overflow-hidden backdrop-blur-md select-none">
+      <div className="flex w-max animate-marquee font-mono text-xs sm:text-sm font-bold tracking-[0.2em] text-cyan-300">
+        <span className="shrink-0 px-2">{content}</span>
+        <span className="shrink-0 px-2">{content}</span>
+      </div>
     </div>
   );
 }
